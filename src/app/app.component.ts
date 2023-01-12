@@ -11,9 +11,14 @@ export class AppComponent {
   title = 'CinemaSystemFrontend';
 
   constructor(private readonly router: Router) {
+    this.router.navigate(["movie-browser"]);
   }
 
   navigateToCinemaHallModule() {
-    this.router.navigate(["cinema-hall-display-module"]);
+    this.router.navigate(["cinema-hall-display-module"])
+  }
+
+  goToStart() {
+    this.router.navigate(["movie-browser"]);
   }
 }
