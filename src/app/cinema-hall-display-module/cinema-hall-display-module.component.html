@@ -1,1 +1,9 @@
 <p>cinema-hall-display-module works!</p>
+<div>rows {{rows}}</div>
+<div>num seats {{cols}}</div>
+
+<div *ngFor="let row of seats">
+    <button *ngFor="let seat of row">
+        {{seat.id}}
+    </button>
+</div>
