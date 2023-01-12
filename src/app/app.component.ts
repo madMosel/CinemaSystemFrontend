@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Router, RouterModule } from '@angular/router';
+
 
 @Component({
   selector: 'app-root',
@@ -7,4 +9,11 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'CinemaSystemFrontend';
+
+  constructor(private readonly router: Router) {
+  }
+
+  navigateToCinemaHallModule() {
+    this.router.navigate(["cinema-hall-display-module"]);
+  }
 }
