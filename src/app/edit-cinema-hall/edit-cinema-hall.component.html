@@ -3,13 +3,13 @@
         <tr>
             <th>Rows:</th>
             <th>
-                <input type="number" [value]="rows" (change)="updateRows($event)">
+                <input type="number" [value]="numRows" (change)="updateRows($event)">
             </th>
         </tr>
         <tr>
             <th>Cols:</th>
             <th>
-                <input type="number" [value]="cols" (change)="updateCols($event)">
+                <input type="number" [value]="numCols" (change)="updateCols($event)">
             </th>
         </tr>
     </table>
@@ -17,7 +17,7 @@
 
 <div>
     <div class="cinema-hall-display">
-        <app-cinema-hall-display-module [cinemaHall]="cinemaHall"></app-cinema-hall-display-module>
+        <app-cinema-hall-display-module [cinemaHall]="cinemaHall" ></app-cinema-hall-display-module>
     </div>
     <button>Normal</button>
     <button>Premium</button>
