@@ -1,7 +1,4 @@
-<div>rows {{rows}}</div>
-<div>num seats {{cols}}</div>
-
-<div *ngFor="let row of seats">
+<div *ngFor="let row of cinemaHall.seats">
     <button *ngFor="let seat of row">
         {{seat.id}}
     </button>

@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
-import { Seat,SeatCategory } from '../model/seatInterface';
+import { Component, Input } from '@angular/core';
+import { CinemaHall, dummyCinemaHall } from '../model/cinemaHallInterface';
+import { Seat, SeatCategory } from '../model/seatInterface';
 
 
 
@@ -19,16 +20,14 @@ export class CinemaHallDisplayModuleComponent {
   rows = 10
   cols = 10
 
-  seats : Seat[][] = []
+  @Input() cinemaHall: CinemaHall
 
   constructor() {
-    for(let x = 0, counter = 0; x < this.rows; x++) {
-      let row : Seat[] = []
-      for (let y = 0; y < this.cols; y++, counter++) {
-        row.push(new Seat(this.hallId, counter, SeatCategory.Normal));
-      }
-      this.seats.push(row)
-    }
+    this.cinemaHall = dummyCinemaHall
+  }
+
+  public getCinemaHall() : CinemaHall {
+    return this.cinemaHall
   }
 }
 
