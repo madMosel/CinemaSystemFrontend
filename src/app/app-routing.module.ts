@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
-import { CinemaHallDisplayModuleComponent } from './cinema-hall-display-module/cinema-hall-display-module.component';
+import { CinemaHallDisplayComponent } from './cinema-hall-display/cinema-hall-display.component';
 import { MovieBrowserComponent } from './movie-browser/movie-browser.component';
 import { EditCinemaHallComponent } from './edit-cinema-hall/edit-cinema-hall.component';
 
 
 const routes: Routes = [
-  {path: "cinema-hall-display-module", component: CinemaHallDisplayModuleComponent},
+  {path: "cinema-hall-display-module", component: CinemaHallDisplayComponent},
   {path: "movie-browser", component: MovieBrowserComponent},
   {path: "edit-cinema-hall", component: EditCinemaHallComponent}
 ]

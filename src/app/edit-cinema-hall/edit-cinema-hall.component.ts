@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Router } from '@angular/router';
-import { CinemaHallDisplayModuleComponent } from '../cinema-hall-display-module/cinema-hall-display-module.component';
+import { CinemaHallDisplayComponent } from '../cinema-hall-display/cinema-hall-display.component';
 import { CinemaHall, dummyCinemaHall } from '../model/cinemaHallInterface';
 import { Seat, SeatCategory } from '../model/seatInterface';
 
@@ -9,7 +9,7 @@ import { Seat, SeatCategory } from '../model/seatInterface';
   templateUrl: './edit-cinema-hall.component.html',
   styleUrls: ['./edit-cinema-hall.component.css'],
   //is needed to inflate the DisplayComponent
-  providers: [CinemaHallDisplayModuleComponent]
+  providers: [CinemaHallDisplayComponent]
 })
 export class EditCinemaHallComponent {
   hallId = -1
@@ -28,7 +28,7 @@ export class EditCinemaHallComponent {
 
 
   constructor(
-    // public cinemaHallDisplay : CinemaHallDisplayModuleComponent
+    // public cinemaHallDisplay : CinemaHallDisplayComponent
     public readonly router : Router
   ) {
     this.updateHallModel()

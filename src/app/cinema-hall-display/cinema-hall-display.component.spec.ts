@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CinemaHallDisplayModuleComponent } from './cinema-hall-display-module.component';
+import { CinemaHallDisplayComponent } from './cinema-hall-display.component';
 
 describe('CinemaHallDisplayModuleComponent', () => {
-  let component: CinemaHallDisplayModuleComponent;
-  let fixture: ComponentFixture<CinemaHallDisplayModuleComponent>;
+  let component: CinemaHallDisplayComponent;
+  let fixture: ComponentFixture<CinemaHallDisplayComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CinemaHallDisplayModuleComponent ]
+      declarations: [ CinemaHallDisplayComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(CinemaHallDisplayModuleComponent);
+    fixture = TestBed.createComponent(CinemaHallDisplayComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
