@@ -21,4 +21,8 @@ export class AppComponent {
   goToStart() {
     this.router.navigate(["movie-browser"]);
   }
+
+  navigateToEditCinemaHall() {
+    this.router.navigate(["edit-cinema-hall"])
+  }
 }
