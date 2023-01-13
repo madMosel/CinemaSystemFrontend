@@ -27,6 +27,22 @@ export class EditCinemaHallComponent {
 
 
   constructor() {
+    this.createHallModel()
+  }
+
+  updateRows(event: any) {
+    console.log(event.target.value)
+    this.rows = event.target.value
+    this.createHallModel()
+  }
+
+  updateCols(event: any) {
+    console.log(event.target.value)
+    this.cols = event.target.value
+    this.createHallModel()
+  }
+
+  createHallModel() {
     for (let x = 0, counter = 0; x < this.rows; x++) {
       let row: Seat[] = []
       for (let y = 0; y < this.cols; y++, counter++) {
@@ -36,15 +52,5 @@ export class EditCinemaHallComponent {
     }
 
     this.cinemaHall = new CinemaHall(this.hallId, this.hallName, this.seats, false, false, false)
-  }
-
-  updateRows(event: any) {
-    console.log(event.target.value)
-    this.rows = event.target.value
-  }
-
-  updateCols(event: any) {
-    console.log(event.target.value)
-    this.cols = event.target.value
   }
 }
