@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CinemaHallDisplayModuleComponent } from '../cinema-hall-display-module/cinema-hall-display-module.component';
 import { CinemaHall, dummyCinemaHall } from '../model/cinemaHallInterface';
 import { Seat, SeatCategory } from '../model/seatInterface';
@@ -13,11 +13,11 @@ import { Seat, SeatCategory } from '../model/seatInterface';
 export class EditCinemaHallComponent {
   hallId = -1
   hallName = "default hall name"
-  
+
   rows: number = 10
   cols: number = 10
-  seats : Seat[][] = []
-  
+  seats: Seat[][] = []
+
 
   // add flags or enum of states
   // is loaded, stored in db
@@ -27,8 +27,8 @@ export class EditCinemaHallComponent {
 
 
   constructor() {
-    for(let x = 0, counter = 0; x < this.rows; x++) {
-      let row : Seat[] = []
+    for (let x = 0, counter = 0; x < this.rows; x++) {
+      let row: Seat[] = []
       for (let y = 0; y < this.cols; y++, counter++) {
         row.push(new Seat(this.hallId, counter, SeatCategory.Normal));
       }
@@ -36,5 +36,15 @@ export class EditCinemaHallComponent {
     }
 
     this.cinemaHall = new CinemaHall(this.hallId, this.hallName, this.seats, false, false, false)
+  }
+
+  updateRows(event: any) {
+    console.log(event.target.value)
+    this.rows = event.target.value
+  }
+
+  updateCols(event: any) {
+    console.log(event.target.value)
+    this.cols = event.target.value
   }
 }
