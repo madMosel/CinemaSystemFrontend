@@ -2,8 +2,8 @@
     <button class="seat" *ngFor="let seat of row" (click)="buttonClicked(seat)">
         <div>
             <img *ngIf="seat.category===allSeatTypes.Normal" src="/assets/normal_seat_50.png" alt="image">
-            <img *ngIf="seat.category===allSeatTypes.Handicap" src="/assets/handicap_50.png" alt="image">
-            <img *ngIf="seat.category===allSeatTypes.Premium" src="/assets/premium_50.png" alt="image">
+            <img *ngIf="seat.category===allSeatTypes.Handicap" src="/assets/handicap_seat_50.png" alt="image">
+            <img *ngIf="seat.category===allSeatTypes.Premium" src="/assets/premium_seat_50.png" alt="image">
         </div>
         <div>
             {{seat.id}}

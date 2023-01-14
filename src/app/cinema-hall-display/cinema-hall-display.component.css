@@ -1,5 +1,5 @@
 .seat {
-   background-image: url ('/assets/normal_seat_50.png');
+   /* background-image: url ('/assets/normal_seat_50.png'); */
    color:blue;
    border-width: 0;
    background-color: unset;
@@ -9,6 +9,3 @@
     background-color: lightblue;
 }
 
-.seat {
-    filter:brightness(50%)
-}

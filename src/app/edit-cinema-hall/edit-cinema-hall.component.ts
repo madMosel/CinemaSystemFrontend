@@ -17,7 +17,6 @@ export class EditCinemaHallComponent {
 
   numRows: number = 10
   numCols: number = 10
-  seats: Seat[][] = []
 
   toolActive: boolean = false
   toolType: SeatCategory = SeatCategory.Normal
@@ -50,25 +49,39 @@ export class EditCinemaHallComponent {
   }
 
   updateHallModel() {
-    this.seats = []
+    let seats : Seat[][] = []
     for (let numRow = 0, counter = 0; numRow < this.numRows; numRow++) {
       let row: Seat[] = []
       for (let numCol = 0; numCol < this.numCols; numCol++, counter++) {
-        row.push(new Seat(this.hallId, counter, SeatCategory.Normal, false));
+        if (numRow < this.cinemaHall.seats.length && numCol < this.cinemaHall.seats[0].length) {
+          console.log("pushing old seat")
+          row.push(this.cinemaHall.seats[numRow][numCol])
+        }
+        else {
+          console.log("pushing new seat")
+          row.push(new Seat(this.hallId, counter, SeatCategory.Normal, false));
+        }
       }
-      this.seats.push(row)
+      seats.push(row)
     }
-    this.cinemaHall = new CinemaHall(this.hallId, this.hallName, this.seats, false, false, false)
+
+    this.cinemaHall = new CinemaHall(this.hallId, this.hallName, seats, false, false, false)
   }
 
-  public seatClicked(seat: Seat) {
-    console.log("seatClicked() ivoked test=" + this.hallId)
+  seatClickedCallback = (seat: Seat) => {
+    console.log("seatClicked() ivoked toolActive=" +this.toolActive + " toolType=" + this.toolType)
     if (this.toolActive && this.toolType !== seat.category) {
       seat.category = this.toolType
       console.log("setting category to " + seat.category)
       this.updateHallModel()
     }
   }
+
+  getToolActive() : boolean {
+    return this.toolActive
+  }
+
+
 
   normalClicked() {
     this.toolButtonClicked(SeatCategory.Normal)
@@ -83,7 +96,6 @@ export class EditCinemaHallComponent {
   }
 
   toolButtonClicked(category: SeatCategory) {
-    console.log(this)
     if (this.toolActive && this.toolType === category) {
       console.log(1)
       this.toolActive = false
