@@ -1,12 +1,37 @@
-<div *ngFor="let row of cinemaHall.seats">
-    <button class="seat" *ngFor="let seat of row" (click)="buttonClicked(seat)">
-        <div>
-            <img *ngIf="seat.category===allSeatTypes.Normal" src="/assets/normal_seat_50.png" alt="image">
-            <img *ngIf="seat.category===allSeatTypes.Handicap" src="/assets/handicap_seat_50.png" alt="image">
-            <img *ngIf="seat.category===allSeatTypes.Premium" src="/assets/premium_seat_50.png" alt="image">
+<div class="hallViewContainer">
+    <h2>{{cinemaHall.hallName}}</h2>
+    <div class="inner">
+        <div class="cinemaHall">
+            <div *ngFor="let row of cinemaHall.seats">
+                <button class="seat" *ngFor="let seat of row" (click)="buttonClicked(seat)">
+                    <div>
+                        <img *ngIf="seat.category===allSeatTypes.Normal" src="/assets/normal_seat_50.png" alt="image">
+                        <img *ngIf="seat.category===allSeatTypes.Handicap" src="/assets/handicap_seat_50.png"
+                            alt="image">
+                        <img *ngIf="seat.category===allSeatTypes.Premium" src="/assets/premium_seat_50.png" alt="image">
+                    </div>
+                    <div>
+                        {{seat.id}}
+                    </div>
+                </button>
+            </div>
         </div>
-        <div>
-            {{seat.id}}
+        <div class="legend">
+            <div>
+                <img src="/assets/normal_seat_50.png" alt="image">
+                <br>
+                <span>Normal</span>
+            </div>
+            <div>
+                <img src="/assets/handicap_seat_50.png" alt="image">
+                <br>
+                <span>Handicap</span>
+            </div>
+            <div>
+                <img src="/assets/premium_seat_50.png" alt="image">
+                <br>
+                <span>Premium</span>
+            </div>
         </div>
-    </button>
+    </div>
 </div>

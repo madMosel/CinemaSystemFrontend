@@ -1,11 +1,43 @@
+.hallViewContainer {
+    background-color: rgb(9, 34, 41);
+    text-align: center;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: beige;
+    padding: 2em;
+    padding-top: 1em;
+    width: fit-content;
+    
+}
+
+.inner {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.cinemaHall {
+    padding: 1em;
+    border: solid 4px rgb(51, 54, 63);
+    border-radius: 10px;
+    width: fit-content;
+    background-color: rgb(62, 83, 121);
+}
+
 .seat {
-   /* background-image: url ('/assets/normal_seat_50.png'); */
-   color:blue;
+   color:white;
    border-width: 0;
    background-color: unset;
 }
 
 .seat:hover {
     background-color: lightblue;
+}
+
+.seat:active {
+    background-color:gray;
+}
+
+.legend {
+    margin-left: 1em;
 }
 
