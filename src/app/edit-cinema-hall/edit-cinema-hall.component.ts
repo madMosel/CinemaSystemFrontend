@@ -110,4 +110,8 @@ export class EditCinemaHallComponent {
       this.toolType = category
     }
   }
+
+  printHallToJson() {
+    console.log(JSON.stringify(this.cinemaHall))
+  }
 }
