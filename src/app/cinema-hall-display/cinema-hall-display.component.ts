@@ -1,22 +1,33 @@
-import { Component, Input,} from '@angular/core';
+import { Component, EventEmitter, Input, Output,} from '@angular/core';
+import { EditCinemaHallComponent } from '../edit-cinema-hall/edit-cinema-hall.component';
 import { CinemaHall, dummyCinemaHall } from '../model/cinemaHallInterface';
+import { Seat, SeatCategory } from '../model/seatInterface';
 
 
 
 @Component({
   selector: 'app-cinema-hall-display',
   templateUrl: './cinema-hall-display.component.html',
-  styleUrls: ['./cinema-hall-display.component.css']
+  styleUrls: ['./cinema-hall-display.component.css'],
 })
 export class CinemaHallDisplayComponent {
   @Input() cinemaHall: CinemaHall
+  allSeatTypes = SeatCategory
 
-  constructor( ) {
+  @Input() parrentCallback : (seat : Seat) => void = (seat : Seat) => {}
+  test: string = "CinemaHallDisplayComponent"
+
+  constructor(
+   ) {
     this.cinemaHall = dummyCinemaHall
   }
 
   public getCinemaHall(): CinemaHall {
     return this.cinemaHall
+  }
+
+  buttonClicked(seat : Seat) {
+      this.parrentCallback(seat)
   }
 }
 

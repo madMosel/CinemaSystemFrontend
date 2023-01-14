@@ -16,7 +16,7 @@ export class CinemaHall {
 }
 
 
-const dummySeat : Seat = new Seat(-1, 0,SeatCategory.Normal)
+const dummySeat : Seat = new Seat(-1, 0,SeatCategory.Normal, false)
 const dummyRow: Seat[] = [ dummySeat ]
 const dummySeats: Seat[][] = [ dummyRow ]
 export const dummyCinemaHall : CinemaHall = new CinemaHall(-1, "dummy Hall", dummySeats, false, false, false)

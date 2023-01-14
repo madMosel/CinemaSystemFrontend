@@ -1,0 +1,10 @@
+.seat {
+    background-image: url ('/assets/normal_seat_50.png');
+    color:blue;
+    border-width: 0;
+    background-color: unset;
+ }
+ 
+ .seat:hover {
+     background-color: lightblue;
+ }
