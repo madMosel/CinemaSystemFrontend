@@ -1,26 +1,29 @@
-<div class="grid-tool">
-    <table>
-        <tr>
-            <th>Rows:</th>
-            <th>
-                <input type="number" [value]="numRows" (change)="updateRows($event)">
-            </th>
-        </tr>
-        <tr>
-            <th>Cols:</th>
-            <th>
-                <input type="number" [value]="numCols" (change)="updateCols($event)">
-            </th>
-        </tr>
-    </table>
-</div>
-
-<div>
-    <div class="cinema-hall-display">
-        <app-cinema-hall-display [cinemaHall]="cinemaHall" [parrentCallback]="seatClickedCallback"></app-cinema-hall-display >
+<div class="mother">
+    <div class="grid-tool">
+        <table>
+            <tr>
+                <th>Rows:</th>
+                <th>
+                    <input type="number" [value]="numRows" (change)="updateRows($event)">
+                </th>
+            </tr>
+            <tr>
+                <th>Cols:</th>
+                <th>
+                    <input type="number" [value]="numCols" (change)="updateCols($event)">
+                </th>
+            </tr>
+        </table>
     </div>
-    <button (click)="normalClicked()">Normal</button>
-    <button (click)="handicapClicked()">Handicap</button>
-    <button (click)="premiumClicked()">Premium</button>
-    <button>Update Database</button>
+
+    <div>
+        <div class="cinema-hall-display">
+            <app-cinema-hall-display [cinemaHall]="cinemaHall"
+                [parrentCallback]="seatClickedCallback"></app-cinema-hall-display>
+        </div>
+        <button (click)="normalClicked()">Normal</button>
+        <button (click)="handicapClicked()">Handicap</button>
+        <button (click)="premiumClicked()">Premium</button>
+        <button>Update Database</button>
+    </div>
 </div>
