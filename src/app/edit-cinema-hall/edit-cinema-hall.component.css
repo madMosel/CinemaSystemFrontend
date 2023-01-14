@@ -1,3 +1,83 @@
 .mother {
     overflow: scroll;
+    background-color: rgb(51, 54, 63);
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: beige;
+    display: flex;
+    flex-direction: row;
+}
+
+.tools {
+    text-align: center;
+    margin-bottom: 1em;
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    
+}
+
+button:active {
+    filter: brightness(110);
+}
+
+.tools h5 {
+    color:cornflowerblue;
+    margin-bottom: 0.75em;
+}
+
+.grid-tool {
+    padding: 1em;
+}
+
+.grid-tool * {
+    margin-right: 1em;
+}
+
+.grid-tool input {
+    background-color: beige;
+    width: 3em;
+}
+
+.seat-tool {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.seat-tool * {
+    width: 20em;
+    margin:0.25em
+}
+
+.seat-tool button {
+    width: 9em;
+    font-weight: bold;
+    background-color: rgb(62, 83, 121);
+    padding: 0.5em;
+    border-radius: 0.25em;
+    border-color: black;
+    border: 2px solid;
+}
+
+.tool-info {
+    color: greenyellow;
+    font-weight: bold;
+}
+
+.database-tool {
+    margin-top: auto;
+    align-self: flex-end;
+    margin-right: 2em;
+    margin-bottom: 1em;
+}
+
+.database-tool button {
+    padding: 0.5em;
+    background-color: rgb(189, 29, 1);
+    color:beige;
+    font-weight: bold;
+    font-size: larger;
+    border-radius: 0.25em;
+    border-color: black;
 }

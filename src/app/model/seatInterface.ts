@@ -1,7 +1,7 @@
 export enum SeatCategory {
-    Normal = 0,
-    Premium = 1,
-    Handicap = 2
+    Normal = "Normal",
+    Premium = "Premium",
+    Handicap = "Handicap"
 }
 
 export class Seat {

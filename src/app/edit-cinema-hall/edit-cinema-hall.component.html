@@ -1,29 +1,38 @@
 <div class="mother">
-    <div class="grid-tool">
-        <table>
-            <tr>
-                <th>Rows:</th>
-                <th>
-                    <input type="number" [value]="numRows" (change)="updateRows($event)">
-                </th>
-            </tr>
-            <tr>
-                <th>Cols:</th>
-                <th>
-                    <input type="number" [value]="numCols" (change)="updateCols($event)">
-                </th>
-            </tr>
-        </table>
-    </div>
+
 
     <div>
         <div class="cinema-hall-display">
             <app-cinema-hall-display [cinemaHall]="cinemaHall"
                 [parrentCallback]="seatClickedCallback"></app-cinema-hall-display>
         </div>
-        <button (click)="normalClicked()">Normal</button>
-        <button (click)="handicapClicked()">Handicap</button>
-        <button (click)="premiumClicked()">Premium</button>
-        <button>Update Database</button>
+
+    </div>
+
+    <div class="tools">
+        <div class="grid-tool">
+            <h5>Configure Grid</h5>
+            <label for="numRows">Rows:</label>
+            <input name="numRows" type="number" [value]="numRows" (change)="updateRows($event)">
+            <label for="numCols">Cols:</label>
+            <input name="numCols" type="number" [value]="numCols" (change)="updateCols($event)">
+        </div>
+
+        <div class="seat-tool">
+            <h5>Change Seat Category</h5>
+            <button (click)="normalClicked()" style="color: rgb(37, 164, 248);;">Normal</button>
+            <button (click)="handicapClicked()" style="color: rgb(255, 230, 0);">Handicap</button>
+            <button (click)="premiumClicked()" style="color: red;">Premium</button>
+            <p class="tool-info" *ngIf="toolActive">{{toolType}} active</p>
+            <p> 
+                Press a category button to activate a category tool.
+                If a tool is active, you can click on a seat to turn it one of the 
+                active category
+            </p>
+        </div>
+
+        <div class="database-tool">
+            <button>Update Database</button>
+        </div>
     </div>
 </div>
