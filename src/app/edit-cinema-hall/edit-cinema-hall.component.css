@@ -21,7 +21,7 @@ button:active {
     filter: brightness(110);
 }
 
-.tools h5 {
+.tools h3 {
     color:cornflowerblue;
     margin-bottom: 0.75em;
 }
@@ -63,6 +63,22 @@ button:active {
 .tool-info {
     color: greenyellow;
     font-weight: bold;
+}
+
+.features-tool {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+}
+
+.features-tool input {
+    background-color: beige;
+}
+
+.checkbox-container {
+    display: block;
+    width: fit-content;
+    text-align: left;
 }
 
 .database-tool {
