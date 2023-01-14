@@ -25,4 +25,8 @@ export class AppComponent {
   navigateToEditCinemaHall() {
     this.router.navigate(["edit-cinema-hall"])
   }
+
+  navigateToManagmentView() {
+    this.router.navigate(["managment-view"])
+  }
 }
