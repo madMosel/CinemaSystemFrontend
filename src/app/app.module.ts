@@ -6,7 +6,6 @@ import { CinemaHallDisplayComponent } from './cinema-hall-display/cinema-hall-di
 import { AppRoutingModule } from './app-routing.module';
 import { MovieBrowserComponent } from './movie-browser/movie-browser.component';
 import { EditCinemaHallComponent } from './edit-cinema-hall/edit-cinema-hall.component';
-import { SeatComponent } from './seat/seat.component';
 
 @NgModule({
   declarations: [
@@ -14,7 +13,6 @@ import { SeatComponent } from './seat/seat.component';
     CinemaHallDisplayComponent,
     MovieBrowserComponent,
     EditCinemaHallComponent,
-    SeatComponent
   ],
   imports: [
     BrowserModule,
