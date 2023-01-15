@@ -1,3 +1,11 @@
 <div class="mother">
-    
+    <h3>CINEMA HALLS</h3>
+    <div *ngFor="let cinemaHall of cinemaHalls">
+        <span>{{cinemaHall.hallId}} {{cinemaHall.hallName}}</span>
+        <button (click)="editCinemaHall(cinemaHall)">edit</button>
+        <button>movies</button>
+        <button>delete hall</button>
+    </div>
+    <button>+</button>
+    <app-edit-cinema-hall *ngIf="hallSelected" [cinemaHall]="activeHall"></app-edit-cinema-hall>
 </div>

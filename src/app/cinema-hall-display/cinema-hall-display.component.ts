@@ -12,6 +12,7 @@ import { Seat, SeatCategory } from '../model/seatInterface';
 })
 export class CinemaHallDisplayComponent {
   @Input() cinemaHall: CinemaHall
+  
   allSeatTypes = SeatCategory
 
   @Input() parrentCallback : (seat : Seat) => void = (seat : Seat) => {}
@@ -22,12 +23,10 @@ export class CinemaHallDisplayComponent {
     this.cinemaHall = dummyCinemaHall
   }
 
-  public getCinemaHall(): CinemaHall {
-    return this.cinemaHall
-  }
 
   buttonClicked(seat : Seat) {
       this.parrentCallback(seat)
   }
+
 }
 

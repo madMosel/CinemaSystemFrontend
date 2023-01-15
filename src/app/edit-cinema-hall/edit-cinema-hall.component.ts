@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { CinemaHallDisplayComponent } from '../cinema-hall-display/cinema-hall-display.component';
 import { CinemaHall, dummyCinemaHall } from '../model/cinemaHallInterface';
@@ -11,12 +11,12 @@ import { Seat, SeatCategory } from '../model/seatInterface';
   //is needed to inflate the DisplayComponent
   providers: [CinemaHallDisplayComponent]
 })
-export class EditCinemaHallComponent {
-  hallId = -1
-  hallName = "default hall name"
+export class EditCinemaHallComponent implements OnChanges {
 
-  numRows: number = 10
-  numCols: number = 10
+
+  @Input() cinemaHall: CinemaHall = dummyCinemaHall
+  numRows: number
+  numCols: number
 
   toolActive: boolean = false
   toolType: SeatCategory = SeatCategory.Normal
@@ -27,29 +27,42 @@ export class EditCinemaHallComponent {
   // is loaded, stored in db
   // is a new cinemaHall
 
-  cinemaHall: CinemaHall = dummyCinemaHall
 
 
   constructor(
-    // public cinemaHallDisplay : CinemaHallDisplayComponent
     public readonly router: Router
   ) {
+    console.log("constructor called")
+    this.numRows = this.cinemaHall.seats.length
+    this.numCols = this.cinemaHall.seats[0].length
     this.updateHallModel()
   }
+  ngOnChanges(changes: SimpleChanges): void {
+    this.numRows=this.cinemaHall.seats.length
+    this.numCols=this.cinemaHall.seats[0].length
+  }
+
 
   updateRows(event: any) {
-    this.numRows = event.target.value
-    this.updateHallModel()
+    let eventVal = event.target.value
+    if (eventVal > 0) {
+      this.numRows = eventVal
+      this.updateHallModel()
+    }
   }
 
   updateCols(event: any) {
-    console.log(event.target.value)
-    this.numCols = event.target.value
-    this.updateHallModel()
+    let eventVal = event.target.value
+    if (eventVal > 0) {
+      this.numCols = eventVal
+      this.updateHallModel()
+    } 
   }
 
   updateHallModel() {
-    let seats : Seat[][] = []
+    let seats: Seat[][] = []
+    console.log(this.numRows + " " +  this.numCols)
+
     for (let numRow = 0, counter = 0; numRow < this.numRows; numRow++) {
       let row: Seat[] = []
       for (let numCol = 0; numCol < this.numCols; numCol++, counter++) {
@@ -59,17 +72,17 @@ export class EditCinemaHallComponent {
         }
         else {
           console.log("pushing new seat")
-          row.push(new Seat(this.hallId, counter, SeatCategory.Normal, false));
+          row.push(new Seat(this.cinemaHall.hallId, counter, SeatCategory.Normal, false));
         }
       }
       seats.push(row)
     }
 
-    this.cinemaHall = new CinemaHall(this.hallId, this.hallName, seats, false, false, false)
+    this.cinemaHall = new CinemaHall(this.cinemaHall.hallId, this.cinemaHall.hallName, seats, this.cinemaHall.dolby, this.cinemaHall.d3, this.cinemaHall.d4)
   }
 
   seatClickedCallback = (seat: Seat) => {
-    console.log("seatClicked() ivoked toolActive=" +this.toolActive + " toolType=" + this.toolType)
+    console.log("seatClicked() ivoked toolActive=" + this.toolActive + " toolType=" + this.toolType)
     if (this.toolActive && this.toolType !== seat.category) {
       seat.category = this.toolType
       console.log("setting category to " + seat.category)
@@ -77,7 +90,7 @@ export class EditCinemaHallComponent {
     }
   }
 
-  getToolActive() : boolean {
+  getToolActive(): boolean {
     return this.toolActive
   }
 
@@ -114,4 +127,14 @@ export class EditCinemaHallComponent {
   printHallToJson() {
     console.log(JSON.stringify(this.cinemaHall))
   }
+
+  // public setCinemaHall = (cinemaHall: CinemaHall) => {
+  //   console.log("setting hall... hall=")
+  //   console.log(cinemaHall)
+  //   this.cinemaHall = cinemaHall
+  //   this.numRows = this.cinemaHall.seats.length
+  //   this.numCols = this.cinemaHall.seats[0].length
+  //   this.updateHallModel()
+  //   console.log(this.cinemaHall)
+  // }
 }
