@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { HallBrowserComponent as HallenBrowserComponent } from './hall-browser.component';
+import { HallListComponent as HallenBrowserComponent } from './hall-list.component';
 
 describe('ItemBrowserComponent', () => {
   let component: HallenBrowserComponent;

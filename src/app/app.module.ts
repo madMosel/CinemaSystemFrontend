@@ -7,7 +7,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { MovieBrowserComponent } from './movie-browser/movie-browser.component';
 import { EditCinemaHallComponent } from './edit-cinema-hall/edit-cinema-hall.component';
 import { ManagmentViewComponent } from './managment-view/managment-view.component';
-import { HallBrowserComponent as HallBrowserComponent } from './hall-browser/hall-browser.component';
+import { HallListComponent as HallListComponent } from './hall-list/hall-list.component';
 import { MovieListComponent } from './movie-list/movie-list.component';
 
 @NgModule({
@@ -17,7 +17,7 @@ import { MovieListComponent } from './movie-list/movie-list.component';
     MovieBrowserComponent,
     EditCinemaHallComponent,
     ManagmentViewComponent,
-    HallBrowserComponent,
+    HallListComponent,
     MovieListComponent,
   ],
   imports: [
