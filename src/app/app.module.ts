@@ -7,7 +7,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { MovieBrowserComponent } from './movie-browser/movie-browser.component';
 import { EditCinemaHallComponent } from './edit-cinema-hall/edit-cinema-hall.component';
 import { ManagmentViewComponent } from './managment-view/managment-view.component';
-import { ItemBrowserComponent } from './item-browser/item-browser.component';
+import { HallBrowserComponent as HallBrowserComponent } from './hall-browser/hall-browser.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +16,7 @@ import { ItemBrowserComponent } from './item-browser/item-browser.component';
     MovieBrowserComponent,
     EditCinemaHallComponent,
     ManagmentViewComponent,
-    ItemBrowserComponent,
+    HallBrowserComponent,
   ],
   imports: [
     BrowserModule,
