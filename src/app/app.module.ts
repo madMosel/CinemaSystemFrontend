@@ -9,6 +9,8 @@ import { EditCinemaHallComponent } from './edit-cinema-hall/edit-cinema-hall.com
 import { ManagmentViewComponent } from './managment-view/managment-view.component';
 import { HallListComponent as HallListComponent } from './hall-list/hall-list.component';
 import { MovieListComponent } from './movie-list/movie-list.component';
+import { EditMovieComponent } from './edit-movie/edit-movie.component';
+import { MovieDisplayComponent } from './movie-display/movie-display.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +21,8 @@ import { MovieListComponent } from './movie-list/movie-list.component';
     ManagmentViewComponent,
     HallListComponent,
     MovieListComponent,
+    EditMovieComponent,
+    MovieDisplayComponent,
   ],
   imports: [
     BrowserModule,
