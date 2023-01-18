@@ -33,4 +33,8 @@ export class AppComponent {
   navigateToMovieDisplay() {
     this.router.navigate(["movie-display"])
   }
+
+  navigateToMovieList() {
+    this.router.navigate(["movie-list"])
+  }
 }

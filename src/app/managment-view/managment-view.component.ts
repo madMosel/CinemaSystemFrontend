@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-managment-view',
@@ -6,5 +7,17 @@ import { Component } from '@angular/core';
   styleUrls: ['./managment-view.component.css']
 })
 export class ManagmentViewComponent {
+    constructor(
+      private readonly router: Router
+    ) {
 
+    }
+
+    showHallList() {
+      this.router.navigate(["managment-view/hall-list"])
+    }
+
+    showMovieList() {
+      this.router.navigate(["managment-view/movie-list"])
+    }
 }

@@ -5,8 +5,8 @@
     <p>{{movie.description}}</p>
 
 
-    <h4>Ratings</h4>
-    <div>
+    <h4 class="section_headline">Ratings</h4>
+    <div class="sub_content">
         <div *ngFor="let rating of movie.ratings">
             <div *ngIf="rating.description">
                 <ngb-rating [max]="5" [rate]="movie.ratings[0].stars" [readonly]="true"></ngb-rating>
