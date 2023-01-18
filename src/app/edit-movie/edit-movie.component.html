@@ -1,21 +1,29 @@
-<h1 class="main_headline">Movie Editor</h1>
-<div class="edited-item-container">
-    <app-movie-display [movie]="movie"></app-movie-display>
-</div>
-<div class="tools">
-    <div class="name-tool">
-        <label for="title">Name:</label>
-        <input name="title" type="text">
-    </div>
-    <div class="age-tool">
-        <label for="age">Age:</label>
-        <input name="age" type="number">
-    </div>
-    <div class="duration-tool">
-        <label for="duration">Duration:</label>
-        <input name="duration" type="number">
-    </div>
-    <div class="description-tool">
+<h1 class="component-headline">Movie Editor</h1>
+<div class="editor-content-cotainer">
 
+    <div class="edited-item-container">
+        <app-movie-display [movie]="movie"></app-movie-display>
+    </div>
+    <div class="tools">
+        <div class="title-tool">
+            <label for="title">Name:</label>
+            <input name="title" type="text">
+        </div>
+        <div class="number-input">
+            <label for="age">Age:</label>
+            <input name="age" type="number">
+        </div>
+        <div class="number-input">
+            <label for="duration">Duration:</label>
+            <input name="duration" type="number">
+        </div>
+        <div class="description-tool">
+            <label for="description">Description:</label><br>
+            <textarea name="description" id="" cols="45" rows="20"></textarea>
+        </div>
+
+        <div class="database-tool">
+            <button>Update Database</button>
+        </div>
     </div>
 </div>

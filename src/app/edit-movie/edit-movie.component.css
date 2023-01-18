@@ -1,0 +1,21 @@
+.title-tool {
+    text-align: end;
+    margin-bottom: 1em;
+}
+
+.title-tool input {
+    width: 25em;
+}
+
+.number-input {
+    text-align: end;
+    margin-bottom: 1em;
+}
+
+.number-input input {
+    width: 4em;
+}
+
+.description-tool {
+    text-align: left;
+}

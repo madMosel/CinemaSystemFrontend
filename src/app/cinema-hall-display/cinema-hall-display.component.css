@@ -4,9 +4,7 @@
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     color: beige;
     padding: 2em;
-    padding-top: 1em;
-    width: fit-content;
-    
+    padding-top: 1em;    
 }
 
 .inner {
@@ -23,10 +21,17 @@
     background-color: rgb(62, 83, 121);
 }
 
+.row {
+    display: block;
+    white-space: nowrap;
+}
+
 .seat {
    color:white;
    border-width: 0;
    background-color: unset;
+   width: fit-content;
+   display: inline;
 }
 
 .seat:hover {
