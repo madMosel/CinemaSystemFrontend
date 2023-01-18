@@ -1,1 +1,11 @@
-<p>movie-list works!</p>
+<div class="mother">
+    <h3>CINEMA HALLS</h3>
+    <div *ngFor="let movie of movies">
+        <span>{{movie.movieId}} {{movie.movieName}}</span>
+        <button (click)="editMovie(movie)">edit</button>
+        <button>movies</button>
+        <button>delete hall</button>
+    </div>
+    <button>+</button>
+    <!-- <app-edit-cinema-hall *ngIf="movieSelected" [cinemaHall]="activeMovie"></app-edit-cinema-hall> -->
+</div>
