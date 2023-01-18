@@ -4,6 +4,7 @@ export class Movie {
     constructor (
         public movieId: number,
         public movieTitle: string,
+        public age: number,
         public duration: number,
         public poster: string, //url of pic
         public description: string,
@@ -14,7 +15,8 @@ export class Movie {
 }
 
 export const dummyMovie: Movie = new Movie(-1, 
-    "dummyMovie", 
+    "dummyMovie",
+    0, 
     100, 
     "/assets/default-poster.png", 
     "This is the greatest and best movie in the world.", 

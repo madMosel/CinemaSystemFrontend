@@ -8,12 +8,14 @@ import { ManagmentViewComponent } from './managment-view/managment-view.componen
 import { MovieDisplayComponent } from './movie-display/movie-display.component';
 import { MovieListComponent } from './movie-list/movie-list.component';
 import { HallListComponent } from './hall-list/hall-list.component';
+import { EditMovieComponent } from './edit-movie/edit-movie.component';
 
 
 const routes: Routes = [
   { path: "cinema-hall-display", component: CinemaHallDisplayComponent },
   { path: "movie-browser", component: MovieBrowserComponent },
   { path: "edit-cinema-hall", component: EditCinemaHallComponent },
+  {path: "edit-movie", component: EditMovieComponent},
   {
     path: "managment-view", component: ManagmentViewComponent,
     children: [

@@ -2,8 +2,9 @@
     <img [src]="movie.poster">
     <h2>{{movie.movieTitle}}</h2>
     <ngb-rating class="star" [max]=5 [(rate)]="rating" [readonly]="true"></ngb-rating>
+    <p>Age: {{movie.age}}+</p>
+    <p>Duration: {{movie.duration}}</p>
     <p>{{movie.description}}</p>
-
 
     <h4 class="section_headline">Ratings</h4>
     <div class="sub_content">

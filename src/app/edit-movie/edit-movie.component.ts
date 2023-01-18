@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { dummyMovie, Movie } from '../model/movieInterface';
 
 @Component({
   selector: 'app-edit-movie',
@@ -6,5 +7,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./edit-movie.component.css']
 })
 export class EditMovieComponent {
-
+  movie : Movie = dummyMovie
 }

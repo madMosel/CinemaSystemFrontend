@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { toInteger } from '@ng-bootstrap/ng-bootstrap/util/util';
 import { dummyMovie, Movie, } from '../model/movieInterface';
 import { Stars, Rating } from '../model/ratingInterface';
@@ -10,6 +10,6 @@ import { Stars, Rating } from '../model/ratingInterface';
   styleUrls: ['./movie-display.component.css']
 })
 export class MovieDisplayComponent {
-  movie: Movie = dummyMovie
+  @Input() movie: Movie = dummyMovie
   rating: number = 4;
 }
