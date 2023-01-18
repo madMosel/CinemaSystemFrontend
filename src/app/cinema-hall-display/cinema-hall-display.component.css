@@ -5,6 +5,7 @@
     color: beige;
     padding: 2em;
     padding-top: 1em;    
+    overflow-x: scroll;
 }
 
 .inner {
