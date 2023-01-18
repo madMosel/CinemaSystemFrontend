@@ -11,6 +11,7 @@ import { HallListComponent as HallListComponent } from './hall-list/hall-list.co
 import { MovieListComponent } from './movie-list/movie-list.component';
 import { EditMovieComponent } from './edit-movie/edit-movie.component';
 import { MovieDisplayComponent } from './movie-display/movie-display.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { MovieDisplayComponent } from './movie-display/movie-display.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    NgbModule
   ],
   providers: [],
   bootstrap: [AppComponent]

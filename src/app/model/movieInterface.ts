@@ -1,12 +1,21 @@
+import { dummyRating, Rating, Stars } from "./ratingInterface";
+
 export class Movie {
     constructor (
         public movieId: number,
-        public movieName: string,
+        public movieTitle: string,
         public duration: number,
-        public rating: number
-    ) {
+        public poster: string, //url of pic
+        public description: string,
+        public ratings: Rating[]
+        ) {
 
     }
 }
 
-export const dummyMovie: Movie = new Movie(-1, "dummyMovie", 100, 3)
+export const dummyMovie: Movie = new Movie(-1, 
+    "dummyMovie", 
+    100, 
+    "/assets/default-poster.png", 
+    "This is the greatest and best movie in the world.", 
+    [ dummyRating, new Rating(Stars.ONE) ])

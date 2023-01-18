@@ -29,4 +29,8 @@ export class AppComponent {
   navigateToManagmentView() {
     this.router.navigate(["managment-view"])
   }
+
+  navigateToMovieDisplay() {
+    this.router.navigate(["movie-display"])
+  }
 }

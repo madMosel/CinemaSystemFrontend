@@ -1,1 +1,18 @@
-<p>movie-display works!</p>
+<div class="mother">
+    <img [src]="movie.poster">
+    <h2>{{movie.movieTitle}}</h2>
+    <ngb-rating class="star" [max]=5 [(rate)]="rating" [readonly]="true"></ngb-rating>
+    <p>{{movie.description}}</p>
+
+
+    <h4>Ratings</h4>
+    <div>
+        <div *ngFor="let rating of movie.ratings">
+            <div *ngIf="rating.description">
+                <ngb-rating [max]="5" [rate]="movie.ratings[0].stars" [readonly]="true"></ngb-rating>
+                <p>{{rating.description}}</p>
+            </div>
+        </div>
+    </div>
+
+</div>

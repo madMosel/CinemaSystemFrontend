@@ -5,13 +5,15 @@ import { CinemaHallDisplayComponent } from './cinema-hall-display/cinema-hall-di
 import { MovieBrowserComponent } from './movie-browser/movie-browser.component';
 import { EditCinemaHallComponent } from './edit-cinema-hall/edit-cinema-hall.component';
 import { ManagmentViewComponent } from './managment-view/managment-view.component';
+import { MovieDisplayComponent } from './movie-display/movie-display.component';
 
 
 const routes: Routes = [
-  {path: "cinema-hall-display-module", component: CinemaHallDisplayComponent},
+  {path: "cinema-hall-display", component: CinemaHallDisplayComponent},
   {path: "movie-browser", component: MovieBrowserComponent},
   {path: "edit-cinema-hall", component: EditCinemaHallComponent},
-  {path: "managment-view", component: ManagmentViewComponent}
+  {path: "managment-view", component: ManagmentViewComponent},
+  {path: "movie-display", component: MovieDisplayComponent}
 ]
 
 @NgModule({
