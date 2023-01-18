@@ -1,8 +1,7 @@
 .mother {
     overflow: scroll;
-    background-color: rgb(51, 54, 63);
+    background-color: var(--dark_gray);
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-    color: beige;
     display: flex;
     flex-direction: row;
 }
@@ -22,7 +21,7 @@ button:active {
 }
 
 .tools h3 {
-    color:cornflowerblue;
+    color: var(--main_headline);
     margin-bottom: 0.75em;
 }
 
@@ -35,7 +34,7 @@ button:active {
 }
 
 .grid-tool input {
-    background-color: beige;
+    background-color: var(--main_content);
     width: 3em;
 }
 
@@ -61,7 +60,7 @@ button:active {
 }
 
 .tool-info {
-    color: greenyellow;
+    color: var(--highlight);
     font-weight: bold;
 }
 
@@ -90,7 +89,7 @@ button:active {
 
 .database-tool button {
     padding: 0.5em;
-    background-color: rgb(189, 29, 1);
+    background-color: var(--danger);
     color:beige;
     font-weight: bold;
     font-size: larger;

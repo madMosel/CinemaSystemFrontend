@@ -20,9 +20,9 @@
 
         <div class="seat-tool">
             <h3>Change Seat Category</h3>
-            <button (click)="normalClicked()" style="color: rgb(37, 164, 248);">Normal</button>
-            <button (click)="handicapClicked()" style="color: rgb(255, 230, 0);">Handicap</button>
-            <button (click)="premiumClicked()" style="color: red;">Premium</button>
+            <button (click)="normalClicked()" style="color: var(--normal_seat_indicator);">Normal</button>
+            <button (click)="handicapClicked()" style="color: var(--handicap_seat_indicator);">Handicap</button>
+            <button (click)="premiumClicked()" style="color: var(--premium_seat_indicator);">Premium</button>
             <p class="tool-info" *ngIf="toolActive">{{toolType}} active</p>
             <p>
                 Press a category button to activate a category tool.

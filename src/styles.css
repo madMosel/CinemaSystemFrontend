@@ -1,7 +1,33 @@
 /* You can add global styles to this file, and also import other style files */
 @import '~bootstrap/dist/css/bootstrap.min.css';
 
+
+:root {
+    /* Backgrounds */
+    --dark_blue: rgb(23, 46, 73);
+    --dark_gray: rgb(51, 54, 63);
+    --blue: rgb(62, 83, 121);
+
+
+    /* Font colors */
+    --main_headline: cornflowerblue;
+    --section_headline: mediumseagreen;
+    --main_content: beige;
+    --sub_content: grey;
+    --highlight: rgb(193, 255, 47);
+    --error: coral;
+    --danger: rgb(189, 29, 1);
+    --ok_feedback: rgb(62, 170, 48);
+
+    /* seat category indicator colors */
+    --normal_seat_indicator: rgb(21, 174, 206);
+    --handicap_seat_indicator:rgb(255, 201, 0);
+    --premium_seat_indicator:rgb(211, 16, 16);
+
+}
+
+
 body {
-    background-color: rgb(23, 46, 73);
-    color: beige;
+    background-color: var(--dark_blue);
+    color: var(--main_content);
 }
