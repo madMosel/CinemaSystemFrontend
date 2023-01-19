@@ -4,7 +4,7 @@
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     color: beige;
     padding: 2em;
-    padding-top: 1em;    
+    padding-top: 1em;
     overflow-x: scroll;
 }
 
@@ -28,22 +28,39 @@
 }
 
 .seat {
-   color:white;
-   border-width: 0;
-   background-color: unset;
-   width: fit-content;
-   display: inline;
+    color: white;
+    border-width: 0;
+    background-color: unset;
+    display: inline;
+    width: fit-content;
+    padding-left: 0px;
+    padding-right: 0px;
+    border-radius: 0;
+    padding: 0;
+    margin: 0px;
 }
+
+.seat div img {
+    size: 50%;
+    padding: 0%;
+    margin: 0;
+}
+
+.seat div {
+    padding: 0%;
+    width: 50px;
+}
+
+
 
 .seat:hover {
     background-color: lightblue;
 }
 
 .seat:active {
-    background-color:gray;
+    background-color: gray;
 }
 
 .legend {
     margin-left: 1em;
 }
-

@@ -7,8 +7,9 @@
         <div class="info">
             <h2>{{movie.movieTitle}}</h2>
             <ngb-rating class="star" [max]=5 [(rate)]="rating" [readonly]="true"></ngb-rating>
+            <span> ({{rateCount}})</span>
             <p>Age: {{movie.age}}+</p>
-            <p>Duration: {{movie.duration}}</p>
+            <p>Duration: {{movie.duration}}min</p>
             <p>{{movie.description}}</p>
         </div>
     </div>

@@ -7,19 +7,19 @@
     <div class="tools">
         <div class="title-tool">
             <label for="title">Name:</label>
-            <input name="title" type="text">
+            <input name="title" type="text" (input)="updateTitle($event)">
         </div>
         <div class="number-input">
             <label for="age">Age:</label>
-            <input name="age" type="number">
+            <input name="age" type="number" (input)="updateAge($event)">
         </div>
         <div class="number-input">
             <label for="duration">Duration:</label>
-            <input name="duration" type="number">
+            <input name="duration" type="number" (input)="updateDuration($event)">
         </div>
         <div class="description-tool">
             <label for="description">Description:</label><br>
-            <textarea name="description" id="" cols="45" rows="20"></textarea>
+            <textarea name="description" id="" cols="45" rows="20" (input)="updateDescription($event)"></textarea>
         </div>
 
         <div class="database-tool">

@@ -20,7 +20,6 @@ export class EditCinemaHallComponent implements OnChanges {
 
   toolActive: boolean = false
   toolType: SeatCategory = SeatCategory.Normal
-  test: string = "EditCinemaHallComponent"
 
 
   // add flags or enum of states
