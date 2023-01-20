@@ -3,9 +3,8 @@
     <div *ngFor="let movie of movies">
         <span>{{movie.movieId}} {{movie.movieTitle}}</span>
         <button (click)="editMovie(movie)">edit</button>
-        <button>movies</button>
-        <button>delete hall</button>
+        <button>delete movie</button>
     </div>
     <button>+</button>
-    <!-- <app-edit-cinema-hall *ngIf="movieSelected" [cinemaHall]="activeMovie"></app-edit-cinema-hall> -->
+    <app-edit-movie *ngIf="movieSelected" [movie]="activeMovie"></app-edit-movie>
 </div>
