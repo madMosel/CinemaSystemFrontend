@@ -10,20 +10,20 @@ import { Rating, Stars } from '../model/ratingInterface';
 export class EditMovieComponent {
   @Input() movie: Movie = dummyMovie
 
-  title : string = dummyMovie.movieTitle
-  age : number = dummyMovie.age
-  duration : number = dummyMovie.duration
-  rating : number = -1
-  rateCount : number = 0
-  ratings : Rating[] = dummyMovie.ratings
-  description : string = dummyMovie.description
+  title: string = dummyMovie.movieTitle
+  age: number = dummyMovie.age
+  duration: number = dummyMovie.duration
+  rating: number = -1
+  rateCount: number = 0
+  ratings: Rating[] = dummyMovie.ratings
+  description: string = dummyMovie.description
 
   constructor() {
     this.updateMovieModel()
-  }  
+  }
 
   updateTitle(event: any) {
-    let eventVal = event.target.value as string
+    let eventVal = event.target.value
     if (eventVal != undefined && eventVal != "") {
       this.title = eventVal
       this.updateMovieModel()
@@ -31,7 +31,7 @@ export class EditMovieComponent {
   }
 
   updateAge(event: any) {
-    let eventVal = event.target.value as number
+    let eventVal = Number(event.target.value)
     if (eventVal > 0) {
       this.age = eventVal
       this.updateMovieModel()
@@ -39,7 +39,7 @@ export class EditMovieComponent {
   }
 
   updateDuration(event: any) {
-    let eventVal = event.target.value as number
+    let eventVal = Number(event.target.value)
     if (eventVal > 0) {
       this.duration = eventVal
       this.updateMovieModel()
@@ -47,7 +47,7 @@ export class EditMovieComponent {
   }
 
   updateDescription(event: any) {
-    let eventVal = event.target.value as string
+    let eventVal = event.target.value
     if (eventVal != undefined && eventVal != "") {
       this.description = eventVal
       this.updateMovieModel()
@@ -55,9 +55,10 @@ export class EditMovieComponent {
   }
 
   updateMovieModel() {
-      this.movie = new Movie(this.movie.movieId, this.title, this.age, this.duration, this.movie.poster, this.description, this.movie.ratings, this.movie.price)
+    this.movie = new Movie(this.movie.movieId, this.title, this.age, this.duration, this.movie.poster, this.description, this.movie.ratings, this.movie.price)
   }
 
-
-
+  printMovieToJson() {
+    console.log(JSON.stringify(this.movie));
+  }
 }
