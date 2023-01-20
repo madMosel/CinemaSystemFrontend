@@ -1,0 +1,38 @@
+[
+    {
+        "movieId": 1,
+        "movieTitle": "first movie",
+        "age": 6,
+        "duration": 90,
+        "poster": "/assets/default-poster.png",
+        "description": "this is the first movie",
+        "ratings": [
+            {
+                "stars": 3,
+                "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+            },
+            {
+                "stars": 5
+            }
+        ],
+        "price": 10
+    },
+    {
+        "movieId": 2,
+        "movieTitle": "second movie",
+        "age": 0,
+        "duration": 120,
+        "poster": "/assets/default-poster.png",
+        "description": "this is the second movie",
+        "ratings": [
+            {
+                "stars": 3,
+                "description": "test rating."
+            },
+            {
+                "stars": 4
+            }
+        ],
+        "price": 10
+    }
+]

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { dummyMovie, Movie } from '../model/movieInterface';
+import mockMovies from '../../assets/mockMovies.json'
 
 @Component({
   selector: 'app-movie-list',
@@ -7,7 +8,7 @@ import { dummyMovie, Movie } from '../model/movieInterface';
   styleUrls: ['./movie-list.component.css']
 })
 export class MovieListComponent {
-  movies : Movie[] = []
+  movies : Movie[] = mockMovies as Movie[]
   movieSelected : boolean = false
   activeMovie : Movie = dummyMovie
 
