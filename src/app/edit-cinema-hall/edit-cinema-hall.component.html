@@ -9,6 +9,10 @@
 
     </div>
     <div class="tools">
+        <div class="title-tool">
+            <label for="title">Name: </label>
+            <input name="title" type="text" (change)="updateName($event)">
+        </div>
         <div class="grid-tool">
             <h3>Configure Grid</h3>
             <label for="numRows">Rows:</label>
