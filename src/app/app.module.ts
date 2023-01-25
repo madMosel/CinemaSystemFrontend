@@ -12,6 +12,7 @@ import { MovieListComponent } from './movie-list/movie-list.component';
 import { EditMovieComponent } from './edit-movie/edit-movie.component';
 import { MovieDisplayComponent } from './movie-display/movie-display.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { LoginDropdownComponent } from './login-dropdown/login-dropdown.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     MovieListComponent,
     EditMovieComponent,
     MovieDisplayComponent,
+    LoginDropdownComponent,
   ],
   imports: [
     BrowserModule,

@@ -4,24 +4,20 @@
   <button style="margin-right: 30px;" (click)="goToStart()">go to start</button>
   <label style="margin-right: 10px;">if logged in as admin i see this button:</label>
   <button (click)="navigateToManagmentView()" style="margin-right: 30px;">Go to managment view</button>
-  <div class="col">
-    <br/>
-    <div ngbDropdown>
-      <button class="btn btn-warning" id="gfg" 
-              ngbDropdownToggle>Click Here!</button>
-      <div ngbDropdownMenu="gfg">
-        <button ngbDropdownItem>GeeksforGeeks</button>
-        <button ngbDropdownItem>Angular10</button>
-        <button ngbDropdownItem>ng bootstrap</button>
-      </div>
+
+  <div ngbDropdown>
+    <button class="btn btn-primary" id="gfg" ngbDropdownToggle>Login</button>
+    <div ngbDropdownMenu="gfg">
+      <app-login-dropdown></app-login-dropdown>
     </div>
   </div>
+</div>
 
-  <router-outlet></router-outlet>
+<router-outlet></router-outlet>
 
-  <h4 style="margin-top: 10px; margin-bottom: 5px; color: cornflowerblue">temp links to test components</h4>
-  <button (click)="navigateToCinemaHallModule()">Navigate to cinema-hall-display-module</button> <br>
-  <button (click)="navigateToEditCinemaHall()">Navigate to edit-cinema-hall</button> <br>
-  <button (click)="navigateToMovieList()">Navigate to movie-list</button><br>
-  <button (click)="navigateToMovieDisplay()">Navigate to movie-display</button><br>
-  <button (click)="navigateToEditMovie()">Navigate to edit-movie</button>
+<h4 style="margin-top: 10px; margin-bottom: 5px; color: cornflowerblue">temp links to test components</h4>
+<button (click)="navigateToCinemaHallModule()">Navigate to cinema-hall-display-module</button> <br>
+<button (click)="navigateToEditCinemaHall()">Navigate to edit-cinema-hall</button> <br>
+<button (click)="navigateToMovieList()">Navigate to movie-list</button><br>
+<button (click)="navigateToMovieDisplay()">Navigate to movie-display</button><br>
+<button (click)="navigateToEditMovie()">Navigate to edit-movie</button>
