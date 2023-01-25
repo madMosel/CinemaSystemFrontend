@@ -94,6 +94,7 @@ button:active {
     flex-direction: column;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     width: fit-content;
+    margin-right: 0;
 }
 
 .database-tool {

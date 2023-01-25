@@ -5,6 +5,6 @@
         <button (click)="editMovie(movie)">edit</button>
         <button>delete movie</button>
     </div>
-    <button>+</button>
+    <button (click)="createNewMovie()">+</button>
     <app-edit-movie *ngIf="movieSelected" [movie]="activeMovie"></app-edit-movie>
 </div>

@@ -16,4 +16,9 @@ export class MovieListComponent {
      this.activeMovie = movie
      this.movieSelected = true
   }
+
+  createNewMovie () {
+    this.activeMovie = new Movie (-1, "new Movie" ,0,0, "/assets/ft the fishing turnament .jpeg", "enter description", [], 10)
+    this.movieSelected = true
+  }
 }
