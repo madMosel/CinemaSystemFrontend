@@ -1,0 +1,14 @@
+.mother {
+    background-color: var(--blue);
+    width: 100%;
+    text-align: center;
+    padding:2em;
+}
+
+input {
+    margin-bottom: 1em;
+}
+
+h1 {
+    background-color: var(--blue);
+}
