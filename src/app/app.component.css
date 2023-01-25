@@ -3,3 +3,7 @@
     height: 97px;
     margin: 0;
 }
+
+.login {
+    background-color: var(--dark_gray);
+}

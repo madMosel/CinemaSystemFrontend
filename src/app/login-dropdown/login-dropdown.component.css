@@ -1,4 +1,13 @@
 .mother {
     padding: 1em;
     background-color: var(--dark_gray);
+    text-align: center;
+}
+
+.mother * {
+    margin-bottom: 0.5em;
+}
+
+input {
+    background-color: var(--main_content);
 }
