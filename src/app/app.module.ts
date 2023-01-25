@@ -14,6 +14,7 @@ import { MovieDisplayComponent } from './movie-display/movie-display.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoginDropdownComponent } from './login-dropdown/login-dropdown.component';
 import { SignInComponent } from './sign-in/sign-in.component';
+import { MovieScheduleComponent } from './movie-schedule/movie-schedule.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { SignInComponent } from './sign-in/sign-in.component';
     MovieDisplayComponent,
     LoginDropdownComponent,
     SignInComponent,
+    MovieScheduleComponent,
   ],
   imports: [
     BrowserModule,
