@@ -10,7 +10,7 @@ export class ManagmentViewComponent {
     constructor(
       private readonly router: Router
     ) {
-
+      this.showHallList()
     }
 
     showHallList() {
