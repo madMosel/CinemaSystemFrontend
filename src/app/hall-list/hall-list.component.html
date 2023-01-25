@@ -6,6 +6,6 @@
         <button>movie schedule</button>
         <button>delete hall</button>
     </div>
-    <button>+</button>
+    <button (click)="createNewHall()">+</button>
     <app-edit-cinema-hall *ngIf="hallSelected" [cinemaHall]="activeHall"></app-edit-cinema-hall>
 </div>

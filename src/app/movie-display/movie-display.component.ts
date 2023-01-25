@@ -13,6 +13,10 @@ export class MovieDisplayComponent implements OnChanges {
   @Input() movie: Movie = dummyMovie
   rating: number = -1;
   rateCount: number = 0;
+
+  constructor() {
+    this.calculateRating()
+  }
   
   ngOnChanges(changes: SimpleChanges): void {
     this.calculateRating()

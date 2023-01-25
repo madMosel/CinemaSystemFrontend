@@ -37,8 +37,8 @@ export class EditCinemaHallComponent implements OnChanges {
     this.updateHallModel()
   }
   ngOnChanges(changes: SimpleChanges): void {
-    this.numRows=this.cinemaHall.seats.length
-    this.numCols=this.cinemaHall.seats[0].length
+    this.numRows = this.cinemaHall.seats.length
+    this.numCols = this.cinemaHall.seats[0].length
   }
 
 
@@ -55,12 +55,21 @@ export class EditCinemaHallComponent implements OnChanges {
     if (eventVal > 0) {
       this.numCols = eventVal
       this.updateHallModel()
-    } 
+    }
+  }
+
+  updateName(event: any) {
+    let eventVal = event.target.value
+    if (eventVal != undefined && eventVal != "") {
+      console.log(eventVal)
+      this.cinemaHall.hallName = eventVal
+      this.updateHallModel()
+    }
   }
 
   updateHallModel() {
     let seats: Seat[][] = []
-    console.log(this.numRows + " " +  this.numCols)
+    console.log(this.numRows + " " + this.numCols)
 
     for (let numRow = 0, counter = 0; numRow < this.numRows; numRow++) {
       let row: Seat[] = []
