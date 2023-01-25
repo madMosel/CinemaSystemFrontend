@@ -5,10 +5,10 @@
   <label style="margin-right: 10px;">if logged in as admin i see this button:</label>
   <button (click)="navigateToManagmentView()" style="margin-right: 30px;">Go to managment view</button>
 
-  <div ngbDropdown>
+  <div ngbDropdown id="loginDropdown" #dropdownItem="ngbDropdown">
     <button class="btn btn-primary" id="gfg" ngbDropdownToggle>Login</button>
     <div ngbDropdownMenu="gfg" class="login">
-      <app-login-dropdown></app-login-dropdown>
+      <app-login-dropdown [dropdownItem]="dropdownItem"></app-login-dropdown>
     </div>
   </div>
 </div>

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -7,11 +7,14 @@ import { Router } from '@angular/router';
   styleUrls: ['./login-dropdown.component.css']
 })
 export class LoginDropdownComponent {
-  constructor (
-    private readonly router : Router
-  ) {}
+  @Input() dropdownItem : any;
+
+  constructor(
+    private readonly router: Router
+  ) { }
 
   navigateToSignIn() {
+    this.dropdownItem.close();
     this.router.navigate(["sign-in"])
   }
 }
