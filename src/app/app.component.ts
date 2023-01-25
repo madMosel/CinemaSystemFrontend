@@ -16,7 +16,7 @@ export class AppComponent {
   }
 
   navigateToCinemaHallModule() {
-    this.router.navigate(["cinema-hall-display-module"])
+    this.router.navigate(["cinema-hall-display"])
   }
 
   goToStart() {
@@ -41,5 +41,9 @@ export class AppComponent {
 
   navigateToEditMovie() {
     this.router.navigate(["edit-movie"])
+  }
+
+  navigateToSignIn() {
+    this.router.navigate(["sign-in"])
   }
 }

@@ -13,6 +13,7 @@ import { EditMovieComponent } from './edit-movie/edit-movie.component';
 import { MovieDisplayComponent } from './movie-display/movie-display.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoginDropdownComponent } from './login-dropdown/login-dropdown.component';
+import { SignInComponent } from './sign-in/sign-in.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { LoginDropdownComponent } from './login-dropdown/login-dropdown.componen
     EditMovieComponent,
     MovieDisplayComponent,
     LoginDropdownComponent,
+    SignInComponent,
   ],
   imports: [
     BrowserModule,

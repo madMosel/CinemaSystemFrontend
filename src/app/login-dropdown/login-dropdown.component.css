@@ -11,3 +11,7 @@
 input {
     background-color: var(--main_content);
 }
+
+button {
+    background-color: var(--btn_default_background);
+}

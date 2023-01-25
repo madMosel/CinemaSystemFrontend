@@ -9,13 +9,14 @@ import { MovieDisplayComponent } from './movie-display/movie-display.component';
 import { MovieListComponent } from './movie-list/movie-list.component';
 import { HallListComponent } from './hall-list/hall-list.component';
 import { EditMovieComponent } from './edit-movie/edit-movie.component';
+import { SignInComponent } from './sign-in/sign-in.component';
 
 
 const routes: Routes = [
   { path: "cinema-hall-display", component: CinemaHallDisplayComponent },
   { path: "movie-browser", component: MovieBrowserComponent },
   { path: "edit-cinema-hall", component: EditCinemaHallComponent },
-  {path: "edit-movie", component: EditMovieComponent},
+  { path: "edit-movie", component: EditMovieComponent },
   {
     path: "managment-view", component: ManagmentViewComponent,
     children: [
@@ -23,7 +24,8 @@ const routes: Routes = [
       { path: "movie-list", component: MovieListComponent },
     ]
   },
-  { path: "movie-display", component: MovieDisplayComponent }
+  { path: "movie-display", component: MovieDisplayComponent },
+  { path: "sign-in", component: SignInComponent }
 ]
 
 @NgModule({

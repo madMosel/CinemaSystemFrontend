@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login-dropdown',
@@ -6,5 +7,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./login-dropdown.component.css']
 })
 export class LoginDropdownComponent {
+  constructor (
+    private readonly router : Router
+  ) {}
 
+  navigateToSignIn() {
+    this.router.navigate(["sign-in"])
+  }
 }
