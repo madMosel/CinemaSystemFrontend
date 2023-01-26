@@ -6,7 +6,7 @@ import { Ticket } from "./ticketInterface";
 import { UserAccount } from "./userAccountInterface";
 
 import mockCinemas from '../../assets/mockCinemas.json';
-
+import mockMovies from '../../assets/mockMovies.json'
 
 export enum OperationFeedback {
     OK,
@@ -31,8 +31,45 @@ export class LocalDatabase {
 
     constructor() {
         this.cinemaHalls = mockCinemas as CinemaHall[]
-        
-        //load all data from database
+        this.movies = mockMovies as Movie[]
+
+        //mocking schedules
+        this.schedules.push(
+            {
+                movieId: this.movies[0].movieId,
+                hallId: this.cinemaHalls[0].hallId,
+                dateTime: new Date(1000)
+            } as Schedule
+        )
+        this.schedules.push(
+            {
+                movieId: this.movies[1].movieId,
+                hallId: this.cinemaHalls[1].hallId,
+                dateTime: new Date(2000)
+            } as Schedule
+        )
+        this.schedules.push(
+            {
+                movieId: this.movies[0].movieId,
+                hallId: this.cinemaHalls[1].hallId,
+                dateTime: new Date(500)
+            } as Schedule
+        )
+        this.schedules.push(
+            {
+                movieId: this.movies[1].movieId,
+                hallId: this.cinemaHalls[0].hallId,
+                dateTime: new Date(500)
+            } as Schedule
+        )
+        console.log(this.schedules)
+        console.log(this.getSchedulesOfHall(0))
+        console.log(this.getSchedulesOfHall(1))
+        console.log(this.getSchedulesOfMovie(0))
+        console.log(this.getSchedulesOfMovie(1))
+
+
+        //load all visible data from database
     }
 
     public getHallById(hallId: number): CinemaHall | null {
@@ -40,7 +77,7 @@ export class LocalDatabase {
     }
 
     public getHalls(): CinemaHall[] {
-        let cinemHallsCopy: CinemaHall[] = [ ...this.cinemaHalls]
+        let cinemHallsCopy: CinemaHall[] = [...this.cinemaHalls]
         return cinemHallsCopy
     }
 
@@ -54,11 +91,15 @@ export class LocalDatabase {
     }
 
     public getSchedulesOfHall(hallId: number): Schedule[] {
-        return []
+        let hallSchedules: Schedule[] = []
+        for (let schedule of this.schedules) if (schedule.hallId === hallId) hallSchedules.push({ ...schedule })
+        return hallSchedules
     }
 
     public getSchedulesOfMovie(movieId: number): Schedule[] {
-        return []
+        let movieSchedules: Schedule[] = []
+        for (let schedule of this.schedules) if (schedule.movieId === movieId) movieSchedules.push({ ...schedule })
+        return movieSchedules
     }
 
     public putHall(hall: CinemaHall): OperationFeedback {
