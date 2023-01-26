@@ -73,6 +73,7 @@ export class LocalDatabase {
     }
 
     public getHallById(hallId: number): CinemaHall | null {
+        for (let hall of this.cinemaHalls) if (hall.hallId === hallId) return {...hall}
         return null;
     }
 
@@ -82,6 +83,7 @@ export class LocalDatabase {
     }
 
     public getMovieById(movieId: number): Movie | null {
+        for (let movie of this.movies) if (movie.movieId === movieId) return {...movie}
         return null
     }
 

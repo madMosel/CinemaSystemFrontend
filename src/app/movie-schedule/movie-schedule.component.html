@@ -1,3 +1,13 @@
 <div class="mother">
     <h2>{{infoDisplay}}</h2>
+    <table>
+        <tr>
+            <td>{{colHeadline}}</td>
+            <td>at</td>
+        </tr>
+        <tr *ngFor="let scheduleEntry of scheduleEntries">
+            <td>{{scheduleEntry.displayString}}</td>
+            <td>{{scheduleEntry.date}}</td>
+        </tr>
+    </table>
 </div>

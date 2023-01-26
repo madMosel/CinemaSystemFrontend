@@ -18,7 +18,9 @@ export class HallListComponent {
 
   cinemaHalls: CinemaHall[]
   activeHall: CinemaHall = dummyCinemaHall
-  hallSelected: boolean = false
+  editingHall: boolean = false
+  scheduling : boolean = false
+
 
   constructor(
     private localDatabase : LocalDatabase
@@ -27,14 +29,21 @@ export class HallListComponent {
   }
 
   editCinemaHall(cinemaHall: CinemaHall) {
+    this.scheduling = false
     this.activeHall = cinemaHall
-    this.hallSelected = true
+    this.editingHall = true
+  }
+
+  schedule(cinemaHall: CinemaHall) {
+    this.editingHall = false
+    this.activeHall = cinemaHall
+    this.scheduling = true
   }
 
   createNewHall() {
     let seat: Seat = new Seat(-1, 1, SeatCategory.Normal, false)
     let seats: Seat[][] = [[seat]]
     this.activeHall = new CinemaHall(-1, "hall name", seats, false, false, false)
-    this.hallSelected = true
+    this.editingHall = true
   }
 }

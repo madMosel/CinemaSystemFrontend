@@ -9,16 +9,26 @@ import mockMovies from '../../assets/mockMovies.json'
 })
 export class MovieListComponent {
   movies : Movie[] = mockMovies as Movie[]
-  movieSelected : boolean = false
   activeMovie : Movie = dummyMovie
 
+  editingMovie : boolean = false
+  schedulingMovie : boolean = false
+
   editMovie (movie : Movie) {
+    this.schedulingMovie = false
      this.activeMovie = movie
-     this.movieSelected = true
+     this.editingMovie = true
+  }
+
+  schedule (movie : Movie) {
+    this.editingMovie = false
+    this.activeMovie = movie
+    this.schedulingMovie = true
   }
 
   createNewMovie () {
     this.activeMovie = new Movie (-1, "new Movie" ,0,0, "/assets/ft the fishing turnament .jpeg", "enter description", [], 10)
-    this.movieSelected = true
+    this.schedulingMovie = false
+    this.editingMovie = true
   }
 }

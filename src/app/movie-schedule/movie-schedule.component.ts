@@ -18,6 +18,7 @@ export class MovieScheduleComponent implements OnChanges {
   @Input() movie?: Movie
 
   infoDisplay: string = "query empty"
+  colHeadline: string = "query empty"
   scheduleEntries: ScheduleEntry[] = []
 
   constructor(
@@ -26,20 +27,36 @@ export class MovieScheduleComponent implements OnChanges {
     this.localDatabase = localDatabase
   }
   ngOnChanges(changes: SimpleChanges): void {
-    this.prepareSchedules()
-  }
-
-  prepareSchedules(): void {
-    let schedules : Schedule[] = []
+    let schedules: Schedule[] = []
     if (this.hall) {
-      this.infoDisplay = "Movie Schedules for hall " + this.hall!.hallName
-      schedules = this.localDatabase.getSchedulesOfHall(this.hall!.hallId)
+      this.prepareSchedulesForHall()
     }
     else if (this.movie) {
-      this.infoDisplay = "Movie Schedules for hall " + this.movie!.movieTitle
-      schedules = this.localDatabase.getSchedulesOfMovie(this.movie!.movieId)
+      this.prepareSchedulesOfMovie()
     }
-    else return
+  }
+
+  prepareSchedulesOfMovie(): void {
+    this.infoDisplay = "Schedules of \"" + this.movie!.movieTitle + '"'
+    this.colHeadline = "Hall Name"
+    let schedules : Schedule[] = this.localDatabase.getSchedulesOfMovie(this.movie!.movieId)
+
+    this.sortSchedulesByTime(schedules)
+    this.scheduleEntries = []
+    for (let schedule of schedules) {
+      let entry: ScheduleEntry = {
+        displayString: this.localDatabase.getHallById(schedule.hallId)!.hallName,
+        date: schedule.dateTime
+      } as ScheduleEntry
+
+      this.scheduleEntries.push(entry)
+    }
+  }
+
+  prepareSchedulesForHall() {
+    this.infoDisplay = "Movie Schedules for hall \"" + this.hall!.hallName +'"'
+    this.colHeadline = "Title"
+    let schedules : Schedule[] = this.localDatabase.getSchedulesOfHall(this.hall!.hallId)
 
     this.sortSchedulesByTime(schedules)
     this.scheduleEntries = []

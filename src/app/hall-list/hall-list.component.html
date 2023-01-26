@@ -1,11 +1,25 @@
 <div class="mother">
     <h3>CINEMA HALLS</h3>
-    <div *ngFor="let cinemaHall of cinemaHalls">
-        <span>{{cinemaHall.hallId}} {{cinemaHall.hallName}}</span>
-        <button (click)="editCinemaHall(cinemaHall)">edit</button>
-        <button>movie schedule</button>
-        <button>delete hall</button>
-    </div>
+    <table>
+        <tr *ngFor="let cinemaHall of cinemaHalls">
+            <th>
+                {{cinemaHall.hallId}}
+            </th>
+            <th>
+                {{cinemaHall.hallName}}
+            </th>
+            <th>
+                <button (click)="editCinemaHall(cinemaHall)">edit</button>
+            </th>
+            <th>
+                <button (click)="schedule(cinemaHall)">movie schedule</button>
+            </th>
+            <th>
+                <button>delete hall</button>
+            </th>
+        </tr>
+    </table>
     <button (click)="createNewHall()">+</button>
-    <app-edit-cinema-hall *ngIf="hallSelected" [cinemaHall]="activeHall"></app-edit-cinema-hall>
+    <app-edit-cinema-hall *ngIf="editingHall" [cinemaHall]="activeHall"></app-edit-cinema-hall>
+    <app-movie-schedule *ngIf="scheduling" [hall]="activeHall"></app-movie-schedule>
 </div>
