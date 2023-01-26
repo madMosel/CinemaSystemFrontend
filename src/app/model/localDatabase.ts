@@ -53,11 +53,11 @@ export class LocalDatabase {
         return movieCopy
     }
 
-    public getScheduledsOfHall(hallId: number): Schedule[] {
+    public getSchedulesOfHall(hallId: number): Schedule[] {
         return []
     }
 
-    public getScheduledsOfMovie(movieId: number): Schedule[] {
+    public getSchedulesOfMovie(movieId: number): Schedule[] {
         return []
     }
 
