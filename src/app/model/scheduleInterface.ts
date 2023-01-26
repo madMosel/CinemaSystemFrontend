@@ -1,8 +1,5 @@
-export class Schedule{ 
-    constructor  (
-        public movieId: number,
-        public hallId: number,
-        public dateTime: Date
-    ) 
-    {}
+export interface Schedule {
+    movieId: number,
+    hallId: number,
+    dateTime: Date
 }
