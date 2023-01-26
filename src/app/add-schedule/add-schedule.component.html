@@ -1,0 +1,27 @@
+<div class="mother">
+    <!-- <ngb-datepicker [navigation]="navigation">
+
+</ngb-datepicker> -->
+    <select class="form-control" id="exampleFormControlSelect1">
+        <option>Movies / Halls</option>
+        <option>are</option>
+        <option>going</option>
+        <option>here</option>
+    </select>
+
+    <form class="row row-cols-sm-auto">
+        <div class="col-12">
+            <div class="input-group">
+                <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [navigation]="navigation" ngbDatepicker
+                    #d="ngbDatepicker" />
+                <button class="btn btn-outline-secondary bi bi-calendar3" (click)="d.toggle()" type="button"></button>
+            </div>
+        </div>
+    </form>
+
+    <ngb-timepicker [spinners]="false">
+
+    </ngb-timepicker>
+</div>
+<button>submit</button>
+<button (click)="cancelCallback()">cancel</button>

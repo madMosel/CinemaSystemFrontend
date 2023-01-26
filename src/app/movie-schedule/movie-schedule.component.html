@@ -10,4 +10,7 @@
             <td>{{scheduleEntry.date}}</td>
         </tr>
     </table>
+
+    <button *ngIf="!creatingSchedule" (click)="createSchedule()">Add schedule</button>
+    <app-add-schedule *ngIf="creatingSchedule" [cancelCallback]="createSchedule"></app-add-schedule>
 </div>

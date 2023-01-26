@@ -15,6 +15,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoginDropdownComponent } from './login-dropdown/login-dropdown.component';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { MovieScheduleComponent } from './movie-schedule/movie-schedule.component';
+import { AddScheduleComponent } from './add-schedule/add-schedule.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { MovieScheduleComponent } from './movie-schedule/movie-schedule.componen
     LoginDropdownComponent,
     SignInComponent,
     MovieScheduleComponent,
+    AddScheduleComponent,
   ],
   imports: [
     BrowserModule,

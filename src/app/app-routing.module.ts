@@ -10,6 +10,7 @@ import { MovieListComponent } from './movie-list/movie-list.component';
 import { HallListComponent } from './hall-list/hall-list.component';
 import { EditMovieComponent } from './edit-movie/edit-movie.component';
 import { SignInComponent } from './sign-in/sign-in.component';
+import { MovieScheduleComponent } from './movie-schedule/movie-schedule.component';
 
 
 const routes: Routes = [
@@ -20,8 +21,8 @@ const routes: Routes = [
   {
     path: "managment-view", component: ManagmentViewComponent,
     children: [
-      { path: "hall-list", component: HallListComponent },
-      { path: "movie-list", component: MovieListComponent },
+      { path: "hall-list", component: HallListComponent, children : [ { path: "movie-schedule", component: MovieScheduleComponent} ]},
+      { path: "movie-list", component: MovieListComponent, children : [ { path: "movie-schedule", component: MovieScheduleComponent} ]},
     ]
   },
   { path: "movie-display", component: MovieDisplayComponent },

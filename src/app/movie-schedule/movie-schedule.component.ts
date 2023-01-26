@@ -1,4 +1,5 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Router } from '@angular/router';
 import { CinemaHall, dummyCinemaHall } from '../model/cinemaHallInterface';
 import { LocalDatabase } from '../model/localDatabase';
 import { Movie } from '../model/movieInterface';
@@ -20,6 +21,7 @@ export class MovieScheduleComponent implements OnChanges {
   infoDisplay: string = "query empty"
   colHeadline: string = "query empty"
   scheduleEntries: ScheduleEntry[] = []
+  creatingSchedule: boolean = false
 
   constructor(
     localDatabase: LocalDatabase
@@ -39,7 +41,7 @@ export class MovieScheduleComponent implements OnChanges {
   prepareSchedulesOfMovie(): void {
     this.infoDisplay = "Schedules of \"" + this.movie!.movieTitle + '"'
     this.colHeadline = "Hall Name"
-    let schedules : Schedule[] = this.localDatabase.getSchedulesOfMovie(this.movie!.movieId)
+    let schedules: Schedule[] = this.localDatabase.getSchedulesOfMovie(this.movie!.movieId)
 
     this.sortSchedulesByTime(schedules)
     this.scheduleEntries = []
@@ -54,9 +56,9 @@ export class MovieScheduleComponent implements OnChanges {
   }
 
   prepareSchedulesForHall() {
-    this.infoDisplay = "Movie Schedules for hall \"" + this.hall!.hallName +'"'
+    this.infoDisplay = "Movie Schedules for hall \"" + this.hall!.hallName + '"'
     this.colHeadline = "Title"
-    let schedules : Schedule[] = this.localDatabase.getSchedulesOfHall(this.hall!.hallId)
+    let schedules: Schedule[] = this.localDatabase.getSchedulesOfHall(this.hall!.hallId)
 
     this.sortSchedulesByTime(schedules)
     this.scheduleEntries = []
@@ -74,5 +76,10 @@ export class MovieScheduleComponent implements OnChanges {
     schedules.sort((a, b) => {
       return b.dateTime.getTime() - a.dateTime.getTime()
     })
+  }
+
+  createSchedule = () => {
+    console.log("toggle")
+    this.creatingSchedule = !this.creatingSchedule
   }
 }
