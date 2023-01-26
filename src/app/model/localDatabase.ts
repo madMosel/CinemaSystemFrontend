@@ -31,6 +31,7 @@ export class LocalDatabase {
 
     constructor() {
         this.cinemaHalls = mockCinemas as CinemaHall[]
+        
         //load all data from database
     }
 
@@ -38,8 +39,8 @@ export class LocalDatabase {
         return null;
     }
 
-    public getHalls() : CinemaHall[] {
-        let cinemHallsCopy : CinemaHall[] = { ...this.cinemaHalls}
+    public getHalls(): CinemaHall[] {
+        let cinemHallsCopy: CinemaHall[] = [ ...this.cinemaHalls]
         return cinemHallsCopy
     }
 
@@ -47,8 +48,8 @@ export class LocalDatabase {
         return null
     }
 
-    public getMovies() : Movie[] {
-        let movieCopy : Movie[] = { ...this.movies}
+    public getMovies(): Movie[] {
+        let movieCopy: Movie[] = { ...this.movies }
         return movieCopy
     }
 
@@ -60,15 +61,15 @@ export class LocalDatabase {
         return []
     }
 
-    public putHall(hall : CinemaHall) : OperationFeedback {
+    public putHall(hall: CinemaHall): OperationFeedback {
         return OperationFeedback.NOT_IMPLEMENTED
     }
 
-    public putSchedule(schedule : Schedule) : OperationFeedback {
+    public putSchedule(schedule: Schedule): OperationFeedback {
         return OperationFeedback.NOT_IMPLEMENTED
     }
 
-    public putTicket(ticket : Ticket) : OperationFeedback {
+    public putTicket(ticket: Ticket): OperationFeedback {
         return OperationFeedback.NOT_IMPLEMENTED
     }
 }

@@ -2,19 +2,28 @@ import { Component } from '@angular/core';
 import { CinemaHall, dummyCinemaHall } from '../model/cinemaHallInterface';
 import mockCinemas from '../../assets/mockCinemas.json';
 import { Seat, SeatCategory } from '../model/seatInterface';
+import { LocalDatabase } from '../model/localDatabase';
+
+
 @Component({
   selector: 'app-hall-list',
   templateUrl: './hall-list.component.html',
   styleUrls: ['./hall-list.component.css'],
+  providers: [LocalDatabase]
 })
+
+
+
 export class HallListComponent {
-  cinemaHalls: CinemaHall[] = mockCinemas as CinemaHall[]
+
+  cinemaHalls: CinemaHall[]
   activeHall: CinemaHall = dummyCinemaHall
   hallSelected: boolean = false
 
   constructor(
+    private localDatabase : LocalDatabase
   ) {
-    console.log(this.cinemaHalls)
+    this.cinemaHalls = this.localDatabase.getHalls()
   }
 
   editCinemaHall(cinemaHall: CinemaHall) {
