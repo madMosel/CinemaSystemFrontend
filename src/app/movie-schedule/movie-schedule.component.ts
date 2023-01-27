@@ -29,7 +29,10 @@ export class MovieScheduleComponent implements OnChanges {
   infoDisplay: string = "query empty"
   colHeadline: string = "query empty"
   scheduleEntries: ScheduleEntry[] = []
-  creatingSchedule: boolean = false
+  readyForSchedule: boolean = false
+
+  dateString: string = "2020-12-01"
+  timeString: string = "21:00"
 
 
   constructor(
@@ -52,15 +55,18 @@ export class MovieScheduleComponent implements OnChanges {
   pickHall(hall: CinemaHall, event: Event) {
     if (this.activeHallButton) {
       this.activeHallButton.className = "btn-hall"
-      this.activeHallButton.disabled = false
     }
 
-    this.hall = hall
-
     let button = event.target as HTMLButtonElement
-    button.className = "btn-hall-active"
-    button.disabled = true
-    this.activeHallButton = button
+    if (this.hall && this.hall.hallId == hall.hallId) {
+      button.className = "btn-hall"
+      this.hall = undefined
+      this.activeHallButton = undefined
+    } else {
+      this.hall = hall
+      button.className = "btn-hall-active"
+      this.activeHallButton = button
+    }
 
     this.updateScheduleList()
   }
@@ -68,15 +74,18 @@ export class MovieScheduleComponent implements OnChanges {
   pickMovie(movie: Movie, event: Event) {
     if (this.activeMovieButton) {
       this.activeMovieButton.className = "btn-movie"
-      this.activeMovieButton.disabled = false
     }
 
-    this.movie = movie
-
     let button = event.target as HTMLButtonElement
-    button.className = "btn-movie-active"
-    button.disabled = true
-    this.activeMovieButton = button
+    if(this.movie && this.movie.movieId == movie.movieId) {
+      this.movie = undefined
+      button.className = "btn-movie"
+    }
+    else {
+      this.movie = movie
+      button.className = "btn-movie-active"
+      this.activeMovieButton = button
+    }
 
     this.updateScheduleList()
   }
@@ -110,6 +119,9 @@ export class MovieScheduleComponent implements OnChanges {
         } as ScheduleEntry
       )
     }
+    
+    if (this.movie && this.hall) this.readyForSchedule = true
+    else this.readyForSchedule = false
   }
 
   updateMaps() {
@@ -128,14 +140,38 @@ export class MovieScheduleComponent implements OnChanges {
     })
   }
 
-  createSchedule = () => {
-    this.creatingSchedule = !this.creatingSchedule
+  dateSelected(event: Event) {
+    this.dateString = (event.target as HTMLInputElement).value
   }
 
-  receiveAndSubmitSchedule = (schedule: Schedule) => {
+  timeSelected(event: Event) {
+    this.timeString = (event.target as HTMLInputElement).value
+  }
+
+
+  schedule () {
+    let year = parseInt(this.dateString.substring(0, 4))
+    let month = parseInt(this.dateString.substring(5, 7))
+    let day = parseInt(this.dateString.substring(8, 10))
+
+    let hour = parseInt(this.timeString.substring(0, 2))
+    let minute = parseInt(this.timeString.substring(3, 5))
+
+    let dateTime: Date = new Date
+    dateTime.setFullYear(year)
+    dateTime.setMonth(month-1)
+    dateTime.setDate(day)
+    dateTime.setHours(hour)
+    dateTime.setMinutes(minute)
+
+    let schedule: Schedule = {} as Schedule
+    schedule.hallId = this.hall!.hallId
+    schedule.movieId = this.movie!.movieId
+    schedule.dateTime = dateTime
+
+
     console.log("submitSchedule")
     console.log(schedule)
-    let dateTime = schedule.dateTime
     console.log(dateTime.getDay() + "." + dateTime.getMonth() + "." + dateTime.getFullYear() + " " + dateTime.getHours() + ":" + dateTime.getMinutes())
   }
 }
