@@ -12,14 +12,10 @@
                 <button (click)="editCinemaHall(cinemaHall)">edit</button>
             </th>
             <th>
-                <button (click)="schedule(cinemaHall)">movie schedule</button>
-            </th>
-            <th>
                 <button>delete hall</button>
             </th>
         </tr>
     </table>
     <button (click)="createNewHall()">+</button>
     <app-edit-cinema-hall *ngIf="editingHall" [cinemaHall]="activeHall"></app-edit-cinema-hall>
-    <app-movie-schedule *ngIf="scheduling" [hall]="activeHall"></app-movie-schedule>
 </div>

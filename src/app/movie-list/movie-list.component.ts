@@ -20,12 +20,6 @@ export class MovieListComponent {
      this.editingMovie = true
   }
 
-  schedule (movie : Movie) {
-    this.editingMovie = false
-    this.activeMovie = movie
-    this.schedulingMovie = true
-  }
-
   createNewMovie () {
     this.activeMovie = new Movie (-1, "new Movie" ,0,0, "/assets/ft the fishing turnament .jpeg", "enter description", [], 10)
     this.schedulingMovie = false

@@ -12,14 +12,10 @@
                 <button (click)="editMovie(movie)">edit</button>
             </th>
             <th>
-                <button (click)="schedule(movie)">schedule</button>
-            </th>
-            <th>
                 <button>delete movie</button>
             </th>
         </tr>
     </table>
     <button (click)="createNewMovie()">+</button>
     <app-edit-movie *ngIf="editingMovie" [movie]="activeMovie"></app-edit-movie>
-    <app-movie-schedule *ngIf="schedulingMovie" [movie]="activeMovie"></app-movie-schedule>
 </div>

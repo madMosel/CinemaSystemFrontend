@@ -34,12 +34,6 @@ export class HallListComponent {
     this.editingHall = true
   }
 
-  schedule(cinemaHall: CinemaHall) {
-    this.editingHall = false
-    this.activeHall = cinemaHall
-    this.scheduling = true
-  }
-
   createNewHall() {
     let seat: Seat = new Seat(-1, 1, SeatCategory.Normal, false)
     let seats: Seat[][] = [[seat]]
