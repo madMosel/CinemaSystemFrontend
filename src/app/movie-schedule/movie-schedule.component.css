@@ -32,6 +32,8 @@
 .schedule-table td {
     padding: 0.2em;
     font-weight: bold;
+    padding-left: 1em;
+    padding-right: 1em;
 }
 
 .schedule-table tr.scheduleEntry:nth-child(odd) {
