@@ -1,27 +1,11 @@
 <div class="mother">
-    <!-- <ngb-datepicker [navigation]="navigation">
-
-</ngb-datepicker> -->
-    <select class="form-control" id="exampleFormControlSelect1">
-        <option>Movies / Halls</option>
-        <option>are</option>
-        <option>going</option>
-        <option>here</option>
+    <h4>Adding Schedule {{infoDisplay}}</h4>
+    <select [selectedIndex]="selectedOption" (change)="optionSelected($event)">
+        <option *ngFor="let op of options">{{op}}</option>
     </select>
-
-    <form class="row row-cols-sm-auto">
-        <div class="col-12">
-            <div class="input-group">
-                <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [navigation]="navigation" ngbDatepicker
-                    #d="ngbDatepicker" />
-                <button class="btn btn-outline-secondary bi bi-calendar3" (click)="d.toggle()" type="button"></button>
-            </div>
-        </div>
-    </form>
-
-    <ngb-timepicker [spinners]="false">
-
-    </ngb-timepicker>
-</div>
-<button>submit</button>
+    <br>
+    <input type="date" [value]="dateString" (change)="dateSelected($event)">
+    <input type="time" [value]="timeString" (change)="timeSelected($event)">
+    <br>
+<button (click)="generateAndPassSchedule()">submit</button>
 <button (click)="cancelCallback()">cancel</button>

@@ -1,5 +1,5 @@
 <div class="mother">
-    <h2>{{infoDisplay}}</h2>
+    <h2>Schedules for {{infoDisplay}}</h2>
     <table>
         <tr>
             <td>{{colHeadline}}</td>
@@ -12,5 +12,6 @@
     </table>
 
     <button *ngIf="!creatingSchedule" (click)="createSchedule()">Add schedule</button>
-    <app-add-schedule *ngIf="creatingSchedule" [cancelCallback]="createSchedule"></app-add-schedule>
+    <app-add-schedule *ngIf="creatingSchedule" [hall]="hall" [movie]="movie" [passScheduleCallback]="receiveAndSubmitSchedule"
+        [cancelCallback]="createSchedule" [infoDisplay]="infoDisplay"></app-add-schedule>
 </div>

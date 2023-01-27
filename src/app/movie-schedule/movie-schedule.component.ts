@@ -1,5 +1,4 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { Router } from '@angular/router';
 import { CinemaHall, dummyCinemaHall } from '../model/cinemaHallInterface';
 import { LocalDatabase } from '../model/localDatabase';
 import { Movie } from '../model/movieInterface';
@@ -28,6 +27,7 @@ export class MovieScheduleComponent implements OnChanges {
   ) {
     this.localDatabase = localDatabase
   }
+
   ngOnChanges(changes: SimpleChanges): void {
     let schedules: Schedule[] = []
     if (this.hall) {
@@ -39,7 +39,7 @@ export class MovieScheduleComponent implements OnChanges {
   }
 
   prepareSchedulesOfMovie(): void {
-    this.infoDisplay = "Schedules of \"" + this.movie!.movieTitle + '"'
+    this.infoDisplay = '"' + this.movie!.movieTitle + '"'
     this.colHeadline = "Hall Name"
     let schedules: Schedule[] = this.localDatabase.getSchedulesOfMovie(this.movie!.movieId)
 
@@ -56,7 +56,7 @@ export class MovieScheduleComponent implements OnChanges {
   }
 
   prepareSchedulesForHall() {
-    this.infoDisplay = "Movie Schedules for hall \"" + this.hall!.hallName + '"'
+    this.infoDisplay = '"' + this.hall!.hallName + '"'
     this.colHeadline = "Title"
     let schedules: Schedule[] = this.localDatabase.getSchedulesOfHall(this.hall!.hallId)
 
@@ -79,7 +79,13 @@ export class MovieScheduleComponent implements OnChanges {
   }
 
   createSchedule = () => {
-    console.log("toggle")
     this.creatingSchedule = !this.creatingSchedule
+  }
+
+  receiveAndSubmitSchedule = (schedule : Schedule) => {
+    console.log("submitSchedule")
+    console.log(schedule)
+    let dateTime = schedule.dateTime
+    console.log (dateTime.getDay() + "." + dateTime.getMonth() + "." + dateTime.getFullYear() + " " + dateTime.getHours() + ":" + dateTime.getMinutes())
   }
 }

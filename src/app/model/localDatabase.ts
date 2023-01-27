@@ -62,18 +62,18 @@ export class LocalDatabase {
                 dateTime: new Date(500)
             } as Schedule
         )
-        console.log(this.schedules)
-        console.log(this.getSchedulesOfHall(0))
-        console.log(this.getSchedulesOfHall(1))
-        console.log(this.getSchedulesOfMovie(0))
-        console.log(this.getSchedulesOfMovie(1))
+        // console.log(this.schedules)
+        // console.log(this.getSchedulesOfHall(0))
+        // console.log(this.getSchedulesOfHall(1))
+        // console.log(this.getSchedulesOfMovie(0))
+        // console.log(this.getSchedulesOfMovie(1))
 
 
         //load all visible data from database
     }
 
     public getHallById(hallId: number): CinemaHall | null {
-        for (let hall of this.cinemaHalls) if (hall.hallId === hallId) return {...hall}
+        for (let hall of this.cinemaHalls) if (hall.hallId === hallId) return { ...hall }
         return null;
     }
 
@@ -83,13 +83,13 @@ export class LocalDatabase {
     }
 
     public getMovieById(movieId: number): Movie | null {
-        for (let movie of this.movies) if (movie.movieId === movieId) return {...movie}
+        for (let movie of this.movies) if (movie.movieId === movieId) return { ...movie }
         return null
     }
 
     public getMovies(): Movie[] {
-        let movieCopy: Movie[] = { ...this.movies }
-        return movieCopy
+        let moviesCopy: Movie[] = [...this.movies]
+        return moviesCopy
     }
 
     public getSchedulesOfHall(hallId: number): Schedule[] {
