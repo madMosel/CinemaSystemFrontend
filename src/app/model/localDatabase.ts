@@ -38,28 +38,28 @@ export class LocalDatabase {
             {
                 movieId: this.movies[0].movieId,
                 hallId: this.cinemaHalls[0].hallId,
-                dateTime: new Date(1000)
+                dateTime: new Date("2023-4-4")
             } as Schedule
         )
         this.schedules.push(
             {
                 movieId: this.movies[1].movieId,
                 hallId: this.cinemaHalls[1].hallId,
-                dateTime: new Date(2000)
+                dateTime: new Date("2023-3-3")
             } as Schedule
         )
         this.schedules.push(
             {
                 movieId: this.movies[0].movieId,
                 hallId: this.cinemaHalls[1].hallId,
-                dateTime: new Date(500)
+                dateTime: new Date("2023-2-2")
             } as Schedule
         )
         this.schedules.push(
             {
                 movieId: this.movies[1].movieId,
                 hallId: this.cinemaHalls[0].hallId,
-                dateTime: new Date(500)
+                dateTime: new Date("2023-1-1")
             } as Schedule
         )
         // console.log(this.schedules)
@@ -73,7 +73,7 @@ export class LocalDatabase {
     }
 
     public getHallById(hallId: number): CinemaHall | null {
-        for (let hall of this.cinemaHalls) if (hall.hallId === hallId) return { ...hall }
+        for (let hall of this.cinemaHalls) if (hall.hallId === hallId) return {...hall}
         return null;
     }
 
@@ -83,12 +83,12 @@ export class LocalDatabase {
     }
 
     public getMovieById(movieId: number): Movie | null {
-        for (let movie of this.movies) if (movie.movieId === movieId) return { ...movie }
+        for (let movie of this.movies) if (movie.movieId === movieId) return {...movie}
         return null
     }
 
     public getMovies(): Movie[] {
-        let moviesCopy: Movie[] = [...this.movies]
+        let moviesCopy: Movie[] = [ ...this.movies ]
         return moviesCopy
     }
 
@@ -102,6 +102,16 @@ export class LocalDatabase {
         let movieSchedules: Schedule[] = []
         for (let schedule of this.schedules) if (schedule.movieId === movieId) movieSchedules.push({ ...schedule })
         return movieSchedules
+    }
+
+    public getSchedules(): Schedule[] {
+        return [ ...this.schedules ]
+    }
+
+    public filterSchedulesByHallId(schedules : Schedule[], hallId : number) : Schedule[] {
+        let filtered : Schedule[] = []
+        for (let schedule of schedules) if (schedule.hallId == hallId) filtered.push(schedule)
+        return filtered
     }
 
     public putHall(hall: CinemaHall): OperationFeedback {

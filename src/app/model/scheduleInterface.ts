@@ -5,6 +5,9 @@ export interface Schedule {
 }
 
 export interface ScheduleEntry {
-    displayString : string, //movie or hall name
-    date: Date
+    hallString : string,
+    titleString : string,
+    durationString : string,
+    dateString: string,
+    classString : string
  }

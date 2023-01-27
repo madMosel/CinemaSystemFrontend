@@ -10,7 +10,7 @@ export class ManagmentViewComponent {
     constructor(
       private readonly router: Router
     ) {
-      this.showMovieList()
+      this.schedule()
     }
 
     showHallList() {
@@ -19,5 +19,9 @@ export class ManagmentViewComponent {
 
     showMovieList() {
       this.router.navigate(["managment-view/movie-list"])
+    }
+
+    schedule() {
+      this.router.navigate(["managment-view/schedule"])
     }
 }

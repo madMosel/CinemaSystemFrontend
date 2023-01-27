@@ -1,17 +1,41 @@
+<h1>Scheduler</h1>
 <div class="mother">
-    <h2>Schedules for {{infoDisplay}}</h2>
+    <div class="pick-halls">
+        <div *ngFor="let hall of halls">
+            <button class="btn-hall" (click)="pickHall(hall, $event)">{{hall.hallName}}</button>
+        </div>
+    </div>
+    <div class="pick-movies">
+        <div *ngFor="let movie of movies">
+            <button class="btn-movie"  (click)="pickMovie(movie , $event)">{{movie.movieTitle}}</button>
+        </div>
+    </div>
+    <div class="schedule-list">
+        <table class="schedule-table">
+            <tr *ngFor="let scheduleEntry of scheduleEntries"    [class]="scheduleEntry.classString">
+                <td>{{scheduleEntry.hallString}}</td>
+                <td>{{scheduleEntry.titleString}}</td>
+                <td>{{scheduleEntry.durationString}}min</td>
+                <td>{{scheduleEntry.dateString}}</td>
+            </tr>
+        </table>
+    </div>
+
+
+    <!-- <h2>Schedules for {{infoDisplay}}</h2> -->
     <table>
-        <tr>
+        <!-- <tr>
             <td>{{colHeadline}}</td>
             <td>at</td>
         </tr>
         <tr *ngFor="let scheduleEntry of scheduleEntries">
             <td>{{scheduleEntry.displayString}}</td>
             <td>{{scheduleEntry.date}}</td>
-        </tr>
+        </tr> -->
     </table>
 
     <button *ngIf="!creatingSchedule" (click)="createSchedule()">Add schedule</button>
-    <app-add-schedule *ngIf="creatingSchedule" [hall]="hall" [movie]="movie" [passScheduleCallback]="receiveAndSubmitSchedule"
-        [cancelCallback]="createSchedule" [infoDisplay]="infoDisplay"></app-add-schedule>
+    <app-add-schedule *ngIf="creatingSchedule" [hall]="hall" [movie]="movie"
+        [passScheduleCallback]="receiveAndSubmitSchedule" [cancelCallback]="createSchedule"
+        [infoDisplay]="infoDisplay"></app-add-schedule>
 </div>

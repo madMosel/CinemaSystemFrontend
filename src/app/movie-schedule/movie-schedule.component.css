@@ -1,0 +1,57 @@
+.mother {
+    display: flex;
+    flex-direction: row;
+    height: fit-content;
+}
+
+.pick-halls {
+    height: fit-content;
+}
+
+.btn-hall {
+    background-color: grey;
+}
+
+.btn-hall-active {
+    background-color: lightcoral;
+}
+
+.btn-movie {
+    background-color: rgb(125, 187, 184);
+}
+
+.btn-movie-active {
+    background-color: lightseagreen;
+}
+
+.schedule-list {
+    background-color: var(--dark_gray);
+    padding: 1em;
+}
+
+.schedule-table td {
+    padding: 0.2em;
+    font-weight: bold;
+}
+
+.schedule-table tr.scheduleEntry:nth-child(odd) {
+    background-color: grey;
+    color: rgb(31, 65, 48);
+}
+
+
+.schedule-table tr.scheduleEntry:nth-child(even) {
+    background-color: darkgrey;
+    color: rgb(31, 65, 48);
+}
+
+.scheduleEntry-lessened {
+    background-color: calc(-20);
+    color: rgb(107, 107, 96);
+    font-weight: lighter;
+    font-size: smaller;
+}
+
+/* tr {
+    background-color: aqua;
+} */

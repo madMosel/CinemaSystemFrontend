@@ -21,8 +21,9 @@ const routes: Routes = [
   {
     path: "managment-view", component: ManagmentViewComponent,
     children: [
-      { path: "hall-list", component: HallListComponent, children : [ { path: "movie-schedule", component: MovieScheduleComponent} ]},
-      { path: "movie-list", component: MovieListComponent, children : [ { path: "movie-schedule", component: MovieScheduleComponent} ]},
+      { path: "hall-list", component: HallListComponent },
+      { path: "movie-list", component: MovieListComponent },
+      { path: "schedule", component: MovieScheduleComponent}
     ]
   },
   { path: "movie-display", component: MovieDisplayComponent },
