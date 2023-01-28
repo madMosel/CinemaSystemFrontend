@@ -28,6 +28,6 @@
         <br>
         <button (click)="schedule()">schedule</button>
 
-        <p *ngif="[conflictMsg]" class="conflict-msg">Conflict with existing schedule!</p>
+        <p *ngIf="conflictMsg" class="conflict-msg">Conflict with existing schedule!</p>
     </div>
 </div>
