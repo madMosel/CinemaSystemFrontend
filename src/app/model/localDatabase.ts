@@ -29,6 +29,11 @@ export class LocalDatabase {
     private localUser?: UserAccount
     private tickets: Ticket[] = []
 
+    private hallMap?: Map<number, CinemaHall>
+    private movieMap?: Map<number, Movie>
+
+    private minutesOffset: number = 15
+
     constructor() {
         this.cinemaHalls = mockCinemas as CinemaHall[]
         this.movies = mockMovies as Movie[]
@@ -70,10 +75,12 @@ export class LocalDatabase {
 
 
         //load all visible data from database
+
+        this.createMaps()
     }
 
     public getHallById(hallId: number): CinemaHall | null {
-        for (let hall of this.cinemaHalls) if (hall.hallId === hallId) return {...hall}
+        for (let hall of this.cinemaHalls) if (hall.hallId === hallId) return { ...hall }
         return null;
     }
 
@@ -83,12 +90,12 @@ export class LocalDatabase {
     }
 
     public getMovieById(movieId: number): Movie | null {
-        for (let movie of this.movies) if (movie.movieId === movieId) return {...movie}
+        for (let movie of this.movies) if (movie.movieId === movieId) return { ...movie }
         return null
     }
 
     public getMovies(): Movie[] {
-        let moviesCopy: Movie[] = [ ...this.movies ]
+        let moviesCopy: Movie[] = [...this.movies]
         return moviesCopy
     }
 
@@ -105,11 +112,11 @@ export class LocalDatabase {
     }
 
     public getSchedules(): Schedule[] {
-        return [ ...this.schedules ]
+        return [...this.schedules]
     }
 
-    public filterSchedulesByHallId(schedules : Schedule[], hallId : number) : Schedule[] {
-        let filtered : Schedule[] = []
+    public filterSchedulesByHallId(schedules: Schedule[], hallId: number): Schedule[] {
+        let filtered: Schedule[] = []
         for (let schedule of schedules) if (schedule.hallId == hallId) filtered.push(schedule)
         return filtered
     }
@@ -118,11 +125,47 @@ export class LocalDatabase {
         return OperationFeedback.NOT_IMPLEMENTED
     }
 
-    public putSchedule(schedule: Schedule): OperationFeedback {
-        return OperationFeedback.NOT_IMPLEMENTED
+    /**
+     * Puts the schedule in the local Database if no conflicts detected
+     * @param schedule Schedule to be added
+     * @returns null on Succes, a copy of the conflicting Schedule on error
+     */
+    public putSchedule(schedule: Schedule): Schedule | null {
+        let schedulesOfHall = this.filterSchedulesByHallId(this.schedules, schedule.hallId)
+        let newStart = schedule.dateTime.getTime()
+        let newEnd = newStart + (this.movieMap!.get(schedule.movieId)!.duration + this.minutesOffset) * 60000
+        for (let exisitingSchedule of schedulesOfHall) {
+            let exisitingStart = exisitingSchedule.dateTime.getTime()
+            let existingEnd = exisitingStart + this.movieMap!.get(exisitingSchedule.movieId)!.duration * 60000
+
+            if ((exisitingStart > newStart && exisitingStart < newEnd)
+                || (existingEnd > exisitingStart && existingEnd < newEnd)
+                || (exisitingStart <= newStart && existingEnd >= newEnd)
+                || (exisitingStart >= newEnd && existingEnd <= newEnd)
+            ) return { ...exisitingSchedule }
+        }
+        this.schedules.push(schedule)
+        return null
     }
+
 
     public putTicket(ticket: Ticket): OperationFeedback {
         return OperationFeedback.NOT_IMPLEMENTED
+    }
+
+    createMovieMap() {
+        this.movieMap = new Map
+        for (let movie of this.movies) this.movieMap.set(movie.movieId, movie)
+    }
+
+    createHallMap() {
+        this.hallMap = new Map
+        for (let hall of this.cinemaHalls) this.hallMap.set(hall.hallId, hall)
+    }
+
+
+    createMaps() {
+        this.createHallMap()
+        this.createMovieMap()
     }
 }

@@ -54,6 +54,7 @@
     font-size: smaller;
 }
 
-/* tr {
-    background-color: aqua;
-} */
+.scheduleEntry-conflict {
+    background-color: yellow;
+    color: red;
+}

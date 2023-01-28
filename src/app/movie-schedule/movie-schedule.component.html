@@ -21,6 +21,7 @@
         </table>
     </div>
     <div *ngIf="readyForSchedule" class="add-scedule">
+        <p>Scheduling movie "{{movie?.movieTitle}}" in hall "{{hall?.hallName}}"</p>
         <input type="date" [value]="dateString" (change)="dateSelected($event)">
         <br>
         <input type="time" [value]="timeString" (change)="timeSelected($event)">

@@ -2,7 +2,7 @@ import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { CinemaHall, dummyCinemaHall } from '../model/cinemaHallInterface';
 import { LocalDatabase } from '../model/localDatabase';
 import { Movie } from '../model/movieInterface';
-import { Schedule, ScheduleEntry } from '../model/scheduleInterface';
+import { compareSchedules, Schedule, ScheduleEntry } from '../model/scheduleInterface';
 
 @Component({
   selector: 'app-movie-schedule',
@@ -33,23 +33,26 @@ export class MovieScheduleComponent implements OnChanges {
 
   dateString: string = "2020-12-01"
   timeString: string = "21:00"
+  conflictMark?: Schedule;
 
 
   constructor(
     localDatabase: LocalDatabase
   ) {
     this.localDatabase = localDatabase
-    this.halls = this.localDatabase.getHalls()
-    this.movies = this.localDatabase.getMovies()
-    this.schedules = localDatabase.getSchedules()
-    this.updateScheduleList()
+    this.load()
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     this.updateScheduleList()
   }
 
-
+  load() {
+    this.halls = this.localDatabase.getHalls()
+    this.movies = this.localDatabase.getMovies()
+    this.schedules = this.localDatabase.getSchedules()
+    this.updateScheduleList()
+  }
 
 
   pickHall(hall: CinemaHall, event: Event) {
@@ -77,7 +80,7 @@ export class MovieScheduleComponent implements OnChanges {
     }
 
     let button = event.target as HTMLButtonElement
-    if(this.movie && this.movie.movieId == movie.movieId) {
+    if (this.movie && this.movie.movieId == movie.movieId) {
       this.movie = undefined
       button.className = "btn-movie"
     }
@@ -109,17 +112,28 @@ export class MovieScheduleComponent implements OnChanges {
       let dateString = (day.length < 2 ? "0" : " ") + day + "." +
         (month.length < 2 ? "0" : " ") + month + "." + time.getFullYear()
         + " " + (hour.length < 2 ? "0" : " ") + hour + ":" + (minute.length < 2 ? "0" : " ") + minute
+
+
+
+      let classString = "scheduleEntry"
+      if (this.movie && this.movie.movieId != schedule.movieId) classString = "scheduleEntry-lessened"
+      else if (this.conflictMark && compareSchedules(this.conflictMark, schedule)) {
+        classString = "scheduleEntry-conflict"
+        this.conflictMark = undefined
+      }
+
+
       this.scheduleEntries.push(
         {
           hallString: this.hallMap!.get(schedule.hallId),
           titleString: movie.movieTitle,
           durationString: String(movie.duration),
-          classString: (this.movie && this.movie.movieId != schedule.movieId ? "scheduleEntry-lessened" : "scheduleEntry"),
+          classString: classString,
           dateString: dateString
         } as ScheduleEntry
       )
     }
-    
+
     if (this.movie && this.hall) this.readyForSchedule = true
     else this.readyForSchedule = false
   }
@@ -149,7 +163,7 @@ export class MovieScheduleComponent implements OnChanges {
   }
 
 
-  schedule () {
+  schedule() {
     let year = parseInt(this.dateString.substring(0, 4))
     let month = parseInt(this.dateString.substring(5, 7))
     let day = parseInt(this.dateString.substring(8, 10))
@@ -159,7 +173,7 @@ export class MovieScheduleComponent implements OnChanges {
 
     let dateTime: Date = new Date
     dateTime.setFullYear(year)
-    dateTime.setMonth(month-1)
+    dateTime.setMonth(month - 1)
     dateTime.setDate(day)
     dateTime.setHours(hour)
     dateTime.setMinutes(minute)
@@ -168,10 +182,15 @@ export class MovieScheduleComponent implements OnChanges {
     schedule.hallId = this.hall!.hallId
     schedule.movieId = this.movie!.movieId
     schedule.dateTime = dateTime
-
-
-    console.log("submitSchedule")
-    console.log(schedule)
-    console.log(dateTime.getDay() + "." + dateTime.getMonth() + "." + dateTime.getFullYear() + " " + dateTime.getHours() + ":" + dateTime.getMinutes())
+    // console.log("submitSchedule")
+    // console.log(schedule)
+    // console.log(dateTime.getDay() + "." + dateTime.getMonth() + "." + dateTime.getFullYear() + " " + dateTime.getHours() + ":" + dateTime.getMinutes())
+    let conflict = this.localDatabase.putSchedule(schedule)
+    if (conflict === null) {
+      this.load()
+    } else {
+      this.conflictMark = conflict
+      this.updateScheduleList()
+    }
   }
 }
