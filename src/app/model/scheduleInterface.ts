@@ -14,7 +14,14 @@ export interface Schedule {
  * @returns true if equal else false
  */
 export function compareSchedules(a: Schedule, b: Schedule): boolean {
-    return a.hallId === b.hallId && a.movieId === b.movieId && a.dateTime.getTime() === b.dateTime.getTime()
+    let at = a.dateTime
+    let bt = b.dateTime
+    return a.hallId === b.hallId && a.movieId === b.movieId
+        && at.getFullYear() == bt.getFullYear()
+        && at.getMonth() == bt.getMonth()
+        && at.getDay() == bt.getDay()
+        && at.getHours() == bt.getHours()
+        && at.getMinutes() == bt.getMinutes()
 }
 
 export interface ScheduleEntry {
@@ -22,7 +29,8 @@ export interface ScheduleEntry {
     titleString: string,
     durationString: string,
     dateString: string,
-    classString: string
+    classString: string,
+    index: number,
 }
 
 
@@ -54,8 +62,8 @@ export function stringifySchedules(schedules: Schedule[]): string {
     return JSON.stringify(adapted)
 }
 
-export function parseScheduleAdaptersToSchedules(scheduleAdapters : ScheduleDateAdapter[]) : Schedule[] {
-    let schedules : Schedule[] = []
-    for (let adapter of scheduleAdapters) schedules.push({hallId: adapter.hallId, movieId: adapter.movieId, dateTime: new Date(adapter.dateTime)} as Schedule)
+export function parseScheduleAdaptersToSchedules(scheduleAdapters: ScheduleDateAdapter[]): Schedule[] {
+    let schedules: Schedule[] = []
+    for (let adapter of scheduleAdapters) schedules.push({ hallId: adapter.hallId, movieId: adapter.movieId, dateTime: new Date(adapter.dateTime) } as Schedule)
     return schedules
 }

@@ -27,11 +27,13 @@ export class MovieScheduleComponent implements OnChanges {
   movieMap?: Map<number, Movie>
   scheduleEntries: ScheduleEntry[] = []
   readyForSchedule: boolean = false
+  scheduleEntryToDelete?: ScheduleEntry
+  oldClassSting? : string 
 
   dateString: string = "2020-12-01"
   timeString: string = "21:00"
   conflictMark?: Schedule;
-  conflictMsg : boolean = false
+  conflictMsg: boolean = false
 
 
   constructor(
@@ -50,7 +52,6 @@ export class MovieScheduleComponent implements OnChanges {
     this.movies = this.localDatabase.getMovies()
     this.schedules = this.localDatabase.getSchedules()
     this.updateScheduleList()
-    console.log(stringifySchedules(this.schedules))
   }
 
 
@@ -102,10 +103,11 @@ export class MovieScheduleComponent implements OnChanges {
     this.sortSchedulesByHallTime(displaySchedules)
 
     this.scheduleEntries = []
+    let index = 0
     for (let schedule of displaySchedules) {
       let movie: Movie = this.movieMap!.get(schedule.movieId)!
       let time = schedule.dateTime
-      let day = String(time.getDay())
+      let day = String(time.getDay()+1)
       let month = String(time.getMonth() + 1)
       let hour = String(time.getHours())
       let minute = String(time.getMinutes())
@@ -130,9 +132,11 @@ export class MovieScheduleComponent implements OnChanges {
           titleString: movie.movieTitle,
           durationString: String(movie.duration),
           classString: classString,
-          dateString: dateString
+          dateString: dateString,
+          index: index
         } as ScheduleEntry
       )
+      index++
     }
 
     if (this.movie && this.hall) this.readyForSchedule = true
@@ -193,5 +197,20 @@ export class MovieScheduleComponent implements OnChanges {
       this.conflictMark = conflict
       this.updateScheduleList()
     }
+  }
+
+  markSchedule(scheduleEntry: ScheduleEntry) {
+    if (this.scheduleEntryToDelete) {
+      this.scheduleEntryToDelete.classString = this.oldClassSting!
+    }
+    this.scheduleEntryToDelete = scheduleEntry
+    this.oldClassSting = scheduleEntry.classString
+    this.scheduleEntryToDelete.classString = "scheduleEntry-delitationMark"
+  }
+
+  deleteSchedule() {
+    console.log(this.schedules[this.scheduleEntryToDelete!.index])
+    this.localDatabase.deleteSchedule(this.schedules[this.scheduleEntryToDelete!.index])
+    this.load()
   }
 }

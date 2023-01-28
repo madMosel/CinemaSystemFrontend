@@ -12,7 +12,7 @@
     </div>
     <div class="schedule-list">
         <table class="schedule-table">
-            <tr *ngFor="let scheduleEntry of scheduleEntries" [class]="scheduleEntry.classString">
+            <tr *ngFor="let scheduleEntry of scheduleEntries" [class]="scheduleEntry.classString" (click)="markSchedule(scheduleEntry)">
                 <td>{{scheduleEntry.hallString}}</td>
                 <td>{{scheduleEntry.titleString}}</td>
                 <td>{{scheduleEntry.durationString}}min</td>
@@ -20,14 +20,21 @@
             </tr>
         </table>
     </div>
-    <div *ngIf="readyForSchedule" class="add-scedule">
-        <p>Scheduling movie "{{movie?.movieTitle}}" in hall "{{hall?.hallName}}"</p>
+    <div class="add-scedule">
         <input type="date" [value]="dateString" (change)="dateSelected($event)">
         <br>
         <input type="time" [value]="timeString" (change)="timeSelected($event)">
         <br>
-        <button (click)="schedule()">schedule</button>
 
+        <div *ngIf="readyForSchedule">
+            <br>
+            <p>Scheduling movie "{{movie?.movieTitle}}" in hall "{{hall?.hallName}}"</p>
+            <button (click)="schedule()">schedule</button>
+        </div>
         <p *ngIf="conflictMsg" class="conflict-msg">Conflict with existing schedule!</p>
+        <div *ngIf="scheduleEntryToDelete">
+            <!-- <p>Deleting Schedule of {{scheduleEntry.}}</p> -->
+            <button (click)="deleteSchedule()">Delete Schedule</button>
+        </div>
     </div>
 </div>

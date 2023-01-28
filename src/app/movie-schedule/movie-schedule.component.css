@@ -58,6 +58,10 @@
     background-color: yellow;
     color: red;
 }
+.scheduleEntry-delitationMark {
+    background-color: orange;
+    color: rgb(131, 1, 1);
+}
 
 .conflict-msg{
     font-size: larger;

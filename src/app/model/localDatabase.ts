@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { CinemaHall } from "./cinemaHallInterface";
 import { Movie } from "./movieInterface";
-import { parseScheduleAdaptersToSchedules, Schedule, ScheduleDateAdapter } from "./scheduleInterface";
+import { compareSchedules, parseScheduleAdaptersToSchedules, Schedule, ScheduleDateAdapter } from "./scheduleInterface";
 import { Ticket } from "./ticketInterface";
 import { UserAccount } from "./userAccountInterface";
 
@@ -135,6 +135,13 @@ export class LocalDatabase {
 
     public putTicket(ticket: Ticket): OperationFeedback {
         return OperationFeedback.NOT_IMPLEMENTED
+    }
+
+    public deleteSchedule(schedule : Schedule) {
+        for (let s of this.schedules) if (compareSchedules(schedule, s)) {
+            this.schedules.splice(this.schedules.indexOf(s, 0), 1)
+            return
+        }
     }
 
     createMovieMap() {
