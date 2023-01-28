@@ -15,6 +15,12 @@ export class Movie {
     }
 }
 
+
+export function compareMovies(a: Movie, b : Movie): boolean {
+    return a.movieId == b.movieId
+}
+
+
 export const dummyMovie: Movie = new Movie(-1,
     "dummyMovie",
     0,

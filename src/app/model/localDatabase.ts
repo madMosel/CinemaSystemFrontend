@@ -1,20 +1,22 @@
-import { Injectable } from "@angular/core";
+import { Injectable, OnDestroy, OnInit } from "@angular/core";
 import { CinemaHall } from "./cinemaHallInterface";
-import { Movie } from "./movieInterface";
-import { compareSchedules, parseScheduleAdaptersToSchedules, Schedule, ScheduleDateAdapter } from "./scheduleInterface";
+import { compareMovies, Movie } from "./movieInterface";
+import { compareSchedules, parseScheduleAdaptersToSchedules, Schedule, ScheduleDateAdapter, stringifySchedules } from "./scheduleInterface";
 import { Ticket } from "./ticketInterface";
 import { UserAccount } from "./userAccountInterface";
 
 import mockCinemas from '../../assets/mockCinemas.json';
 import mockMovies from '../../assets/mockMovies.json'
 import mockSchedules from '../../assets/mockSchedules.json'
+import { toJSDate } from "@ng-bootstrap/ng-bootstrap/datepicker/ngb-calendar";
 
 export enum OperationFeedback {
     OK,
     NO_SUCH_HALL,
     NO_SUCH_MOVIE,
     NO_SUCH_SCHEDULE,
-    NOT_IMPLEMENTED
+    NOT_IMPLEMENTED,
+    HAS_REFERING_OBJECTS
 }
 
 @Injectable({
@@ -23,7 +25,8 @@ export enum OperationFeedback {
 
 
 
-export class LocalDatabase {
+export class LocalDatabase implements OnDestroy {
+
     private cinemaHalls: CinemaHall[] = []
     private movies: Movie[] = []
     private schedules: Schedule[] = []
@@ -36,14 +39,36 @@ export class LocalDatabase {
     private minutesOffset: number = 15
 
     constructor() {
-        this.cinemaHalls = mockCinemas as CinemaHall[]
-        this.movies = mockMovies as Movie[]
-        this.schedules = parseScheduleAdaptersToSchedules(mockSchedules)
+        let state = localStorage.getItem("dbData")
+        if (state) {
+            console.log("update...")
+            this.cinemaHalls = JSON.parse(localStorage.getItem("dbData-halls")!) as CinemaHall[]
+            this.movies = JSON.parse(localStorage.getItem("dbData-movies")!)
+            this.schedules = parseScheduleAdaptersToSchedules(JSON.parse(localStorage.getItem("dbData-schedules")!))
+            this.localUser = JSON.parse(localStorage.getItem("dbData-user")!)
+            this.tickets = JSON.parse(localStorage.getItem("dbData-tickets")!)
+        }
+        else {
+            this.cinemaHalls = mockCinemas as CinemaHall[]
+            this.movies = mockMovies as Movie[]
+            this.schedules = parseScheduleAdaptersToSchedules(mockSchedules)
+            console.log("init...")
 
-        //load all visible data from database
-
+            //load all visible data from remote database
+        }
         this.createMaps()
     }
+
+
+    ngOnDestroy(): void {
+        localStorage.setItem("dbData", "has data")
+        localStorage.setItem("dbData-halls", JSON.stringify(this.cinemaHalls))
+        localStorage.setItem("dbData-movies", JSON.stringify(this.movies))
+        localStorage.setItem("dbData-schedules", stringifySchedules(this.schedules))
+        localStorage.setItem("dbData-tickets", JSON.stringify(this.tickets))
+        if (this.localUser) localStorage.setItem("dbData-user", JSON.stringify(this.localUser))
+    }
+
 
     public getHallById(hallId: number): CinemaHall | null {
         for (let hall of this.cinemaHalls) if (hall.hallId === hallId) return { ...hall }
@@ -99,13 +124,13 @@ export class LocalDatabase {
     public putSchedule(schedule: Schedule): Schedule | null {
         let schedulesOfHall = this.filterSchedulesByHallId(this.schedules, schedule.hallId)
         let newStart = schedule.dateTime
-        let newEnd : Date = new Date(newStart)
+        let newEnd: Date = new Date(newStart)
         console.log(newEnd.getHours())
         newEnd.setMinutes(12)
 
         for (let exisitingSchedule of schedulesOfHall) {
             let exisitingStart = exisitingSchedule.dateTime
-            let existingEnd =  new Date (exisitingStart)
+            let existingEnd = new Date(exisitingStart)
             existingEnd.setMinutes(this.movieMap!.get(exisitingSchedule.movieId)!.duration)
 
             if (
@@ -137,11 +162,22 @@ export class LocalDatabase {
         return OperationFeedback.NOT_IMPLEMENTED
     }
 
-    public deleteSchedule(schedule : Schedule) {
+    public deleteSchedule(schedule: Schedule) {
         for (let s of this.schedules) if (compareSchedules(schedule, s)) {
             this.schedules.splice(this.schedules.indexOf(s, 0), 1)
             return
         }
+    }
+
+    deleteMovie(movie: Movie): OperationFeedback {
+        for (let schedule of this.schedules) if (schedule.movieId == movie.movieId) return OperationFeedback.HAS_REFERING_OBJECTS
+        for (let ticket of this.tickets) if (ticket.schedule.movieId == movie.movieId) return OperationFeedback.HAS_REFERING_OBJECTS
+
+        for (let m of this.movies) if (compareMovies(m, movie)) {
+            this.movies.splice(this.movies.indexOf(m, 0), 1)
+            return OperationFeedback.OK
+        }
+        return OperationFeedback.NO_SUCH_MOVIE
     }
 
     createMovieMap() {

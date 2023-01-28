@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { dummyMovie, Movie } from '../model/movieInterface';
 import mockMovies from '../../assets/mockMovies.json'
+import { LocalDatabase, OperationFeedback } from '../model/localDatabase';
 
 @Component({
   selector: 'app-movie-list',
@@ -8,21 +9,36 @@ import mockMovies from '../../assets/mockMovies.json'
   styleUrls: ['./movie-list.component.css']
 })
 export class MovieListComponent {
-  movies : Movie[] = mockMovies as Movie[]
-  activeMovie : Movie = dummyMovie
+  localDatabase: LocalDatabase
 
-  editingMovie : boolean = false
-  schedulingMovie : boolean = false
+  movies: Movie[] = mockMovies as Movie[]
+  activeMovie: Movie = dummyMovie
 
-  editMovie (movie : Movie) {
-    this.schedulingMovie = false
-     this.activeMovie = movie
-     this.editingMovie = true
+  editingMovie: boolean = false
+  schedulingMovie: boolean = false
+  deletationConflicts: boolean = false;
+
+  constructor(
+    localDatabase : LocalDatabase
+  ) {
+    this.localDatabase = localDatabase
   }
 
-  createNewMovie () {
-    this.activeMovie = new Movie (-1, "new Movie" ,0,0, "/assets/ft the fishing turnament .jpeg", "enter description", [], 10)
+  editMovie(movie: Movie) {
     this.schedulingMovie = false
+    this.deletationConflicts = false
+    this.activeMovie = movie
     this.editingMovie = true
+  }
+
+  createNewMovie() {
+    this.activeMovie = new Movie(-1, "new Movie", 0, 0, "/assets/ft the fishing turnament .jpeg", "enter description", [], 10)
+    this.schedulingMovie = false
+    this.deletationConflicts = false
+    this.editingMovie = true
+  }
+  deleteMovie(movie: Movie) {
+    let feedback : OperationFeedback = this.localDatabase.deleteMovie(movie)
+    if (feedback == OperationFeedback.HAS_REFERING_OBJECTS) this.deletationConflicts = true
   }
 }
