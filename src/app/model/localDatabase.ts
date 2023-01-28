@@ -1,12 +1,13 @@
 import { Injectable } from "@angular/core";
 import { CinemaHall } from "./cinemaHallInterface";
 import { Movie } from "./movieInterface";
-import { Schedule } from "./scheduleInterface";
+import { parseScheduleAdaptersToSchedules, Schedule, ScheduleDateAdapter } from "./scheduleInterface";
 import { Ticket } from "./ticketInterface";
 import { UserAccount } from "./userAccountInterface";
 
 import mockCinemas from '../../assets/mockCinemas.json';
 import mockMovies from '../../assets/mockMovies.json'
+import mockSchedules from '../../assets/mockSchedules.json'
 
 export enum OperationFeedback {
     OK,
@@ -37,6 +38,7 @@ export class LocalDatabase {
     constructor() {
         this.cinemaHalls = mockCinemas as CinemaHall[]
         this.movies = mockMovies as Movie[]
+        this.schedules = parseScheduleAdaptersToSchedules(mockSchedules)
 
         //load all visible data from database
 
