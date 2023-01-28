@@ -2,7 +2,7 @@ import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { CinemaHall, dummyCinemaHall } from '../model/cinemaHallInterface';
 import { LocalDatabase } from '../model/localDatabase';
 import { Movie } from '../model/movieInterface';
-import { compareSchedules, Schedule, ScheduleEntry } from '../model/scheduleInterface';
+import { compareSchedules, Schedule, ScheduleEntry, stringifySchedules } from '../model/scheduleInterface';
 
 @Component({
   selector: 'app-movie-schedule',
@@ -50,6 +50,7 @@ export class MovieScheduleComponent implements OnChanges {
     this.movies = this.localDatabase.getMovies()
     this.schedules = this.localDatabase.getSchedules()
     this.updateScheduleList()
+    console.log(stringifySchedules(this.schedules))
   }
 
 
