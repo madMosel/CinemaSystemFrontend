@@ -64,6 +64,9 @@ export function stringifySchedules(schedules: Schedule[]): string {
 
 export function parseScheduleAdaptersToSchedules(scheduleAdapters: ScheduleDateAdapter[]): Schedule[] {
     let schedules: Schedule[] = []
-    for (let adapter of scheduleAdapters) schedules.push({ hallId: adapter.hallId, movieId: adapter.movieId, dateTime: new Date(adapter.dateTime) } as Schedule)
+    for (let adapter of scheduleAdapters) {
+        console.log(adapter)
+        schedules.push({ hallId: adapter.hallId, movieId: adapter.movieId, dateTime: new Date(adapter.dateTime) } as Schedule)
+    }
     return schedules
 }

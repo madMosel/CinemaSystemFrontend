@@ -51,6 +51,8 @@ export class MovieScheduleComponent implements OnChanges {
     this.halls = this.localDatabase.getHalls()
     this.movies = this.localDatabase.getMovies()
     this.schedules = this.localDatabase.getSchedules()
+
+    console.log(this.movies)
     this.updateScheduleList()
   }
 

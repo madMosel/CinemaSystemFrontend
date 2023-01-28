@@ -8,15 +8,14 @@ import { UserAccount } from "./userAccountInterface";
 import mockCinemas from '../../assets/mockCinemas.json';
 import mockMovies from '../../assets/mockMovies.json'
 import mockSchedules from '../../assets/mockSchedules.json'
-import { toJSDate } from "@ng-bootstrap/ng-bootstrap/datepicker/ngb-calendar";
 
 export enum OperationFeedback {
-    OK,
-    NO_SUCH_HALL,
-    NO_SUCH_MOVIE,
-    NO_SUCH_SCHEDULE,
-    NOT_IMPLEMENTED,
-    HAS_REFERING_OBJECTS
+    OK = "OK",
+    NO_SUCH_HALL = "NO_SUCH_HALL",
+    NO_SUCH_MOVIE = "NO_SUCH_MOVIE",
+    NO_SUCH_SCHEDULE = "NO_SUCH_SCHEDULE",
+    NOT_IMPLEMENTED = "NOT_IMPLEMENTED",
+    HAS_REFERING_OBJECTS = "HAS_REFERING_OBJECTS"
 }
 
 @Injectable({
@@ -25,7 +24,7 @@ export enum OperationFeedback {
 
 
 
-export class LocalDatabase implements OnDestroy {
+export class LocalDatabase {
 
     private cinemaHalls: CinemaHall[] = []
     private movies: Movie[] = []
@@ -45,6 +44,8 @@ export class LocalDatabase implements OnDestroy {
             this.cinemaHalls = JSON.parse(localStorage.getItem("dbData-halls")!) as CinemaHall[]
             this.movies = JSON.parse(localStorage.getItem("dbData-movies")!)
             this.schedules = parseScheduleAdaptersToSchedules(JSON.parse(localStorage.getItem("dbData-schedules")!))
+            console.log(localStorage.getItem("dbData-schedules")!)
+            console.log(JSON.parse(localStorage.getItem("dbData-schedules")!))
             this.localUser = JSON.parse(localStorage.getItem("dbData-user")!)
             this.tickets = JSON.parse(localStorage.getItem("dbData-tickets")!)
         }
@@ -60,7 +61,9 @@ export class LocalDatabase implements OnDestroy {
     }
 
 
-    ngOnDestroy(): void {
+    updateStorage(): void {
+        console.log("cleared...")
+        localStorage.clear()
         localStorage.setItem("dbData", "has data")
         localStorage.setItem("dbData-halls", JSON.stringify(this.cinemaHalls))
         localStorage.setItem("dbData-movies", JSON.stringify(this.movies))
@@ -165,6 +168,7 @@ export class LocalDatabase implements OnDestroy {
     public deleteSchedule(schedule: Schedule) {
         for (let s of this.schedules) if (compareSchedules(schedule, s)) {
             this.schedules.splice(this.schedules.indexOf(s, 0), 1)
+            this.updateStorage()
             return
         }
     }
@@ -175,6 +179,7 @@ export class LocalDatabase implements OnDestroy {
 
         for (let m of this.movies) if (compareMovies(m, movie)) {
             this.movies.splice(this.movies.indexOf(m, 0), 1)
+            this.updateStorage()
             return OperationFeedback.OK
         }
         return OperationFeedback.NO_SUCH_MOVIE

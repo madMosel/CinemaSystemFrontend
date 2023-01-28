@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { dummyMovie, Movie } from '../model/movieInterface';
 import mockMovies from '../../assets/mockMovies.json'
 import { LocalDatabase, OperationFeedback } from '../model/localDatabase';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-movie-list',
@@ -11,7 +12,7 @@ import { LocalDatabase, OperationFeedback } from '../model/localDatabase';
 export class MovieListComponent {
   localDatabase: LocalDatabase
 
-  movies: Movie[] = mockMovies as Movie[]
+  movies: Movie[]
   activeMovie: Movie = dummyMovie
 
   editingMovie: boolean = false
@@ -19,9 +20,10 @@ export class MovieListComponent {
   deletationConflicts: boolean = false;
 
   constructor(
-    localDatabase : LocalDatabase
+    localDatabase: LocalDatabase
   ) {
     this.localDatabase = localDatabase
+    this.movies = this.localDatabase.getMovies()
   }
 
   editMovie(movie: Movie) {
@@ -38,7 +40,16 @@ export class MovieListComponent {
     this.editingMovie = true
   }
   deleteMovie(movie: Movie) {
-    let feedback : OperationFeedback = this.localDatabase.deleteMovie(movie)
-    if (feedback == OperationFeedback.HAS_REFERING_OBJECTS) this.deletationConflicts = true
+    console.log("deleting " + movie.movieId + " " + movie.movieTitle + "...")
+    let feedback: OperationFeedback = this.localDatabase.deleteMovie(movie)
+    switch (feedback) {
+      case OperationFeedback.HAS_REFERING_OBJECTS:
+        this.deletationConflicts = true
+        break
+      case OperationFeedback.OK:
+        this.movies = this.localDatabase.getMovies()
+        break
+    }
+    console.log(feedback)
   }
 }
