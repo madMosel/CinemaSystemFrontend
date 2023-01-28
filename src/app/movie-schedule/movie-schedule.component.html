@@ -27,5 +27,7 @@
         <input type="time" [value]="timeString" (change)="timeSelected($event)">
         <br>
         <button (click)="schedule()">schedule</button>
+
+        <p *ngif="[conflictMsg]" class="conflict-msg">Conflict with existing schedule!</p>
     </div>
 </div>

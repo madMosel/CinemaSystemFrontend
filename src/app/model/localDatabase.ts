@@ -38,42 +38,6 @@ export class LocalDatabase {
         this.cinemaHalls = mockCinemas as CinemaHall[]
         this.movies = mockMovies as Movie[]
 
-        //mocking schedules
-        this.schedules.push(
-            {
-                movieId: this.movies[0].movieId,
-                hallId: this.cinemaHalls[0].hallId,
-                dateTime: new Date("2023-4-4")
-            } as Schedule
-        )
-        this.schedules.push(
-            {
-                movieId: this.movies[1].movieId,
-                hallId: this.cinemaHalls[1].hallId,
-                dateTime: new Date("2023-3-3")
-            } as Schedule
-        )
-        this.schedules.push(
-            {
-                movieId: this.movies[0].movieId,
-                hallId: this.cinemaHalls[1].hallId,
-                dateTime: new Date("2023-2-2")
-            } as Schedule
-        )
-        this.schedules.push(
-            {
-                movieId: this.movies[1].movieId,
-                hallId: this.cinemaHalls[0].hallId,
-                dateTime: new Date("2023-1-1")
-            } as Schedule
-        )
-        // console.log(this.schedules)
-        // console.log(this.getSchedulesOfHall(0))
-        // console.log(this.getSchedulesOfHall(1))
-        // console.log(this.getSchedulesOfMovie(0))
-        // console.log(this.getSchedulesOfMovie(1))
-
-
         //load all visible data from database
 
         this.createMaps()
@@ -132,22 +96,40 @@ export class LocalDatabase {
      */
     public putSchedule(schedule: Schedule): Schedule | null {
         let schedulesOfHall = this.filterSchedulesByHallId(this.schedules, schedule.hallId)
-        let newStart = schedule.dateTime.getTime()
-        let newEnd = newStart + (this.movieMap!.get(schedule.movieId)!.duration + this.minutesOffset) * 60000
-        for (let exisitingSchedule of schedulesOfHall) {
-            let exisitingStart = exisitingSchedule.dateTime.getTime()
-            let existingEnd = exisitingStart + this.movieMap!.get(exisitingSchedule.movieId)!.duration * 60000
+        let newStart = schedule.dateTime
+        let newEnd : Date = new Date(newStart)
+        console.log(newEnd.getHours())
+        newEnd.setMinutes(12)
 
-            if ((exisitingStart > newStart && exisitingStart < newEnd)
-                || (existingEnd > exisitingStart && existingEnd < newEnd)
-                || (exisitingStart <= newStart && existingEnd >= newEnd)
-                || (exisitingStart >= newEnd && existingEnd <= newEnd)
-            ) return { ...exisitingSchedule }
+        for (let exisitingSchedule of schedulesOfHall) {
+            let exisitingStart = exisitingSchedule.dateTime
+            let existingEnd =  new Date (exisitingStart)
+            existingEnd.setMinutes(this.movieMap!.get(exisitingSchedule.movieId)!.duration)
+
+            if (
+                (this.compareDates(exisitingStart, newStart) > 0 && this.compareDates(exisitingStart, newEnd) < 0)
+                || (this.compareDates(existingEnd, newStart) > 0 && this.compareDates(existingEnd, newEnd) < 0)
+                || (this.compareDates(exisitingStart, newStart) < 0 && this.compareDates(existingEnd, newEnd) > 0)
+                || (this.compareDates(exisitingStart, newEnd) > 0 && this.compareDates(existingEnd, newEnd) < 0)
+            ) {
+                console.log(newStart)
+                console.log(exisitingStart)
+                console.log((new Date(existingEnd)))
+                console.log("Conflict!")
+                return { ...exisitingSchedule }
+            }
         }
         this.schedules.push(schedule)
         return null
     }
 
+    public compareDates(a: Date, b: Date): number {
+        if (a.getFullYear() != b.getFullYear()) return b.getFullYear() - a.getFullYear()
+        if (a.getMonth() != b.getMonth()) return b.getMonth() - a.getMonth()
+        if (b.getDay() != a.getDay()) return b.getDay() - a.getDay()
+        if (b.getHours() != a.getHours()) return b.getHours() - a.getHours()
+        return b.getSeconds() - a.getSeconds()
+    }
 
     public putTicket(ticket: Ticket): OperationFeedback {
         return OperationFeedback.NOT_IMPLEMENTED

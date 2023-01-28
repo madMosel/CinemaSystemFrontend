@@ -25,15 +25,13 @@ export class MovieScheduleComponent implements OnChanges {
 
   hallMap?: Map<number, string>
   movieMap?: Map<number, Movie>
-
-  infoDisplay: string = "query empty"
-  colHeadline: string = "query empty"
   scheduleEntries: ScheduleEntry[] = []
   readyForSchedule: boolean = false
 
   dateString: string = "2020-12-01"
   timeString: string = "21:00"
   conflictMark?: Schedule;
+  conflictMsg : boolean = false
 
 
   constructor(
@@ -96,6 +94,7 @@ export class MovieScheduleComponent implements OnChanges {
 
   updateScheduleList() {
     this.updateMaps()
+    this.conflictMsg = false
 
     let displaySchedules: Schedule[] = this.schedules
     if (this.hall) displaySchedules = this.localDatabase.filterSchedulesByHallId(displaySchedules, this.hall.hallId)
@@ -120,6 +119,7 @@ export class MovieScheduleComponent implements OnChanges {
       else if (this.conflictMark && compareSchedules(this.conflictMark, schedule)) {
         classString = "scheduleEntry-conflict"
         this.conflictMark = undefined
+        this.conflictMsg = true
       }
 
 

@@ -58,3 +58,13 @@
     background-color: yellow;
     color: red;
 }
+
+.conflict-msg{
+    font-size: larger;
+    font-weight: bold;
+    background-color: yellow;
+    color: red;
+    border: solid 2px;
+    padding: 1em;
+    margin: 1em;
+}
