@@ -8,7 +8,6 @@ import { compareSchedules, Schedule, ScheduleEntry, stringifySchedules } from '.
   selector: 'app-movie-schedule',
   templateUrl: './movie-schedule.component.html',
   styleUrls: ['./movie-schedule.component.css'],
-  providers: [LocalDatabase]
 })
 
 export class MovieScheduleComponent implements OnChanges {
@@ -51,8 +50,6 @@ export class MovieScheduleComponent implements OnChanges {
     this.halls = this.localDatabase.getHalls()
     this.movies = this.localDatabase.getMovies()
     this.schedules = this.localDatabase.getSchedules()
-
-    console.log(this.movies)
     this.updateScheduleList()
   }
 
