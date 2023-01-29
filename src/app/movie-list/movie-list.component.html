@@ -1,21 +1,26 @@
 <div class="mother">
     <h3>MOVIES</h3>
-    <table>
-        <tr *ngFor="let movie of movies">
-            <th>
-                {{movie.movieId}}
-            </th>
-            <th>
-                {{movie.movieTitle}}
-            </th>
-            <th>
-                <button (click)="editMovie(movie)">edit</button>
-            </th>
-            <th>
-                <button (click)="deleteMovie(movie)">delete movie</button>
-            </th>
-        </tr>
-    </table>
+    <div>
+        <table>
+            <tr *ngFor="let movie of movies">
+                <th>
+                    {{movie.movieId}}
+                </th>
+                <th>
+                    {{movie.movieTitle}}
+                </th>
+                <th>
+                    <button (click)="editMovie(movie)">edit</button>
+                </th>
+                <th>
+                    <button (click)="deleteMovie(movie)">delete movie</button>
+                </th>
+            </tr>
+        </table>
+        <p *ngIf="deletationConflicts">
+            deletation is possible only when there are no schedules or tickets for the movie going to be deleted
+        </p>
+    </div>
     <button (click)="createNewMovie()">+</button>
     <app-edit-movie *ngIf="editingMovie" [movie]="activeMovie"></app-edit-movie>
 </div>

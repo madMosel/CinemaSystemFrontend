@@ -174,7 +174,10 @@ export class LocalDatabase {
     }
 
     deleteMovie(movie: Movie): OperationFeedback {
-        for (let schedule of this.schedules) if (schedule.movieId == movie.movieId) return OperationFeedback.HAS_REFERING_OBJECTS
+        for (let schedule of this.schedules) if (schedule.movieId == movie.movieId) {
+            console.log(schedule)
+            return OperationFeedback.HAS_REFERING_OBJECTS  
+        } 
         for (let ticket of this.tickets) if (ticket.schedule.movieId == movie.movieId) return OperationFeedback.HAS_REFERING_OBJECTS
 
         for (let m of this.movies) if (compareMovies(m, movie)) {
