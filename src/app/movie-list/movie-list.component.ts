@@ -40,6 +40,7 @@ export class MovieListComponent {
     this.editingMovie = true
   }
   deleteMovie(movie: Movie) {
+    this.deletationConflicts = false
     console.log("deleting " + movie.movieId + " " + movie.movieTitle + "...")
     let feedback: OperationFeedback = this.localDatabase.deleteMovie(movie)
     switch (feedback) {
