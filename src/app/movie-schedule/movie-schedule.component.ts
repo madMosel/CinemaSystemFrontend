@@ -28,7 +28,7 @@ export class MovieScheduleComponent implements OnChanges {
   scheduleEntries: ScheduleEntry[] = []
   readyForSchedule: boolean = false
   scheduleEntryToDelete?: ScheduleEntry
-  oldClassSting? : string 
+  oldClassSting?: string
 
   dateString: string = "2020-12-01"
   timeString: string = "21:00"
@@ -77,6 +77,12 @@ export class MovieScheduleComponent implements OnChanges {
   }
 
   pickMovie(movie: Movie, event: Event) {
+    if (this.scheduleEntryToDelete) {
+      this.readyForSchedule = true
+      this.scheduleEntryToDelete.classString = this.oldClassSting!
+      this.scheduleEntryToDelete = undefined
+      return
+    }
     if (this.activeMovieButton) {
       this.activeMovieButton.className = "btn-movie"
     }
@@ -96,6 +102,19 @@ export class MovieScheduleComponent implements OnChanges {
   }
 
 
+  markSchedule(scheduleEntry: ScheduleEntry) {
+    this.readyForSchedule = false
+
+    if (this.scheduleEntryToDelete) {
+      this.scheduleEntryToDelete.classString = this.oldClassSting!
+    }
+    this.scheduleEntryToDelete = scheduleEntry
+    this.oldClassSting = scheduleEntry.classString
+    this.scheduleEntryToDelete.classString = "scheduleEntry-delitationMark"
+
+  }
+
+
   updateScheduleList() {
     this.updateMaps()
     this.conflictMsg = false
@@ -109,7 +128,7 @@ export class MovieScheduleComponent implements OnChanges {
     for (let schedule of displaySchedules) {
       let movie: Movie = this.movieMap!.get(schedule.movieId)!
       let time = schedule.dateTime
-      let day = String(time.getDay()+1)
+      let day = String(time.getDay() + 1)
       let month = String(time.getMonth() + 1)
       let hour = String(time.getHours())
       let minute = String(time.getMinutes())
@@ -199,15 +218,6 @@ export class MovieScheduleComponent implements OnChanges {
       this.conflictMark = conflict
       this.updateScheduleList()
     }
-  }
-
-  markSchedule(scheduleEntry: ScheduleEntry) {
-    if (this.scheduleEntryToDelete) {
-      this.scheduleEntryToDelete.classString = this.oldClassSting!
-    }
-    this.scheduleEntryToDelete = scheduleEntry
-    this.oldClassSting = scheduleEntry.classString
-    this.scheduleEntryToDelete.classString = "scheduleEntry-delitationMark"
   }
 
   deleteSchedule() {
