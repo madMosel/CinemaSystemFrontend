@@ -1,13 +1,14 @@
 import { Injectable, OnDestroy, OnInit } from "@angular/core";
 import { CinemaHall } from "./cinemaHallInterface";
 import { compareMovies, Movie } from "./movieInterface";
-import { compareSchedules, parseScheduleAdaptersToSchedules, Schedule, ScheduleDateAdapter, stringifySchedules } from "./scheduleInterface";
+import { compareSchedules, Schedule } from "./scheduleInterface";
 import { Ticket } from "./ticketInterface";
 import { UserAccount } from "./userAccountInterface";
 
 import mockCinemas from '../../assets/mockCinemas.json';
 import mockMovies from '../../assets/mockMovies.json'
-import mockSchedules from '../../assets/mockSchedules.json'
+import { LocalChanges } from "./localChangesInterface";
+import { compareNiceDatesOnTime, NiceDate, niceDateAddMinutes } from "./niceDateInterface";
 
 export enum OperationFeedback {
     OK = "OK",
@@ -15,7 +16,8 @@ export enum OperationFeedback {
     NO_SUCH_MOVIE = "NO_SUCH_MOVIE",
     NO_SUCH_SCHEDULE = "NO_SUCH_SCHEDULE",
     NOT_IMPLEMENTED = "NOT_IMPLEMENTED",
-    HAS_REFERING_OBJECTS = "HAS_REFERING_OBJECTS"
+    HAS_REFERING_OBJECTS = "HAS_REFERING_OBJECTS",
+    HAS_INDEX = "HAS_INDEX"
 }
 
 @Injectable({
@@ -31,6 +33,7 @@ export class LocalDatabase {
     private schedules: Schedule[] = []
     private localUser?: UserAccount
     private tickets: Ticket[] = []
+    private changes: LocalChanges = { halls: [], movies: [], schedules: [] } as LocalChanges
 
     private hallMap?: Map<number, CinemaHall>
     private movieMap?: Map<number, Movie>
@@ -50,7 +53,7 @@ export class LocalDatabase {
     }
 
     async loadSchedulesFromServer() {
-        this.schedules = parseScheduleAdaptersToSchedules(mockSchedules)
+        this.schedules = [] as Schedule[]
     }
 
     async loadTicketsFromServer() {
@@ -72,7 +75,7 @@ export class LocalDatabase {
 
     async loadSchedules() {
         if (!localStorage.getItem("dbData")) this.loadSchedulesFromServer()
-        else this.schedules = parseScheduleAdaptersToSchedules(JSON.parse(localStorage.getItem("dbData-schedules")!))
+        else this.schedules = JSON.parse(localStorage.getItem("dbData-schedules")!)
     }
 
     async loadTickets() {
@@ -80,10 +83,16 @@ export class LocalDatabase {
         else this.tickets = []
     }
 
+    loadChanges() {
+        if (localStorage.getItem("dbData")) this.changes = JSON.parse(localStorage.getItem("dbData-changes")!)
+    }
+
     async load() {
         this.loadHalls()
         this.loadMovies()
         this.loadSchedules()
+        this.loadTickets()
+        this.loadChanges()
     }
 
 
@@ -93,9 +102,10 @@ export class LocalDatabase {
         localStorage.setItem("dbData", "has data")
         localStorage.setItem("dbData-halls", JSON.stringify(this.cinemaHalls))
         localStorage.setItem("dbData-movies", JSON.stringify(this.movies))
-        localStorage.setItem("dbData-schedules", stringifySchedules(this.schedules))
+        localStorage.setItem("dbData-schedules", JSON.stringify(this.schedules))
         localStorage.setItem("dbData-tickets", JSON.stringify(this.tickets))
         if (this.localUser) localStorage.setItem("dbData-user", JSON.stringify(this.localUser))
+        localStorage.setItem("dbData-changes", JSON.stringify(this.changes))
     }
 
 
@@ -141,7 +151,7 @@ export class LocalDatabase {
 
     public getSchedules(): Schedule[] {
         this.loadSchedules()
-        return [...this.schedules]
+        return this.schedules
     }
 
     public filterSchedulesByHallId(schedules: Schedule[], hallId: number): Schedule[] {
@@ -152,8 +162,12 @@ export class LocalDatabase {
     }
 
     public putHall(hall: CinemaHall): OperationFeedback {
-
-        return OperationFeedback.NOT_IMPLEMENTED
+        if (hall.hallId != 0) return OperationFeedback.HAS_INDEX
+        this.load()
+        this.cinemaHalls.push(hall)
+        this.changes.halls.push(hall)
+        this.updateStorage()
+        return OperationFeedback.OK
     }
 
     /**
@@ -164,30 +178,27 @@ export class LocalDatabase {
     public putSchedule(schedule: Schedule): Schedule | null {
         this.loadSchedules()
         let schedulesOfHall = this.filterSchedulesByHallId(this.schedules, schedule.hallId)
-        let newStart = schedule.dateTime
-        let newEnd: Date = new Date(newStart)
-        console.log(newEnd.getHours())
-        newEnd.setMinutes(12)
+        let newStart: NiceDate = schedule.dateTime
+        let newEnd: NiceDate = niceDateAddMinutes(newStart, this.movieMap!.get(schedule.movieId)!.duration)
 
         for (let exisitingSchedule of schedulesOfHall) {
-            let exisitingStart = exisitingSchedule.dateTime
-            let existingEnd = new Date(exisitingStart)
-            existingEnd.setMinutes(this.movieMap!.get(exisitingSchedule.movieId)!.duration)
-
+            let existingStart = exisitingSchedule.dateTime
+            let existingEnd = niceDateAddMinutes(existingStart, this.movieMap!.get(exisitingSchedule.movieId)!.duration)
             if (
-                (this.compareDates(exisitingStart, newStart) > 0 && this.compareDates(exisitingStart, newEnd) < 0)
-                || (this.compareDates(existingEnd, newStart) > 0 && this.compareDates(existingEnd, newEnd) < 0)
-                || (this.compareDates(exisitingStart, newStart) < 0 && this.compareDates(existingEnd, newEnd) > 0)
-                || (this.compareDates(exisitingStart, newEnd) > 0 && this.compareDates(existingEnd, newEnd) < 0)
+                (compareNiceDatesOnTime(existingStart, newStart) >= 0 && compareNiceDatesOnTime(existingStart, newEnd) <= 0)
+                || (compareNiceDatesOnTime(existingEnd, newStart) >= 0 && compareNiceDatesOnTime(existingEnd, newEnd) <= 0)
+                || (compareNiceDatesOnTime(existingStart, newStart) <= 0 && compareNiceDatesOnTime(existingEnd, newEnd) >= 0)
+                || (compareNiceDatesOnTime(existingStart, newStart) >= 0 && compareNiceDatesOnTime(existingEnd, newEnd) <= 0)
             ) {
                 console.log(newStart)
-                console.log(exisitingStart)
-                console.log((new Date(existingEnd)))
+                console.log(existingStart)
+                console.log(existingEnd)
                 console.log("Conflict!")
                 return { ...exisitingSchedule }
             }
         }
         this.schedules.push(schedule)
+        this.changes.schedules.push(schedule)
         this.updateStorage()
         return null
     }
@@ -209,17 +220,17 @@ export class LocalDatabase {
         for (let s of this.schedules) if (compareSchedules(schedule, s)) {
             this.schedules.splice(this.schedules.indexOf(s, 0), 1)
             this.updateStorage()
+            console.log("deleted")
             return
         }
-        this.updateStorage()
     }
 
     deleteMovie(movie: Movie): OperationFeedback {
         this.load()
         for (let schedule of this.schedules) if (schedule.movieId == movie.movieId) {
             console.log(schedule)
-            return OperationFeedback.HAS_REFERING_OBJECTS  
-        } 
+            return OperationFeedback.HAS_REFERING_OBJECTS
+        }
         for (let ticket of this.tickets) if (ticket.schedule.movieId == movie.movieId) return OperationFeedback.HAS_REFERING_OBJECTS
 
         for (let m of this.movies) if (compareMovies(m, movie)) {
@@ -228,6 +239,22 @@ export class LocalDatabase {
             return OperationFeedback.OK
         }
         return OperationFeedback.NO_SUCH_MOVIE
+    }
+
+    deleteHall(hall: CinemaHall): OperationFeedback {
+        this.load()
+        for (let schedule of this.schedules) if (schedule.hallId == hall.hallId) {
+            console.log(schedule)
+            return OperationFeedback.HAS_REFERING_OBJECTS
+        }
+        for (let ticket of this.tickets) if (ticket.schedule.hallId == hall.hallId) return OperationFeedback.HAS_REFERING_OBJECTS
+
+        for (let h of this.cinemaHalls) if (h.hallId == hall.hallId) {
+            this.cinemaHalls.splice(this.cinemaHalls.indexOf(h, 0), 1)
+            this.updateStorage()
+            return OperationFeedback.OK
+        }
+        return OperationFeedback.NO_SUCH_HALL
     }
 
     createMovieMap() {

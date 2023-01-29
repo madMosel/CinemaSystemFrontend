@@ -2,7 +2,8 @@ import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { CinemaHall, dummyCinemaHall } from '../model/cinemaHallInterface';
 import { LocalDatabase } from '../model/localDatabase';
 import { Movie } from '../model/movieInterface';
-import { compareSchedules, Schedule, ScheduleEntry, stringifySchedules } from '../model/scheduleInterface';
+import { compareNiceDatesOnTime, NiceDate, niceDateToString } from '../model/niceDateInterface';
+import { compareSchedules, Schedule, ScheduleEntry } from '../model/scheduleInterface';
 
 @Component({
   selector: 'app-movie-schedule',
@@ -124,16 +125,6 @@ export class MovieScheduleComponent implements OnChanges {
     let index = 0
     for (let schedule of displaySchedules) {
       let movie: Movie = this.movieMap!.get(schedule.movieId)!
-      let time = schedule.dateTime
-      let day = String(time.getDay() + 1)
-      let month = String(time.getMonth() + 1)
-      let hour = String(time.getHours())
-      let minute = String(time.getMinutes())
-      let dateString = (day.length < 2 ? "0" : " ") + day + "." +
-        (month.length < 2 ? "0" : " ") + month + "." + time.getFullYear()
-        + " " + (hour.length < 2 ? "0" : " ") + hour + ":" + (minute.length < 2 ? "0" : " ") + minute
-
-
 
       let classString = "scheduleEntry"
       if (this.movie && this.movie.movieId != schedule.movieId) classString = "scheduleEntry-lessened"
@@ -150,7 +141,7 @@ export class MovieScheduleComponent implements OnChanges {
           titleString: movie.movieTitle,
           durationString: String(movie.duration),
           classString: classString,
-          dateString: dateString,
+          dateString: niceDateToString(schedule.dateTime),
           index: index
         } as ScheduleEntry
       )
@@ -173,7 +164,7 @@ export class MovieScheduleComponent implements OnChanges {
   sortSchedulesByHallTime(schedules: Schedule[]) {
     schedules.sort((a, b) => {
       if (a.hallId != b.hallId) return a.hallId - b.hallId
-      else return b.dateTime.getTime() - a.dateTime.getTime()
+      else return compareNiceDatesOnTime(a.dateTime, b.dateTime)
     })
   }
 
@@ -187,20 +178,14 @@ export class MovieScheduleComponent implements OnChanges {
 
 
   schedule() {
-    let year = parseInt(this.dateString.substring(0, 4))
-    let month = parseInt(this.dateString.substring(5, 7))
-    let day = parseInt(this.dateString.substring(8, 10))
-
-    let hour = parseInt(this.timeString.substring(0, 2))
-    let minute = parseInt(this.timeString.substring(3, 5))
-
-    let dateTime: Date = new Date
-    dateTime.setFullYear(year)
-    dateTime.setMonth(month - 1)
-    dateTime.setDate(day)
-    dateTime.setHours(hour)
-    dateTime.setMinutes(minute)
-
+    let dateTime = {
+      year :  parseInt(this.dateString.substring(0, 4)),
+      month : parseInt(this.dateString.substring(5, 7)),
+      day : parseInt(this.dateString.substring(8, 10)),
+      hour : parseInt(this.timeString.substring(0, 2)),
+      minute : parseInt(this.timeString.substring(3, 5))
+    }
+    
     let schedule: Schedule = {} as Schedule
     schedule.hallId = this.hall!.hallId
     schedule.movieId = this.movie!.movieId

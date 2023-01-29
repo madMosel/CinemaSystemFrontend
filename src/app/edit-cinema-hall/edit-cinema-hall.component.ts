@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from
 import { Router } from '@angular/router';
 import { CinemaHallDisplayComponent } from '../cinema-hall-display/cinema-hall-display.component';
 import { CinemaHall, dummyCinemaHall } from '../model/cinemaHallInterface';
+import { LocalDatabase, OperationFeedback } from '../model/localDatabase';
 import { Seat, SeatCategory } from '../model/seatInterface';
 
 @Component({
@@ -29,7 +30,8 @@ export class EditCinemaHallComponent implements OnChanges {
 
 
   constructor(
-    public readonly router: Router
+    public readonly router: Router,
+    public localDatabase: LocalDatabase
   ) {
     console.log("constructor called")
     this.numRows = this.cinemaHall.seats.length
@@ -75,11 +77,9 @@ export class EditCinemaHallComponent implements OnChanges {
       let row: Seat[] = []
       for (let numCol = 0; numCol < this.numCols; numCol++, counter++) {
         if (numRow < this.cinemaHall.seats.length && numCol < this.cinemaHall.seats[0].length) {
-          console.log("pushing old seat")
           row.push(this.cinemaHall.seats[numRow][numCol])
         }
         else {
-          console.log("pushing new seat")
           row.push(new Seat(this.cinemaHall.hallId, counter, SeatCategory.Normal, false));
         }
       }
@@ -132,8 +132,8 @@ export class EditCinemaHallComponent implements OnChanges {
     }
   }
 
-  printHallToJson() {
-    console.log(JSON.stringify(this.cinemaHall))
+  updateDatabase() {
+    this.localDatabase.putHall(this.cinemaHall)
   }
 
   // public setCinemaHall = (cinemaHall: CinemaHall) => {

@@ -1,5 +1,7 @@
 import { Component, NgModule } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
+import { NiceDate } from './model/niceDateInterface';
+import { Test } from './model/test';
 
 
 
@@ -14,6 +16,16 @@ export class AppComponent {
   title = 'CinemaSystemFrontend';
 
   constructor(private readonly router: Router) {
+    // let test : Test = new Test()
+    // test.val = 14
+    // console.log(test.val)
+
+
+    // let nd = new NiceDate ({year: 2000, month: 11, day: 1, hour: 0, minute: 12} as NiceDateInterface)
+    // console.log(nd.toString())
+    // console.log(nd.parseToDate())
+
+
     this.router.navigate(["movie-browser"]);
   }
 

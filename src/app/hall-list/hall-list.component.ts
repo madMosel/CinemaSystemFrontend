@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 import { CinemaHall, dummyCinemaHall } from '../model/cinemaHallInterface';
-import mockCinemas from '../../assets/mockCinemas.json';
 import { Seat, SeatCategory } from '../model/seatInterface';
-import { LocalDatabase } from '../model/localDatabase';
+import { LocalDatabase, OperationFeedback } from '../model/localDatabase';
 
 
 @Component({
@@ -15,11 +14,13 @@ import { LocalDatabase } from '../model/localDatabase';
 
 
 export class HallListComponent {
+  static idCounter : number = -1
 
   cinemaHalls: CinemaHall[]
   activeHall: CinemaHall = dummyCinemaHall
   editingHall: boolean = false
   scheduling : boolean = false
+  deletationConflicts: boolean = false
 
 
   constructor(
@@ -40,4 +41,19 @@ export class HallListComponent {
     this.activeHall = new CinemaHall(-1, "hall name", seats, false, false, false)
     this.editingHall = true
   }
+
+  deleteHall(hall: CinemaHall) {
+    this.deletationConflicts = false
+    console.log("deleting " + hall.hallId + " " + hall.hallName + "...")
+    let feedback: OperationFeedback = this.localDatabase.deleteHall(hall)
+    switch (feedback) {
+      case OperationFeedback.HAS_REFERING_OBJECTS:
+        this.deletationConflicts = true
+        break
+      case OperationFeedback.OK:
+        this.cinemaHalls = this.localDatabase.getHalls()
+        break
+    }
+    console.log(feedback)
+    }
 }
