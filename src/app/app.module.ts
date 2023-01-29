@@ -15,6 +15,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoginDropdownComponent } from './login-dropdown/login-dropdown.component';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { MovieScheduleComponent } from './movie-schedule/movie-schedule.component';
+import { LocalDatabase } from './model/localDatabase';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { MovieScheduleComponent } from './movie-schedule/movie-schedule.componen
     AppRoutingModule,
     NgbModule
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [
+    LocalDatabase],
+  bootstrap: [AppComponent],
 })
 export class AppModule { }
