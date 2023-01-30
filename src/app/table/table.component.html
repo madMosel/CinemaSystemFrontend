@@ -1,0 +1,10 @@
+<div class="table-background"> 
+    <table>
+        <tr *ngIf="header" class="header.classString">
+            <td *ngFor="let col of header.entries">{{col}}</td>
+        </tr>
+        <tr *ngFor="let row of rows" class="header.classRow" (click)="row?.clickRow($event)">
+            <td *ngFor="let cell of row.entries" class="cell.classCell" (click)="cell?.clickCell($event)">{{cell.value}}</td>
+        </tr>
+    </table>
+</div>

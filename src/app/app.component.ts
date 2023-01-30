@@ -1,7 +1,6 @@
 import { Component, NgModule } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { NiceDate } from './model/niceDateInterface';
-import { Test } from './model/test';
 
 
 

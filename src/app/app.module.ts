@@ -16,6 +16,7 @@ import { LoginDropdownComponent } from './login-dropdown/login-dropdown.componen
 import { SignInComponent } from './sign-in/sign-in.component';
 import { MovieScheduleComponent } from './movie-schedule/movie-schedule.component';
 import { LocalDatabase } from './model/localDatabase';
+import { TableComponent } from './table/table.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { LocalDatabase } from './model/localDatabase';
     LoginDropdownComponent,
     SignInComponent,
     MovieScheduleComponent,
+    TableComponent,
   ],
   imports: [
     BrowserModule,
