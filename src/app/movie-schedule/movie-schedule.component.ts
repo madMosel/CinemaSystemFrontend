@@ -202,5 +202,6 @@ export class MovieScheduleComponent {
     this.localDatabase.deleteSchedule(this.markedSchedule?.identifier)
     this.load()
     this.markedSchedule = undefined
+    this.schedulingBlocked = false
   }
 }
