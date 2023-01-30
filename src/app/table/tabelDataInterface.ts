@@ -1,11 +1,11 @@
-export interface TableEntry {
+export interface TableRows {
     classRow : string,
-    clickRow? : (event : Event) => {},
-    entries : CellEntry[],
+    clickRow : (event : Event) => void,
+    cells : CellEntry[],
 }
 
 export interface CellEntry {
     value : string,
     classCell : string,
-    clickCell? : (event : Event) => {},
+    clickCell : (event : Event) => void
 } 
