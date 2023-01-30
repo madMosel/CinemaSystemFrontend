@@ -31,15 +31,9 @@ import { TableRow, CellEntry } from '../table/tabelDataInterface'
 })
 
 export class MovieScheduleComponent {
-
-
-
   localDatabase: LocalDatabase
   hall?: CinemaHall
   movie?: Movie
-
-  activeHallButton?: HTMLButtonElement
-  activeMovieButton?: HTMLButtonElement
 
   halls: CinemaHall[] = []
   movies: Movie[] = []
@@ -76,50 +70,37 @@ export class MovieScheduleComponent {
     this.schedules = this.localDatabase.getSchedules()
     this.sortSchedulesByHallTime()
     this.updateScheduleList()
-    this.movie = undefined
-    this.hall = undefined
   }
 
 
-  pickHall(hall: CinemaHall, event: Event) {
+  pickHall(hall: CinemaHall) {
     this.schedulingBlocked = false
-    this.conflictMsg  = false
-    if (this.activeHallButton) this.activeHallButton.className = HallBtnState.NORMAL
-    let button = event.target as HTMLButtonElement
+    this.conflictMsg = false
 
-
-    if (this.hall && this.hall.hallId == hall.hallId) {
-      button.className = HallBtnState.NORMAL
-      this.hall = undefined
-      this.activeHallButton = undefined
-      this.scheduling = false
-    } else {
-      this.hall = hall
-      button.className = HallBtnState.HIGHLIGHTED
-      this.activeHallButton = button
-      if (this.movie) this.scheduling = true
-    }
-
+    if (this.hall && this.hall.hallId == hall.hallId) this.hall = undefined
+    else this.hall = hall
+    if (this.movie) this.scheduling = true
     this.updateScheduleList()
   }
 
-  pickMovie(movie: Movie, event: Event) {
-    this.schedulingBlocked = false
-    this.conflictMsg  = false
-    if (this.activeMovieButton) this.activeMovieButton.className = MovieBtnState.NORMAL
+  isSelectedHall(hall: CinemaHall): boolean {
+    return hall.hallId == this.hall?.hallId
+  }
 
-    let button = event.target as HTMLButtonElement
-    if (this.movie && this.movie.movieId == movie.movieId) {
-      this.movie = undefined
-      button.className = MovieBtnState.NORMAL
-    }
+  pickMovie(movie: Movie) {
+    this.schedulingBlocked = false
+    this.conflictMsg = false
+
+    if (this.movie && this.movie.movieId == movie.movieId) this.movie = undefined
     else {
       this.movie = movie
-      button.className = MovieBtnState.HIGHLIGHTED
-      this.activeMovieButton = button
       if (this.hall) this.scheduling = true
     }
     this.highlightRows()
+  }
+
+  isSelectedMovie(movie: Movie): boolean {
+    return movie.movieId == this.movie?.movieId
   }
 
 

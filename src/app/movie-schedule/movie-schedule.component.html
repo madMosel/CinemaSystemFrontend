@@ -1,13 +1,13 @@
 <h1>Scheduler</h1>
 <div class="mother">
     <div class="pick-halls">
-        <div *ngFor="let hall of halls">
-            <button class="btn-hall" (click)="pickHall(hall, $event)">{{hall.hallName}}</button>
+        <div *ngFor="let h of halls">
+            <button [class]="(isSelectedHall(h))?'btn-hall-highlighted':'btn-hall'" (click)="pickHall(h)">{{h.hallName}}</button>
         </div>
     </div>
     <div class="pick-movies">
         <div *ngFor="let movie of movies">
-            <button class="btn-movie" (click)="pickMovie(movie , $event)">{{movie.movieTitle}}</button>
+            <button [class]="(isSelectedMovie(movie))?'btn-movie-highlighted':'btn-movie'" (click)="pickMovie(movie)">{{movie.movieTitle}}</button>
         </div>
     </div>
 
