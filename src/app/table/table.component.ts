@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { TableRows, CellEntry } from './tabelDataInterface';
+import { TableRow, CellEntry } from './tabelDataInterface';
 
 
 @Component({
@@ -8,18 +8,19 @@ import { TableRows, CellEntry } from './tabelDataInterface';
   styleUrls: ['./table.component.css']
 })
 export class TableComponent implements OnChanges{
-  @Input() header? : TableRows
-  @Input() rows : TableRows[] = []
+  @Input() header? : TableRow
+  @Input() rows : TableRow[] = []
   
   
   ngOnChanges(changes: SimpleChanges): void {
 
-    if (this.header && !this.header.clickRow) this.header.clickRow = this.emptyFunktion
+    if (this.header && !this.header.clickRow) this.header.clickRow = this.emptyRow
     for(let row of this.rows) {
-      if (!row.clickRow) row.clickRow = this.emptyFunktion
-      for (let cell of row.cells) if (!cell.clickCell) cell.clickCell = this.emptyFunktion
+      if (!row.clickRow) row.clickRow = this.emptyRow
+      for (let cell of row.cells) if (!cell.clickCell) cell.clickCell = this.emptyCell
     }
   }
 
-  emptyFunktion = (event : Event) => {}
+  emptyRow = (row: TableRow) => {}
+  emptyCell = (cell: CellEntry) => {}
 }

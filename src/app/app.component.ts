@@ -25,7 +25,7 @@ export class AppComponent {
     // console.log(nd.parseToDate())
 
 
-    this.router.navigate(["movie-browser"]);
+    this.router.navigate(["managment-view"]);
   }
 
   navigateToCinemaHallModule() {

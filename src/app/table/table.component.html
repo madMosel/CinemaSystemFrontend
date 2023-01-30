@@ -1,10 +1,8 @@
-<div class="table-background"> 
-    <table>
-        <tr *ngIf="header" class="header.classString">
-            <td *ngFor="let col of header.cells">{{col}}</td>
-        </tr>
-        <tr *ngFor="let row of rows" class="header.classRow" (click)="row?.clickRow($event)">
-            <td *ngFor="let cell of row.cells" class="cell.classCell" (click)="cell?.clickCell($event)">{{cell.value}}</td>
-        </tr>
-    </table>
-</div>
+<table class=".app-table">
+    <tr *ngIf="header" class="header.classString">
+        <td *ngFor="let col of header.cells">{{col}}</td>
+    </tr>
+    <tr *ngFor="let row of rows" [class]="row.classRow" (click)="row?.clickRow(row)">
+        <td *ngFor="let cell of row.cells" [class]="cell.classCell" (click)="cell?.clickCell(cell)">{{cell.value}}</td>
+    </tr>
+</table>

@@ -10,30 +10,22 @@
             <button class="btn-movie" (click)="pickMovie(movie , $event)">{{movie.movieTitle}}</button>
         </div>
     </div>
-    <div class="schedule-list">
-        <table class="schedule-table">
-            <tr *ngFor="let scheduleEntry of scheduleEntries" [class]="scheduleEntry.classString" (click)="markSchedule(scheduleEntry)">
-                <td>{{scheduleEntry.hallString}}</td>
-                <td>{{scheduleEntry.titleString}}</td>
-                <td>{{scheduleEntry.durationString}}min</td>
-                <td>{{scheduleEntry.dateString}}</td>
-            </tr>
-        </table>
-    </div>
-    <div class="add-scedule">
+
+    <app-table [rows]="scheduleTable"></app-table>
+
+    <div class="add-schedule">
         <input type="date" [value]="dateString" (change)="dateSelected($event)">
         <br>
         <input type="time" [value]="timeString" (change)="timeSelected($event)">
         <br>
 
-        <div *ngIf="readyForSchedule">
+        <div *ngIf="scheduling==true && schedulingBlocked==false">
             <br>
             <p>Scheduling movie "{{movie?.movieTitle}}" in hall "{{hall?.hallName}}"</p>
             <button (click)="schedule()">schedule</button>
         </div>
         <p *ngIf="conflictMsg" class="conflict-msg">Conflict with existing schedule!</p>
-        <div *ngIf="scheduleEntryToDelete">
-            <!-- <p>Deleting Schedule of {{scheduleEntry.}}</p> -->
+        <div *ngIf="markedSchedule">
             <button (click)="deleteSchedule()">Delete Schedule</button>
         </div>
     </div>
