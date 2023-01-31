@@ -21,8 +21,8 @@ import { TableRow, CellEntry } from '../table/tabelDataInterface'
 })
 
 export class MovieScheduleComponent {
-  hall?: CinemaHall
-  movie?: Movie
+  hall?: CinemaHall = undefined
+  movie?: Movie = undefined
 
   halls: CinemaHall[] = []
   movies: Movie[] = []
