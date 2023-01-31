@@ -56,7 +56,10 @@ export class MovieScheduleComponent {
     this.schedulingBlocked = false
     this.conflictMsg = false
 
-    if (this.hall && this.hall.hallId == hall.hallId) this.hall = undefined
+    if (this.hall && this.hall.hallId == hall.hallId) {
+      this.hall = undefined
+      this.scheduling = false
+    }
     else this.hall = hall
     if (this.movie) this.scheduling = true
     this.updateScheduleList()
@@ -69,8 +72,11 @@ export class MovieScheduleComponent {
   pickMovie(movie: Movie) {
     this.schedulingBlocked = false
     this.conflictMsg = false
-
-    if (this.movie && this.movie.movieId == movie.movieId) this.movie = undefined
+    
+    if (this.movie && this.movie.movieId == movie.movieId) {
+      this.movie = undefined
+      this.scheduling = false
+    }
     else {
       this.movie = movie
       if (this.hall) this.scheduling = true
