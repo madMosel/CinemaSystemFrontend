@@ -11,3 +11,10 @@ export interface CellEntry {
     clickCell : (cell : CellEntry) => void,
     identifier: any
 } 
+
+export enum TableRowState {
+    HIGHLIGHTED = "table-row-highlighted",
+    NORMAL = "table-row",
+    MARKED = "table-row-marked",
+    CONFLICT = "table-row-conflict"
+  }

@@ -1,18 +1,10 @@
-enum TableRowState {
-  HIGHLIGHTED = "table-row-highlighted",
-  NORMAL = "table-row",
-  MARKED = "table-row-marked",
-  CONFLICT = "table-row-conflict"
-}
-
-
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { CinemaHall } from '../model/cinemaHallInterface';
 import { LocalDatabase } from '../model/localDatabase';
 import { Movie } from '../model/movieInterface';
 import { compareNiceDatesOnTime, NiceDate, niceDateToString } from '../model/niceDateInterface';
 import { compareSchedules, Schedule } from '../model/scheduleInterface';
-import { TableRow, CellEntry } from '../table/tabelDataInterface'
+import { TableRow, CellEntry, TableRowState,  } from '../table/tabelDataInterface'
 
 @Component({
   selector: 'app-movie-schedule',
