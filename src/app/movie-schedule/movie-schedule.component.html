@@ -1,5 +1,5 @@
-<h1>Scheduler</h1>
-<div class="mother">
+<h3>SCHEDULE</h3>
+<div class="mother">    
     <div class="pick-halls">
         <div *ngFor="let h of halls">
             <button [class]="(isSelectedHall(h))?'btn-hall-highlighted':'btn-hall'" (click)="pickHall(h)">{{h.hallName}}</button>
