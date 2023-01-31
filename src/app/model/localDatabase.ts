@@ -11,7 +11,6 @@ import mockSchedules from '../../assets/mockSchedules.json'
 import { LocalChanges } from "./localChangesInterface";
 import { compareNiceDatesOnTime, NiceDate, niceDateAddMinutes } from "./niceDateInterface";
 import { CommonModule } from "@angular/common";
-import { count } from "rxjs";
 
 export enum OperationFeedback {
     OK = "OK",
@@ -56,26 +55,10 @@ export class LocalDatabase {
 
     private minutesOffset: number = 15
 
-
     constructor() {
         this.logCounter()
         this.load()
     }
-
-    // constructor(@Optional() @SkipSelf() parentModule?: DatabaseModule) {
-    //     if (parentModule) {
-    //         throw new Error(
-    //             'DatabaseModule is already loaded. Import it in the AppModule only');
-    //     }
-    //     this.createMaps()
-    // }
-
-    // static forRoot(): ModuleWithProviders<DatabaseModule> {
-    //     return {
-    //       ngModule: LocalDatabase,
-    //       providers: [{ provide: }]
-    //     };
-    //   }
 
     async loadHallsFromServer() {
         this.halls = mockCinemas as CinemaHall[]
@@ -98,6 +81,7 @@ export class LocalDatabase {
         this.loadMoviesFromServer()
         this.loadSchedulesFromServer()
         this.loadTicketsFromServer()
+        this.createMaps()
     }
 
 
