@@ -2,21 +2,45 @@
     {
         "hallId": 1,
         "movieId": 1,
-        "dateTime": "2020-11-2 21:0"
+        "dateTime": {
+            "year": 2020,
+            "month": 12,
+            "day": 1,
+            "hour": 21,
+            "minute": 0
+        }
     },
     {
         "hallId": 1,
         "movieId": 2,
-        "dateTime": "2020-11-2 19:0"
+        "dateTime": {
+            "year": 2020,
+            "month": 12,
+            "day": 1,
+            "hour": 18,
+            "minute": 59
+        }
     },
     {
         "hallId": 2,
         "movieId": 2,
-        "dateTime": "2020-11-2 21:0"
+        "dateTime": {
+            "year": 2020,
+            "month": 12,
+            "day": 1,
+            "hour": 18,
+            "minute": 59
+        }
     },
     {
         "hallId": 2,
         "movieId": 1,
-        "dateTime": "2020-11-2 19:0"
+        "dateTime": {
+            "year": 2020,
+            "month": 12,
+            "day": 1,
+            "hour": 21,
+            "minute": 0
+        }
     }
 ]

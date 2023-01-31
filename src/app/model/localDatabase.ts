@@ -7,6 +7,7 @@ import { UserAccount } from "./userAccountInterface";
 
 import mockCinemas from '../../assets/mockCinemas.json';
 import mockMovies from '../../assets/mockMovies.json'
+import mockSchedules from '../../assets/mockSchedules.json'
 import { LocalChanges } from "./localChangesInterface";
 import { compareNiceDatesOnTime, NiceDate, niceDateAddMinutes } from "./niceDateInterface";
 
@@ -28,14 +29,14 @@ export enum OperationFeedback {
 
 export class LocalDatabase {
 
-    private cinemaHalls: CinemaHall[] = []
+    private halls: CinemaHall[] = []
     private movies: Movie[] = []
     private schedules: Schedule[] = []
     private localUser?: UserAccount
     private tickets: Ticket[] = []
     private changes: LocalChanges = {
+        halls: [], movies: [], schedules: [],
         deleteHalls: [], deleteMovies: [], deleteSchedules: [],
-        newHalls: [], newMovies: [], newSchedules: [],
         newHallCounter: -1, newMovieCounter: -1
     } as LocalChanges
 
@@ -51,7 +52,7 @@ export class LocalDatabase {
     }
 
     async loadHallsFromServer() {
-        this.cinemaHalls = mockCinemas as CinemaHall[]
+        this.halls = mockCinemas as CinemaHall[]
     }
 
     async loadMoviesFromServer() {
@@ -59,7 +60,7 @@ export class LocalDatabase {
     }
 
     async loadSchedulesFromServer() {
-        this.schedules = [] as Schedule[]
+        this.schedules = mockSchedules as Schedule[]
     }
 
     async loadTicketsFromServer() {
@@ -69,7 +70,7 @@ export class LocalDatabase {
 
     async loadHalls() {
         if (!localStorage.getItem("dbData")) this.loadHallsFromServer()
-        else this.cinemaHalls = JSON.parse(localStorage.getItem("dbData-halls")!) as CinemaHall[]
+        else this.halls = JSON.parse(localStorage.getItem("dbData-halls")!) as CinemaHall[]
         this.createHallMap()
     }
 
@@ -106,7 +107,7 @@ export class LocalDatabase {
         console.log("clear")
         localStorage.clear()
         localStorage.setItem("dbData", "has data")
-        localStorage.setItem("dbData-halls", JSON.stringify(this.cinemaHalls))
+        localStorage.setItem("dbData-halls", JSON.stringify(this.halls))
         localStorage.setItem("dbData-movies", JSON.stringify(this.movies))
         localStorage.setItem("dbData-schedules", JSON.stringify(this.schedules))
         localStorage.setItem("dbData-tickets", JSON.stringify(this.tickets))
@@ -117,13 +118,13 @@ export class LocalDatabase {
 
     public getHallById(hallId: number): CinemaHall | null {
         this.loadHalls()
-        for (let hall of this.cinemaHalls) if (hall.hallId === hallId) return { ...hall }
+        for (let hall of this.halls) if (hall.hallId === hallId) return { ...hall }
         return null;
     }
 
     public getHalls(): CinemaHall[] {
         this.loadHalls()
-        let cinemHallsCopy: CinemaHall[] = [...this.cinemaHalls]
+        let cinemHallsCopy: CinemaHall[] = [...this.halls]
         return cinemHallsCopy
     }
 
@@ -167,15 +168,84 @@ export class LocalDatabase {
         return filtered
     }
 
-    public putHall(hall: CinemaHall): OperationFeedback {
-        if (hall.hallId != 0) return OperationFeedback.HAS_INDEX
+    public putHall(hall: CinemaHall) {
         this.load()
-        hall.hallId = this.changes.newHallCounter--
-        this.cinemaHalls.push(hall)
-        this.changes.newHalls.push(hall)
+        if (hall.hallId == 0) hall.hallId = this.changes.newHallCounter--
+        this.findAndReplaceElseAddHall(hall)
+        this.updateStorage()
+    }
+
+
+    deleteHall(hall: CinemaHall): OperationFeedback {
+        this.load()
+        for (let schedule of this.schedules) if (schedule.hallId == hall.hallId) {
+            console.log(schedule)
+            return OperationFeedback.HAS_REFERING_OBJECTS
+        }
+        for (let ticket of this.tickets) if (ticket.schedule.hallId == hall.hallId) return OperationFeedback.HAS_REFERING_OBJECTS
+
+        this.findAndRemoveHall(hall)
+        if (hall.hallId > 0) this.changes.deleteHalls.push(hall)
+
         this.updateStorage()
         return OperationFeedback.OK
+
     }
+
+
+
+
+    // public compareDates(a: Date, b: Date): number {
+    //     if (a.getFullYear() != b.getFullYear()) return b.getFullYear() - a.getFullYear()
+    //     if (a.getMonth() != b.getMonth()) return b.getMonth() - a.getMonth()
+    //     if (b.getDay() != a.getDay()) return b.getDay() - a.getDay()
+    //     if (b.getHours() != a.getHours()) return b.getHours() - a.getHours()
+    //     return b.getSeconds() - a.getSeconds()
+    // }
+
+    public putTicket(ticket: Ticket): OperationFeedback {
+        return OperationFeedback.NOT_IMPLEMENTED
+    }
+
+
+    public putMovie(movie: Movie) {
+        /*
+         * is created                       => put it in movies and add to changes.movies
+         * is edited and new                => exchange it in movies and exchange changes.movies
+         * is edited first and exists       => exchange it in movies and add add to changes.movies
+         * is edited further and exists     => exchange it in movies and exchagne in change.movie
+         */
+
+        this.load()
+        if (movie.movieId == 0) movie.movieId = this.changes.newMovieCounter--
+        this.findAndReplaceElseAddMovie(movie)
+        this.updateStorage()
+    }
+
+    deleteMovie(movie: Movie) {
+        /*
+         * 1. check for refering objects
+         * 2.:
+         *    is new                  => delete from movies and change.movies
+         *    exists and unchanged    => remove from movies and change.movies
+         *    exists and changed      => remove from movies and change.movies and add to change.deleteMovies
+         */
+
+        this.load()
+        for (let schedule of this.schedules) if (schedule.movieId == movie.movieId) {
+            console.log(schedule)
+            return OperationFeedback.HAS_REFERING_OBJECTS
+        }
+        for (let ticket of this.tickets) if (ticket.schedule.movieId == movie.movieId) return OperationFeedback.HAS_REFERING_OBJECTS
+
+        this.findAndRemoveMovie(movie)
+        if (movie.movieId > 0) this.changes.deleteMovies.push(movie)
+
+        this.updateStorage()
+        return OperationFeedback.OK
+
+    }
+
 
     /**
      * Puts the schedule in the local Database if no conflicts detected
@@ -205,32 +275,11 @@ export class LocalDatabase {
             }
         }
         this.schedules.push(schedule)
-        this.changes.newSchedules.push(schedule)
+        this.changes.schedules.push(schedule)
         this.updateStorage()
         return null
     }
 
-    public putMovie (movie: Movie) {
-        if (movie.movieId != 0) return OperationFeedback.HAS_INDEX
-        this.load()
-        movie.movieId = this.changes.newHallCounter--
-        this.movies.push(movie)
-        this.changes.newMovies.push(movie)
-        this.updateStorage()
-        return OperationFeedback.OK
-    }
-
-    public compareDates(a: Date, b: Date): number {
-        if (a.getFullYear() != b.getFullYear()) return b.getFullYear() - a.getFullYear()
-        if (a.getMonth() != b.getMonth()) return b.getMonth() - a.getMonth()
-        if (b.getDay() != a.getDay()) return b.getDay() - a.getDay()
-        if (b.getHours() != a.getHours()) return b.getHours() - a.getHours()
-        return b.getSeconds() - a.getSeconds()
-    }
-
-    public putTicket(ticket: Ticket): OperationFeedback {
-        return OperationFeedback.NOT_IMPLEMENTED
-    }
 
     public deleteSchedule(schedule: Schedule) {
         this.loadSchedules()
@@ -238,9 +287,9 @@ export class LocalDatabase {
             this.schedules.splice(this.schedules.indexOf(s, 0), 1)
 
             let foundInChanges = false
-            for (let ns of this.changes.newSchedules) if (compareSchedules(ns, schedule)) {
+            for (let ns of this.changes.schedules) if (compareSchedules(ns, schedule)) {
                 foundInChanges = true
-                this.changes.newSchedules.splice(this.changes.newSchedules.indexOf(ns), 1)
+                this.changes.schedules.splice(this.changes.schedules.indexOf(ns), 1)
                 break
             }
             if (!foundInChanges) this.changes.deleteSchedules.push(schedule)
@@ -250,57 +299,6 @@ export class LocalDatabase {
         }
     }
 
-    deleteMovie(movie: Movie): OperationFeedback {
-        this.load()
-        for (let schedule of this.schedules) if (schedule.movieId == movie.movieId) {
-            console.log(schedule)
-            return OperationFeedback.HAS_REFERING_OBJECTS
-        }
-        for (let ticket of this.tickets) if (ticket.schedule.movieId == movie.movieId) return OperationFeedback.HAS_REFERING_OBJECTS
-
-        for (let m of this.movies) if (compareMovies(m, movie)) {
-            this.movies.splice(this.movies.indexOf(m), 1)
-
-            if (m.movieId < 0) {
-                for (let newMovie of this.changes.newMovies) if (newMovie.movieId == m.movieId) {
-                    this.changes.newMovies.splice(this.changes.newMovies.indexOf(newMovie), 1)
-                }
-            }
-            else if (m.movieId > 0) {
-                this.changes.deleteMovies.push(m)
-            }
-
-            this.updateStorage()
-            return OperationFeedback.OK
-        }
-        return OperationFeedback.NO_SUCH_MOVIE
-    }
-
-    deleteHall(hall: CinemaHall): OperationFeedback {
-        this.load()
-        for (let schedule of this.schedules) if (schedule.hallId == hall.hallId) {
-            console.log(schedule)
-            return OperationFeedback.HAS_REFERING_OBJECTS
-        }
-        for (let ticket of this.tickets) if (ticket.schedule.hallId == hall.hallId) return OperationFeedback.HAS_REFERING_OBJECTS
-
-        for (let h of this.cinemaHalls) if (h.hallId == hall.hallId) {
-            this.cinemaHalls.splice(this.cinemaHalls.indexOf(h, 0), 1)
-
-            if (h.hallId < 0) {
-                for (let newHall of this.changes.newHalls) if (newHall.hallId == h.hallId) {
-                    this.changes.newHalls.splice(this.changes.newHalls.indexOf(newHall, 0), 1)
-                }
-            }
-            else if (h.hallId > 0) {
-                this.changes.deleteHalls.push(h)
-            }
-
-            this.updateStorage()
-            return OperationFeedback.OK
-        }
-        return OperationFeedback.NO_SUCH_HALL
-    }
 
     createMovieMap() {
         this.movieMap = new Map
@@ -309,12 +307,45 @@ export class LocalDatabase {
 
     createHallMap() {
         this.hallMap = new Map
-        for (let hall of this.cinemaHalls) this.hallMap.set(hall.hallId, hall)
+        for (let hall of this.halls) this.hallMap.set(hall.hallId, hall)
     }
 
 
     createMaps() {
         this.createHallMap()
         this.createMovieMap()
+    }
+
+
+
+
+    findAndReplaceElseAddHall(hall: CinemaHall) {
+        this.findAndRemoveHall(hall)
+        this.changes.halls.push(hall)
+        this.halls.push(hall)
+    }
+
+    findAndRemoveHall(hall: CinemaHall) {
+        for (let h of this.halls) if (h.hallId == hall.hallId) {
+            this.changes.halls.splice(this.changes.halls.indexOf(h), 1)
+        }
+        for (let m of this.halls) if (m.hallId == hall.hallId) {
+            this.halls.splice(this.halls.indexOf(m), 1)
+        }
+    }
+
+    findAndReplaceElseAddMovie(movie: Movie) {
+        this.findAndRemoveMovie(movie)
+        this.changes.movies.push(movie)
+        this.movies.push(movie)
+    }
+
+    findAndRemoveMovie(movie: Movie) {
+        for (let m of this.movies) if (m.movieId == movie.movieId) {
+            this.changes.movies.splice(this.changes.movies.indexOf(m), 1)
+        }
+        for (let m of this.movies) if (m.movieId == movie.movieId) {
+            this.movies.splice(this.movies.indexOf(m), 1)
+        }
     }
 }
