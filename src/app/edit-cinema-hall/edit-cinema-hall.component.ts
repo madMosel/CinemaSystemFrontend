@@ -81,7 +81,7 @@ export class EditCinemaHallComponent implements OnChanges {
           row.push(this.cinemaHall.seats[numRow][numCol])
         }
         else {
-          row.push(new Seat(this.cinemaHall.hallId, counter, SeatCategory.Normal, false));
+          row.push(new Seat(counter, SeatCategory.Normal, false));
         }
       }
       seats.push(row)

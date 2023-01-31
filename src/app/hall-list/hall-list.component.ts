@@ -35,7 +35,7 @@ export class HallListComponent {
   }
 
   createNewHall() {
-    let seat: Seat = new Seat(-1, 1, SeatCategory.Normal, false)
+    let seat: Seat = new Seat(1, SeatCategory.Normal, false)
     let seats: Seat[][] = [[seat]]
     this.activeHall = new CinemaHall(0, "hall name", seats, false, false, false)
     this.editingHall = true
