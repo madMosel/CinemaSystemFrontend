@@ -1,4 +1,4 @@
-import { Injectable, OnDestroy, OnInit } from "@angular/core";
+import { Injectable, ModuleWithProviders, NgModule, OnDestroy, OnInit, Optional, SkipSelf } from "@angular/core";
 import { CinemaHall } from "./cinemaHallInterface";
 import { compareMovies, Movie } from "./movieInterface";
 import { compareSchedules, Schedule } from "./scheduleInterface";
@@ -10,6 +10,8 @@ import mockMovies from '../../assets/mockMovies.json'
 import mockSchedules from '../../assets/mockSchedules.json'
 import { LocalChanges } from "./localChangesInterface";
 import { compareNiceDatesOnTime, NiceDate, niceDateAddMinutes } from "./niceDateInterface";
+import { CommonModule } from "@angular/common";
+import { count } from "rxjs";
 
 export enum OperationFeedback {
     OK = "OK",
@@ -25,9 +27,16 @@ export enum OperationFeedback {
     providedIn: 'root',
 })
 
+@NgModule({
+    imports: [CommonModule]
+})
+
 
 
 export class LocalDatabase {
+    public static counter: number = 0;
+
+    public logCounter () {console.log(LocalDatabase.counter++)}
 
     private halls: CinemaHall[] = []
     private movies: Movie[] = []
@@ -47,9 +56,26 @@ export class LocalDatabase {
 
     private minutesOffset: number = 15
 
+
     constructor() {
-        this.createMaps()
+        this.logCounter()
+        this.load()
     }
+
+    // constructor(@Optional() @SkipSelf() parentModule?: DatabaseModule) {
+    //     if (parentModule) {
+    //         throw new Error(
+    //             'DatabaseModule is already loaded. Import it in the AppModule only');
+    //     }
+    //     this.createMaps()
+    // }
+
+    // static forRoot(): ModuleWithProviders<DatabaseModule> {
+    //     return {
+    //       ngModule: LocalDatabase,
+    //       providers: [{ provide: }]
+    //     };
+    //   }
 
     async loadHallsFromServer() {
         this.halls = mockCinemas as CinemaHall[]
@@ -67,102 +93,61 @@ export class LocalDatabase {
 
     }
 
-
-    async loadHalls() {
-        if (!localStorage.getItem("dbData")) this.loadHallsFromServer()
-        else this.halls = JSON.parse(localStorage.getItem("dbData-halls")!) as CinemaHall[]
-        this.createHallMap()
-    }
-
-    async loadMovies() {
-        if (!localStorage.getItem("dbData")) this.loadMoviesFromServer()
-        else this.movies = JSON.parse(localStorage.getItem("dbData-movies")!)
-        this.createMovieMap()
-    }
-
-    async loadSchedules() {
-        if (!localStorage.getItem("dbData")) this.loadSchedulesFromServer()
-        else this.schedules = JSON.parse(localStorage.getItem("dbData-schedules")!)
-    }
-
-    async loadTickets() {
-        if (!localStorage.getItem("dbData")) this.loadTicketsFromServer()
-        else this.tickets = []
-    }
-
-    loadChanges() {
-        if (localStorage.getItem("dbData")) this.changes = JSON.parse(localStorage.getItem("dbData-changes")!)
-    }
-
     async load() {
-        this.loadHalls()
-        this.loadMovies()
-        this.loadSchedules()
-        this.loadTickets()
-        this.loadChanges()
-    }
-
-
-    updateStorage(): void {
-        console.log("clear")
-        localStorage.clear()
-        localStorage.setItem("dbData", "has data")
-        localStorage.setItem("dbData-halls", JSON.stringify(this.halls))
-        localStorage.setItem("dbData-movies", JSON.stringify(this.movies))
-        localStorage.setItem("dbData-schedules", JSON.stringify(this.schedules))
-        localStorage.setItem("dbData-tickets", JSON.stringify(this.tickets))
-        if (this.localUser) localStorage.setItem("dbData-user", JSON.stringify(this.localUser))
-        localStorage.setItem("dbData-changes", JSON.stringify(this.changes))
+        this.loadHallsFromServer()
+        this.loadMoviesFromServer()
+        this.loadSchedulesFromServer()
+        this.loadTicketsFromServer()
     }
 
 
     public getHallById(hallId: number): CinemaHall | null {
-        this.loadHalls()
+        
         for (let hall of this.halls) if (hall.hallId === hallId) return { ...hall }
         return null;
     }
 
     public getHalls(): CinemaHall[] {
-        this.loadHalls()
+        
         let cinemHallsCopy: CinemaHall[] = [...this.halls]
         return cinemHallsCopy
     }
 
     public getMovieById(movieId: number): Movie | null {
-        this.loadMovies()
+        
         for (let movie of this.movies) if (movie.movieId === movieId) return { ...movie }
         return null
     }
 
     public getMovies(): Movie[] {
-        this.loadMovies()
+        
         let moviesCopy: Movie[] = [...this.movies]
         return moviesCopy
     }
 
     public getSchedulesOfHall(hallId: number): Schedule[] {
-        this.loadHalls()
-        this.loadSchedules()
+        
+        
         let hallSchedules: Schedule[] = []
         for (let schedule of this.schedules) if (schedule.hallId === hallId) hallSchedules.push({ ...schedule })
         return hallSchedules
     }
 
     public getSchedulesOfMovie(movieId: number): Schedule[] {
-        this.loadHalls()
-        this.loadSchedules()
+        
+        
         let movieSchedules: Schedule[] = []
         for (let schedule of this.schedules) if (schedule.movieId === movieId) movieSchedules.push({ ...schedule })
         return movieSchedules
     }
 
     public getSchedules(): Schedule[] {
-        this.loadSchedules()
+        
         return this.schedules
     }
 
     public filterSchedulesByHallId(schedules: Schedule[], hallId: number): Schedule[] {
-        this.loadSchedules()
+        
         let filtered: Schedule[] = []
         for (let schedule of schedules) if (schedule.hallId == hallId) filtered.push(schedule)
         return filtered
@@ -172,7 +157,7 @@ export class LocalDatabase {
         this.load()
         if (hall.hallId == 0) hall.hallId = this.changes.newHallCounter--
         this.findAndReplaceElseAddHall(hall)
-        this.updateStorage()
+        
     }
 
 
@@ -187,21 +172,11 @@ export class LocalDatabase {
         this.findAndRemoveHall(hall)
         if (hall.hallId > 0) this.changes.deleteHalls.push(hall)
 
-        this.updateStorage()
+        
         return OperationFeedback.OK
 
     }
 
-
-
-
-    // public compareDates(a: Date, b: Date): number {
-    //     if (a.getFullYear() != b.getFullYear()) return b.getFullYear() - a.getFullYear()
-    //     if (a.getMonth() != b.getMonth()) return b.getMonth() - a.getMonth()
-    //     if (b.getDay() != a.getDay()) return b.getDay() - a.getDay()
-    //     if (b.getHours() != a.getHours()) return b.getHours() - a.getHours()
-    //     return b.getSeconds() - a.getSeconds()
-    // }
 
     public putTicket(ticket: Ticket): OperationFeedback {
         return OperationFeedback.NOT_IMPLEMENTED
@@ -219,7 +194,7 @@ export class LocalDatabase {
         this.load()
         if (movie.movieId == 0) movie.movieId = this.changes.newMovieCounter--
         this.findAndReplaceElseAddMovie(movie)
-        this.updateStorage()
+        
     }
 
     deleteMovie(movie: Movie) {
@@ -241,7 +216,7 @@ export class LocalDatabase {
         this.findAndRemoveMovie(movie)
         if (movie.movieId > 0) this.changes.deleteMovies.push(movie)
 
-        this.updateStorage()
+        
         return OperationFeedback.OK
 
     }
@@ -253,7 +228,7 @@ export class LocalDatabase {
      * @returns null on Succes, a copy of the conflicting Schedule on error
      */
     public putSchedule(schedule: Schedule): Schedule | null {
-        this.loadSchedules()
+        
         let schedulesOfHall = this.filterSchedulesByHallId(this.schedules, schedule.hallId)
         let newStart: NiceDate = schedule.dateTime
         let newEnd: NiceDate = niceDateAddMinutes(newStart, this.movieMap!.get(schedule.movieId)!.duration)
@@ -276,13 +251,12 @@ export class LocalDatabase {
         }
         this.schedules.push(schedule)
         this.changes.schedules.push(schedule)
-        this.updateStorage()
+        
         return null
     }
 
 
     public deleteSchedule(schedule: Schedule) {
-        this.loadSchedules()
         for (let s of this.schedules) if (compareSchedules(schedule, s)) {
             this.schedules.splice(this.schedules.indexOf(s, 0), 1)
 
@@ -293,12 +267,9 @@ export class LocalDatabase {
                 break
             }
             if (!foundInChanges) this.changes.deleteSchedules.push(schedule)
-
-            this.updateStorage()
             return
         }
     }
-
 
     createMovieMap() {
         this.movieMap = new Map
@@ -315,9 +286,6 @@ export class LocalDatabase {
         this.createHallMap()
         this.createMovieMap()
     }
-
-
-
 
     findAndReplaceElseAddHall(hall: CinemaHall) {
         this.findAndRemoveHall(hall)

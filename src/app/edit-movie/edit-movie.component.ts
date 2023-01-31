@@ -9,7 +9,7 @@ import { Rating, Stars } from '../model/ratingInterface';
   styleUrls: ['./edit-movie.component.css']
 })
 export class EditMovieComponent {
-  localDatabase: LocalDatabase
+  // localDatabase: LocalDatabase
   @Input() movie: Movie = dummyMovie
   @Input() onCreate : () => void = () => {}
 
@@ -22,9 +22,9 @@ export class EditMovieComponent {
   description: string = dummyMovie.description
 
   constructor(
-    localDatabase : LocalDatabase
+    public localDatabase : LocalDatabase
   ) {
-    this.localDatabase = localDatabase
+    // this.localDatabase = localDatabase
     this.updateMovieModel()
   }
 
@@ -65,7 +65,8 @@ export class EditMovieComponent {
   }
 
   updateDatabase() {
-    this.localDatabase.putMovie(this.movie)
+    this.localDatabase.logCounter()
+    // this.localDatabase.putMovie(this.movie)
     this.onCreate()
   }
 }

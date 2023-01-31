@@ -8,7 +8,6 @@ import { LocalDatabase, OperationFeedback } from '../model/localDatabase';
   selector: 'app-hall-list',
   templateUrl: './hall-list.component.html',
   styleUrls: ['./hall-list.component.css'],
-  providers: [LocalDatabase]
 })
 
 
@@ -43,7 +42,6 @@ export class HallListComponent {
 
   deleteHall(hall: CinemaHall) {
     this.deletationConflicts = false
-    console.log("deleting " + hall.hallId + " " + hall.hallName + "...")
     let feedback: OperationFeedback = this.localDatabase.deleteHall(hall)
     switch (feedback) {
       case OperationFeedback.HAS_REFERING_OBJECTS:

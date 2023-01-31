@@ -1,13 +1,3 @@
-enum HallBtnState {
-  HIGHLIGHTED = "btn-hall-highlighted",
-  NORMAL = "btn-hall"
-}
-
-enum MovieBtnState {
-  HIGHLIGHTED = "btn-movie-highlighted",
-  NORMAL = "btn-movie"
-}
-
 enum TableRowState {
   HIGHLIGHTED = "table-row-highlighted",
   NORMAL = "table-row",
@@ -31,7 +21,6 @@ import { TableRow, CellEntry } from '../table/tabelDataInterface'
 })
 
 export class MovieScheduleComponent {
-  localDatabase: LocalDatabase
   hall?: CinemaHall
   movie?: Movie
 
@@ -56,10 +45,8 @@ export class MovieScheduleComponent {
 
 
   constructor(
-    localDatabase: LocalDatabase
+    private localDatabase: LocalDatabase
   ) {
-    console.log("constructor")
-    this.localDatabase = localDatabase
     this.load()
   }
 
