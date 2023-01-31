@@ -33,7 +33,13 @@ export class LocalDatabase {
     private schedules: Schedule[] = []
     private localUser?: UserAccount
     private tickets: Ticket[] = []
-    private changes: LocalChanges = { halls: [], movies: [], schedules: [] } as LocalChanges
+    private changes: LocalChanges = {
+        deleteHalls: [], deleteMovies: [], deleteSchedules: [],
+        newHalls: [], newMovies: [], newSchedules: [],
+        newHallCounter: -1, newMovieCounter: -1
+    } as LocalChanges
+
+    
 
     private hallMap?: Map<number, CinemaHall>
     private movieMap?: Map<number, Movie>
@@ -164,8 +170,9 @@ export class LocalDatabase {
     public putHall(hall: CinemaHall): OperationFeedback {
         if (hall.hallId != 0) return OperationFeedback.HAS_INDEX
         this.load()
+        hall.hallId = this.changes.newHallCounter--
         this.cinemaHalls.push(hall)
-        this.changes.halls.push(hall)
+        this.changes.newHalls.push(hall)
         this.updateStorage()
         return OperationFeedback.OK
     }
@@ -198,7 +205,7 @@ export class LocalDatabase {
             }
         }
         this.schedules.push(schedule)
-        this.changes.schedules.push(schedule)
+        this.changes.newSchedules.push(schedule)
         this.updateStorage()
         return null
     }
@@ -251,6 +258,16 @@ export class LocalDatabase {
 
         for (let h of this.cinemaHalls) if (h.hallId == hall.hallId) {
             this.cinemaHalls.splice(this.cinemaHalls.indexOf(h, 0), 1)
+            
+            if (h.hallId < 0) {
+                for (let newHall of this.changes.newHalls) if (newHall.hallId == h.hallId) {
+                    this.changes.newHalls.splice(this.changes.newHalls.indexOf(newHall, 0), 1)
+                }
+            }
+            else if (h.hallId > 0) {
+                this.changes.deleteHalls.push(h)
+            }
+            
             this.updateStorage()
             return OperationFeedback.OK
         }

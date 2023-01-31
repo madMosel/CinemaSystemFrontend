@@ -1,4 +1,3 @@
-import { scheduled } from "rxjs"
 import { compeareNiceDatesOnEquality, NiceDate} from "./niceDateInterface"
 
 export interface Schedule {
@@ -17,13 +16,4 @@ export interface Schedule {
 export function compareSchedules(a: Schedule, b: Schedule): boolean {
     return a.hallId == b.hallId && a.movieId == b.movieId 
     && compeareNiceDatesOnEquality(a.dateTime, b.dateTime)
-}
-
-export interface ScheduleEntry {
-    hallString: string,
-    titleString: string,
-    durationString: string,
-    dateString: string,
-    classString: string,
-    index: number,
 }

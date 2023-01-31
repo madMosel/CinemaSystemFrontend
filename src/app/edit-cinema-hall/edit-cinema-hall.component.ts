@@ -21,6 +21,7 @@ export class EditCinemaHallComponent implements OnChanges {
 
   toolActive: boolean = false
   toolType: SeatCategory = SeatCategory.Normal
+  @Input() onCreate : () => void = () => {}
 
 
   // add flags or enum of states
@@ -134,6 +135,7 @@ export class EditCinemaHallComponent implements OnChanges {
 
   updateDatabase() {
     this.localDatabase.putHall(this.cinemaHall)
+    this.onCreate()
   }
 
   // public setCinemaHall = (cinemaHall: CinemaHall) => {

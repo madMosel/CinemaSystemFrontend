@@ -14,9 +14,8 @@ import { LocalDatabase, OperationFeedback } from '../model/localDatabase';
 
 
 export class HallListComponent {
-  static idCounter : number = -1
 
-  cinemaHalls: CinemaHall[]
+  cinemaHalls: CinemaHall[] = []
   activeHall: CinemaHall = dummyCinemaHall
   editingHall: boolean = false
   scheduling : boolean = false
@@ -26,7 +25,7 @@ export class HallListComponent {
   constructor(
     private localDatabase : LocalDatabase
   ) {
-    this.cinemaHalls = this.localDatabase.getHalls()
+     this.loadHalls()
   }
 
   editCinemaHall(cinemaHall: CinemaHall) {
@@ -38,7 +37,7 @@ export class HallListComponent {
   createNewHall() {
     let seat: Seat = new Seat(-1, 1, SeatCategory.Normal, false)
     let seats: Seat[][] = [[seat]]
-    this.activeHall = new CinemaHall(-1, "hall name", seats, false, false, false)
+    this.activeHall = new CinemaHall(0, "hall name", seats, false, false, false)
     this.editingHall = true
   }
 
@@ -55,5 +54,9 @@ export class HallListComponent {
         break
     }
     console.log(feedback)
+    }
+
+    loadHalls = () : void => {
+      this.cinemaHalls = this.localDatabase.getHalls()
     }
 }
