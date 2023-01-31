@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { LocalDatabase } from '../model/localDatabase';
 import { dummyMovie, Movie } from '../model/movieInterface';
 import { Rating, Stars } from '../model/ratingInterface';
 
@@ -8,7 +9,9 @@ import { Rating, Stars } from '../model/ratingInterface';
   styleUrls: ['./edit-movie.component.css']
 })
 export class EditMovieComponent {
+  localDatabase: LocalDatabase
   @Input() movie: Movie = dummyMovie
+  @Input() onCreate : () => void = () => {}
 
   title: string = dummyMovie.movieTitle
   age: number = dummyMovie.age
@@ -18,7 +21,10 @@ export class EditMovieComponent {
   ratings: Rating[] = dummyMovie.ratings
   description: string = dummyMovie.description
 
-  constructor() {
+  constructor(
+    localDatabase : LocalDatabase
+  ) {
+    this.localDatabase = localDatabase
     this.updateMovieModel()
   }
 
@@ -58,7 +64,8 @@ export class EditMovieComponent {
     this.movie = new Movie(this.movie.movieId, this.title, this.age, this.duration, this.movie.poster, this.description, this.movie.ratings, this.movie.price)
   }
 
-  printMovieToJson() {
-    console.log(JSON.stringify(this.movie));
+  updateDatabase() {
+    this.localDatabase.putMovie(this.movie)
+    this.onCreate()
   }
 }

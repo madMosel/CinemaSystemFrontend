@@ -39,7 +39,7 @@ export class LocalDatabase {
         newHallCounter: -1, newMovieCounter: -1
     } as LocalChanges
 
-    
+
 
     private hallMap?: Map<number, CinemaHall>
     private movieMap?: Map<number, Movie>
@@ -103,7 +103,7 @@ export class LocalDatabase {
 
 
     updateStorage(): void {
-        console.log("cleared...")
+        console.log("clear")
         localStorage.clear()
         localStorage.setItem("dbData", "has data")
         localStorage.setItem("dbData-halls", JSON.stringify(this.cinemaHalls))
@@ -210,6 +210,16 @@ export class LocalDatabase {
         return null
     }
 
+    public putMovie (movie: Movie) {
+        if (movie.movieId != 0) return OperationFeedback.HAS_INDEX
+        this.load()
+        movie.movieId = this.changes.newHallCounter--
+        this.movies.push(movie)
+        this.changes.newMovies.push(movie)
+        this.updateStorage()
+        return OperationFeedback.OK
+    }
+
     public compareDates(a: Date, b: Date): number {
         if (a.getFullYear() != b.getFullYear()) return b.getFullYear() - a.getFullYear()
         if (a.getMonth() != b.getMonth()) return b.getMonth() - a.getMonth()
@@ -226,8 +236,16 @@ export class LocalDatabase {
         this.loadSchedules()
         for (let s of this.schedules) if (compareSchedules(schedule, s)) {
             this.schedules.splice(this.schedules.indexOf(s, 0), 1)
+
+            let foundInChanges = false
+            for (let ns of this.changes.newSchedules) if (compareSchedules(ns, schedule)) {
+                foundInChanges = true
+                this.changes.newSchedules.splice(this.changes.newSchedules.indexOf(ns), 1)
+                break
+            }
+            if (!foundInChanges) this.changes.deleteSchedules.push(schedule)
+
             this.updateStorage()
-            console.log("deleted")
             return
         }
     }
@@ -241,7 +259,17 @@ export class LocalDatabase {
         for (let ticket of this.tickets) if (ticket.schedule.movieId == movie.movieId) return OperationFeedback.HAS_REFERING_OBJECTS
 
         for (let m of this.movies) if (compareMovies(m, movie)) {
-            this.movies.splice(this.movies.indexOf(m, 0), 1)
+            this.movies.splice(this.movies.indexOf(m), 1)
+
+            if (m.movieId < 0) {
+                for (let newMovie of this.changes.newMovies) if (newMovie.movieId == m.movieId) {
+                    this.changes.newMovies.splice(this.changes.newMovies.indexOf(newMovie), 1)
+                }
+            }
+            else if (m.movieId > 0) {
+                this.changes.deleteMovies.push(m)
+            }
+
             this.updateStorage()
             return OperationFeedback.OK
         }
@@ -258,7 +286,7 @@ export class LocalDatabase {
 
         for (let h of this.cinemaHalls) if (h.hallId == hall.hallId) {
             this.cinemaHalls.splice(this.cinemaHalls.indexOf(h, 0), 1)
-            
+
             if (h.hallId < 0) {
                 for (let newHall of this.changes.newHalls) if (newHall.hallId == h.hallId) {
                     this.changes.newHalls.splice(this.changes.newHalls.indexOf(newHall, 0), 1)
@@ -267,7 +295,7 @@ export class LocalDatabase {
             else if (h.hallId > 0) {
                 this.changes.deleteHalls.push(h)
             }
-            
+
             this.updateStorage()
             return OperationFeedback.OK
         }

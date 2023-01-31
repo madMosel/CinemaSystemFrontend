@@ -12,7 +12,7 @@ import { Observable } from 'rxjs';
 export class MovieListComponent {
   localDatabase: LocalDatabase
 
-  movies: Movie[]
+  movies: Movie[] = []
   activeMovie: Movie = dummyMovie
 
   editingMovie: boolean = false
@@ -23,7 +23,7 @@ export class MovieListComponent {
     localDatabase: LocalDatabase
   ) {
     this.localDatabase = localDatabase
-    this.movies = this.localDatabase.getMovies()
+    this.loadMovies()
   }
 
   editMovie(movie: Movie) {
@@ -34,7 +34,7 @@ export class MovieListComponent {
   }
 
   createNewMovie() {
-    this.activeMovie = new Movie(-1, "new Movie", 0, 0, "/assets/ft the fishing turnament .jpeg", "enter description", [], 10)
+    this.activeMovie = new Movie(0, "new Movie", 0, 0, "/assets/ft the fishing turnament .jpeg", "enter description", [], 10)
     this.schedulingMovie = false
     this.deletationConflicts = false
     this.editingMovie = true
@@ -52,5 +52,9 @@ export class MovieListComponent {
         break
     }
     console.log(feedback)
+  }
+
+  loadMovies = () => {
+    this.movies = this.localDatabase.getMovies()
   }
 }
