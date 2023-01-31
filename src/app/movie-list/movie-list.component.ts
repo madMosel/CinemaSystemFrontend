@@ -1,16 +1,14 @@
 import { Component } from '@angular/core';
 import { dummyMovie, Movie } from '../model/movieInterface';
-import mockMovies from '../../assets/mockMovies.json'
 import { LocalDatabase, OperationFeedback } from '../model/localDatabase';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-movie-list',
   templateUrl: './movie-list.component.html',
   styleUrls: ['./movie-list.component.css']
 })
+
 export class MovieListComponent {
-  localDatabase: LocalDatabase
 
   movies: Movie[] = []
   activeMovie: Movie = dummyMovie
@@ -20,9 +18,8 @@ export class MovieListComponent {
   deletationConflicts: boolean = false;
 
   constructor(
-    localDatabase: LocalDatabase
+    private localDatabase: LocalDatabase
   ) {
-    this.localDatabase = localDatabase
     this.loadMovies()
   }
 

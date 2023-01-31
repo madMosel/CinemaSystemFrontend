@@ -65,8 +65,7 @@ export class EditMovieComponent {
   }
 
   updateDatabase() {
-    this.localDatabase.logCounter()
-    // this.localDatabase.putMovie(this.movie)
+    this.localDatabase.putMovie(this.movie)
     this.onCreate()
   }
 }
