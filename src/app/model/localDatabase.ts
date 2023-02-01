@@ -36,7 +36,7 @@ export enum OperationFeedback {
 export class LocalDatabase {
     public static counter: number = 0;
 
-    public logCounter () {console.log(LocalDatabase.counter++)}
+    public logCounter() { console.log(LocalDatabase.counter++) }
 
     private halls: CinemaHall[] = []
     private movies: Movie[] = []
@@ -44,7 +44,7 @@ export class LocalDatabase {
 
     private localUser?: Login
     private _localUserChange$ = new Subject<Login>()
-    public  localUserChange = this._localUserChange$.asObservable()
+    public localUserChange = this._localUserChange$.asObservable()
 
 
     private test = new Observable((observer) => {
@@ -74,9 +74,35 @@ export class LocalDatabase {
 
 
     login(username: string, password: string) {
-        this.localUser = {username: username, type: UserType.ADMIN , password: password} as Login
-        console.log("username set in DB")
-        this._localUserChange$.next({...this.localUser} as Login)
+        this.loginIntoServer(username, password)
+    }
+
+    private async loginIntoServer(username: string, password: string) {
+        if (this.localUser) return
+        console.log("executing login querry...")
+
+        await fetch(
+            "http://127.0.0.1:3000/login", {
+            method: "post",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                username: username,
+                password: password
+            })
+        }).then((response) => {
+            console.log("success")
+            
+            response.json().then(data => {
+                console.log(data.usertype)
+                let type : UserType = data.usertype=="ADMIN"?UserType.ADMIN:UserType.USER
+                this.localUser = { username: username, type: type, token: data.token } as Login
+                this._localUserChange$.next({ ...this.localUser } as Login)
+            })
+
+        }).catch(() => console.log("error"))
     }
 
 
@@ -106,52 +132,52 @@ export class LocalDatabase {
 
 
     public getHallById(hallId: number): CinemaHall | null {
-        
+
         for (let hall of this.halls) if (hall.hallId === hallId) return { ...hall }
         return null;
     }
 
     public getHalls(): CinemaHall[] {
-        
+
         let cinemHallsCopy: CinemaHall[] = [...this.halls]
         return cinemHallsCopy
     }
 
     public getMovieById(movieId: number): Movie | null {
-        
+
         for (let movie of this.movies) if (movie.movieId === movieId) return { ...movie }
         return null
     }
 
     public getMovies(): Movie[] {
-        
+
         let moviesCopy: Movie[] = [...this.movies]
         return moviesCopy
     }
 
     public getSchedulesOfHall(hallId: number): Schedule[] {
-        
-        
+
+
         let hallSchedules: Schedule[] = []
         for (let schedule of this.schedules) if (schedule.hallId === hallId) hallSchedules.push({ ...schedule })
         return hallSchedules
     }
 
     public getSchedulesOfMovie(movieId: number): Schedule[] {
-        
-        
+
+
         let movieSchedules: Schedule[] = []
         for (let schedule of this.schedules) if (schedule.movieId === movieId) movieSchedules.push({ ...schedule })
         return movieSchedules
     }
 
     public getSchedules(): Schedule[] {
-        
+
         return this.schedules
     }
 
     public filterSchedulesByHallId(schedules: Schedule[], hallId: number): Schedule[] {
-        
+
         let filtered: Schedule[] = []
         for (let schedule of schedules) if (schedule.hallId == hallId) filtered.push(schedule)
         return filtered
@@ -161,7 +187,7 @@ export class LocalDatabase {
         this.load()
         if (hall.hallId == 0) hall.hallId = this.changes.newHallCounter--
         this.findAndReplaceElseAddHall(hall)
-        
+
     }
 
 
@@ -176,7 +202,7 @@ export class LocalDatabase {
         this.findAndRemoveHall(hall)
         if (hall.hallId > 0) this.changes.deleteHalls.push(hall)
 
-        
+
         return OperationFeedback.OK
 
     }
@@ -198,7 +224,7 @@ export class LocalDatabase {
         this.load()
         if (movie.movieId == 0) movie.movieId = this.changes.newMovieCounter--
         this.findAndReplaceElseAddMovie(movie)
-        
+
     }
 
     public deleteMovie(movie: Movie) {
@@ -220,7 +246,7 @@ export class LocalDatabase {
         this.findAndRemoveMovie(movie)
         if (movie.movieId > 0) this.changes.deleteMovies.push(movie)
 
-        
+
         return OperationFeedback.OK
 
     }
@@ -232,7 +258,7 @@ export class LocalDatabase {
      * @returns null on Succes, a copy of the conflicting Schedule on error
      */
     public putSchedule(schedule: Schedule): Schedule | null {
-        
+
         let schedulesOfHall = this.filterSchedulesByHallId(this.schedules, schedule.hallId)
         let newStart: NiceDate = schedule.dateTime
         let newEnd: NiceDate = niceDateAddMinutes(newStart, this.movieMap!.get(schedule.movieId)!.duration)
@@ -255,7 +281,7 @@ export class LocalDatabase {
         }
         this.schedules.push(schedule)
         this.changes.schedules.push(schedule)
-        
+
         return null
     }
 

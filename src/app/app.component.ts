@@ -19,6 +19,7 @@ export class AppComponent {
     next: (loginData: Login) => {
       console.log("local user set")
       this.localUser = loginData
+      console.log(this.localUser.type)
     }
   }
 

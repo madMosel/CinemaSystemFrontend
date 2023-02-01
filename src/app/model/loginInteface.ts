@@ -2,7 +2,6 @@ import { Observable } from "rxjs";
 
 export interface Login {
     username: string,
-    password: string,
     type: UserType,
     token: string
 }

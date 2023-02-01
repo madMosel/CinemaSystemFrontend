@@ -16,7 +16,7 @@ export class LoginDropdownComponent {
   ) { }
 
   submit() {
-    this.localDatabase.login("this is", "a test")
+    this.localDatabase.login("root", "root")
   }
 
   navigateToSignIn() {
