@@ -2,8 +2,7 @@
 <div class="headbar">
   <h2 style="display:inline; margin-right: 30px;">placeholder headbar</h2>
   <button style="margin-right: 30px;" (click)="goToStart()">go to start</button>
-  <label style="margin-right: 10px;">if logged in as admin i see this button:</label>
-  <button (click)="navigateToManagmentView()" style="margin-right: 30px;">Go to managment view</button>
+  <button *ngIf="localUser && localUser.type == 'ADMIN'" (click)="navigateToManagmentView()" style="margin-right: 30px;">Manage Cinema</button>
 
   <div ngbDropdown id="loginDropdown" #dropdownItem="ngbDropdown">
     <button class="btn btn-primary" id="gfg" ngbDropdownToggle>Login</button>

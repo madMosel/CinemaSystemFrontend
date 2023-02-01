@@ -1,9 +1,8 @@
 import { Injectable, ModuleWithProviders, NgModule, OnDestroy, OnInit, Optional, SkipSelf } from "@angular/core";
 import { CinemaHall } from "./cinemaHallInterface";
-import { compareMovies, Movie } from "./movieInterface";
+import { Movie } from "./movieInterface";
 import { compareSchedules, Schedule } from "./scheduleInterface";
 import { Ticket } from "./ticketInterface";
-import { UserAccount } from "./userAccountInterface";
 
 import mockCinemas from '../../assets/mockCinemas.json';
 import mockMovies from '../../assets/mockMovies.json'
@@ -11,6 +10,8 @@ import mockSchedules from '../../assets/mockSchedules.json'
 import { LocalChanges } from "./localChangesInterface";
 import { compareNiceDatesOnTime, NiceDate, niceDateAddMinutes } from "./niceDateInterface";
 import { CommonModule } from "@angular/common";
+import { Login, UserType } from "./loginInteface";
+import { Observable, Subject } from "rxjs";
 
 export enum OperationFeedback {
     OK = "OK",
@@ -40,14 +41,25 @@ export class LocalDatabase {
     private halls: CinemaHall[] = []
     private movies: Movie[] = []
     private schedules: Schedule[] = []
-    private localUser?: UserAccount
+
+    private localUser?: Login
+    private _localUserChange$ = new Subject<Login>()
+    public  localUserChange = this._localUserChange$.asObservable()
+
+
+    private test = new Observable((observer) => {
+        if (this.localUser) observer.next(this.localUser)
+        else observer.next()
+    })
+
+
+
     private tickets: Ticket[] = []
     private changes: LocalChanges = {
         halls: [], movies: [], schedules: [],
         deleteHalls: [], deleteMovies: [], deleteSchedules: [],
         newHallCounter: -1, newMovieCounter: -1
     } as LocalChanges
-
 
 
     private hallMap?: Map<number, CinemaHall>
@@ -60,23 +72,31 @@ export class LocalDatabase {
         this.load()
     }
 
-    async loadHallsFromServer() {
+
+    login(username: string, password: string) {
+        this.localUser = {username: username, type: UserType.ADMIN , password: password} as Login
+        console.log("username set in DB")
+        this._localUserChange$.next({...this.localUser} as Login)
+    }
+
+
+    private async loadHallsFromServer() {
         this.halls = mockCinemas as CinemaHall[]
     }
 
-    async loadMoviesFromServer() {
+    private async loadMoviesFromServer() {
         this.movies = mockMovies as Movie[]
     }
 
-    async loadSchedulesFromServer() {
+    private async loadSchedulesFromServer() {
         this.schedules = mockSchedules as Schedule[]
     }
 
-    async loadTicketsFromServer() {
+    private async loadTicketsFromServer() {
 
     }
 
-    async load() {
+    private async load() {
         this.loadHallsFromServer()
         this.loadMoviesFromServer()
         this.loadSchedulesFromServer()
@@ -145,7 +165,7 @@ export class LocalDatabase {
     }
 
 
-    deleteHall(hall: CinemaHall): OperationFeedback {
+    public deleteHall(hall: CinemaHall): OperationFeedback {
         this.load()
         for (let schedule of this.schedules) if (schedule.hallId == hall.hallId) {
             console.log(schedule)
@@ -181,7 +201,7 @@ export class LocalDatabase {
         
     }
 
-    deleteMovie(movie: Movie) {
+    public deleteMovie(movie: Movie) {
         /*
          * 1. check for refering objects
          * 2.:
@@ -255,29 +275,29 @@ export class LocalDatabase {
         }
     }
 
-    createMovieMap() {
+    private createMovieMap() {
         this.movieMap = new Map
         for (let movie of this.movies) this.movieMap.set(movie.movieId, movie)
     }
 
-    createHallMap() {
+    private createHallMap() {
         this.hallMap = new Map
         for (let hall of this.halls) this.hallMap.set(hall.hallId, hall)
     }
 
 
-    createMaps() {
+    private createMaps() {
         this.createHallMap()
         this.createMovieMap()
     }
 
-    findAndReplaceElseAddHall(hall: CinemaHall) {
+    private findAndReplaceElseAddHall(hall: CinemaHall) {
         this.findAndRemoveHall(hall)
         this.changes.halls.push(hall)
         this.halls.push(hall)
     }
 
-    findAndRemoveHall(hall: CinemaHall) {
+    private findAndRemoveHall(hall: CinemaHall) {
         for (let h of this.halls) if (h.hallId == hall.hallId) {
             this.changes.halls.splice(this.changes.halls.indexOf(h), 1)
         }
@@ -286,13 +306,13 @@ export class LocalDatabase {
         }
     }
 
-    findAndReplaceElseAddMovie(movie: Movie) {
+    private findAndReplaceElseAddMovie(movie: Movie) {
         this.findAndRemoveMovie(movie)
         this.changes.movies.push(movie)
         this.movies.push(movie)
     }
 
-    findAndRemoveMovie(movie: Movie) {
+    private findAndRemoveMovie(movie: Movie) {
         for (let m of this.movies) if (m.movieId == movie.movieId) {
             this.changes.movies.splice(this.changes.movies.indexOf(m), 1)
         }
