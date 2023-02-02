@@ -77,6 +77,11 @@ export class LocalDatabase {
         this.loginIntoServer(username, password)
     }
 
+    logout() {
+        if (!this.localUser || !this.localUser.token || this.localUser.token === "") return
+        throw new Error ("DB LOGOUT NOT YET IMPLEMENTED")
+    }
+
     private async loginIntoServer(username: string, password: string) {
         if (this.localUser) return
         console.log("executing login querry...")

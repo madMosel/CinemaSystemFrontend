@@ -13,7 +13,7 @@
   <div *ngIf="localUser" ngbDropdown id="loginDropdown" #dropdownItem="ngbDropdown">
     <button class="btn btn-primary" id="gfg" ngbDropdownToggle>{{localUser.username}}</button>
     <div ngbDropdownMenu="gfg" class="login">
-      <app-user-dropdown></app-user-dropdown>
+      <app-user-dropdown [dropdownItem]="dropdownItem"></app-user-dropdown>
     </div>
   </div>
 </div>
