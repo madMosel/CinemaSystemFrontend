@@ -1,6 +1,6 @@
 <div class="mother">
-    <input type="text" placeholder="username"> <br> 
-    <input type="password" placeholder="password"> <br>
+    <input type="text" placeholder="username" (input)="updateUsername($event)"> <br> 
+    <input type="password" placeholder="password" (input)="updatePassword($event)"> <br>
     <button (click)="submit()">Submit</button>
     <button (click)="navigateToSignIn()">Sign in</button>
 </div>

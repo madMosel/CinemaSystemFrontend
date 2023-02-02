@@ -10,13 +10,27 @@ import { LocalDatabase } from '../model/localDatabase';
 export class LoginDropdownComponent {
   @Input() dropdownItem : any;
 
+  private username?: string
+  private password?: string
+
   constructor(
     private readonly router: Router,
     private readonly localDatabase: LocalDatabase
   ) { }
 
+  updateUsername(event : Event) {
+    let input : HTMLInputElement = event.target as HTMLInputElement
+    this.username = input.value
+  }
+
+  updatePassword(event : Event) {
+    let input : HTMLInputElement = event.target as HTMLInputElement
+    this.password = input.value
+  }
+
   submit() {
-    this.localDatabase.login("root", "root")
+    if (!this.username || !this.password || this.username === "" || this.password === "") return
+    this.localDatabase.login(this.username, this.password)
   }
 
   navigateToSignIn() {
