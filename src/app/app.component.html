@@ -4,10 +4,16 @@
   <button style="margin-right: 30px;" (click)="goToStart()">go to start</button>
   <button *ngIf="localUser && localUser.type == 'ADMIN'" (click)="navigateToManagmentView()" style="margin-right: 30px;">Manage Cinema</button>
 
-  <div ngbDropdown id="loginDropdown" #dropdownItem="ngbDropdown">
+  <div *ngIf="!localUser" ngbDropdown id="loginDropdown" #dropdownItem="ngbDropdown">
     <button class="btn btn-primary" id="gfg" ngbDropdownToggle>Login</button>
     <div ngbDropdownMenu="gfg" class="login">
       <app-login-dropdown [dropdownItem]="dropdownItem"></app-login-dropdown>
+    </div>
+  </div>
+  <div *ngIf="localUser" ngbDropdown id="loginDropdown" #dropdownItem="ngbDropdown">
+    <button class="btn btn-primary" id="gfg" ngbDropdownToggle>{{localUser.username}}</button>
+    <div ngbDropdownMenu="gfg" class="login">
+      <app-user-dropdown></app-user-dropdown>
     </div>
   </div>
 </div>
