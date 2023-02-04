@@ -16,7 +16,8 @@ export class UserDropdownComponent {
   ) {}
   
   logout() {
-    this.dropdownItem.close();
     this.database.logout()
+    this.dropdownItem.close();
+    this.router.navigate(["movie-browser"])
   }
 }

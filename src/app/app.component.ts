@@ -16,10 +16,10 @@ export class AppComponent {
   title = 'CinemaSystemFrontend';
   localUser?: Login
   localUserObserver = {
-    next: (loginData: Login) => {
-      console.log("local user set")
-      this.localUser = loginData
-      console.log(this.localUser.type)
+    next: (loginData: Login| null) => {
+      if (loginData === null) this.localUser = undefined
+      else this.localUser = loginData as Login
+      console.log(this.localUser)
     }
   }
 

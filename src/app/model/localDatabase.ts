@@ -43,7 +43,7 @@ export class LocalDatabase {
     private schedules: Schedule[] = []
 
     private localUser?: Login
-    private _localUserChange$ = new Subject<Login>()
+    private _localUserChange$ = new Subject<Login | null>()
     public localUserChange = this._localUserChange$.asObservable()
 
 
@@ -79,7 +79,8 @@ export class LocalDatabase {
 
     logout() {
         if (!this.localUser || !this.localUser.token || this.localUser.token === "") return
-        throw new Error ("DB LOGOUT NOT YET IMPLEMENTED")
+        this.localUser = undefined
+        this.notifyUserChange()
     }
 
     private async loginIntoServer(username: string, password: string) {
@@ -104,11 +105,35 @@ export class LocalDatabase {
                 console.log(data.usertype)
                 let type : UserType = data.usertype=="ADMIN"?UserType.ADMIN:UserType.USER
                 this.localUser = { username: username, type: type, token: data.token } as Login
-                this._localUserChange$.next({ ...this.localUser } as Login)
+                this.notifyUserChange()
             })
 
         }).catch(() => console.log("error"))
     }
+
+    private notifyUserChange() {
+        if (!this.localUser) this._localUserChange$.next(null)
+        else this._localUserChange$.next({ ...this.localUser } as Login)
+    }
+
+    // private async logoutFromServer() {
+    //     if (!this.localUser || !this.localUser.token || this.localUser.token === "") return
+    //     await fetch(
+    //         "http://127.0.0.1:3000/logout", {
+    //         method: "post",
+    //         headers: {
+    //             'Accept': 'application/json',
+    //             'Content-Type': 'application/json'
+    //         },
+    //         body: JSON.stringify({
+    //             username: this.localUser.username,
+    //             token: this.localUser.token
+    //         })
+    //     }).then((response) => {
+    //         console.log("logout success")
+
+    //     }).catch(() => console.log("error"))
+    // }
 
 
     private async loadHallsFromServer() {
