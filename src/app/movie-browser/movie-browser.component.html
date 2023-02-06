@@ -1,2 +1,3 @@
-<h1 class="component-headline">browse-movie.component.ts</h1>
-<p>browse movies on this component called 'movie-browser'. check files.</p>
+<div class="mother">
+    <app-movie-scheme *ngFor="let movie of movies" [movie]="movie" [onclickCallback]="goToMovie" (click)="goToMovie(movie)"></app-movie-scheme>
+</div>

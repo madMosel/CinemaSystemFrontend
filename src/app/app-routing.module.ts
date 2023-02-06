@@ -23,11 +23,13 @@ const routes: Routes = [
     children: [
       { path: "hall-list", component: HallListComponent },
       { path: "movie-list", component: MovieListComponent },
-      { path: "schedule", component: MovieScheduleComponent}
+      { path: "schedule", component: MovieScheduleComponent }
     ]
   },
   { path: "movie-display", component: MovieDisplayComponent },
-  { path: "sign-in", component: SignInComponent }
+  { path: "sign-in", component: SignInComponent },
+  { path: 'movie/:title', component: MovieDisplayComponent }
+
 ]
 
 @NgModule({
