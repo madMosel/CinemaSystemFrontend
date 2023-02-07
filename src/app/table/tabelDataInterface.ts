@@ -13,6 +13,7 @@ export interface CellEntry {
 } 
 
 export enum TableRowState {
+    HEADLINE = "table-row-headline",
     HIGHLIGHTED = "table-row-highlighted",
     NORMAL = "table-row",
     MARKED = "table-row-marked",

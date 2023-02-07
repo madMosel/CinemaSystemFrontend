@@ -1,6 +1,6 @@
 <table class=".app-table">
     <tr *ngIf="header" class="header.classString">
-        <td *ngFor="let col of header.cells">{{col}}</td>
+        <td *ngFor="let col of header.cells">{{col.value}}</td>
     </tr>
     <tr *ngFor="let row of rows" [class]="row.classRow" (click)="row?.clickRow(row)">
         <td *ngFor="let cell of row.cells" [class]="cell.classCell" (click)="cell?.clickCell(cell)">{{cell.value}}</td>

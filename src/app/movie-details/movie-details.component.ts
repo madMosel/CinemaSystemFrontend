@@ -3,28 +3,52 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { LocalDatabase } from '../model/localDatabase';
 import { dummyMovie, Movie } from '../model/movieInterface';
+import { Schedule } from '../model/scheduleInterface';
+import { CellEntry, TableRow, TableRowState } from '../table/tabelDataInterface';
+import { niceDateToString } from '../model/niceDateInterface'
 
 @Component({
   selector: 'app-movie-details',
   templateUrl: './movie-details.component.html',
   styleUrls: ['./movie-details.component.css']
 })
-export class MovieDetailsComponent implements OnInit{
+export class MovieDetailsComponent implements OnInit {
   // @ts-ignore
-  private routeSubscription : Subscription
-  movie : Movie = dummyMovie
+  private routeSubscription: Subscription
+  movie: Movie = dummyMovie
+  schedules: Schedule[] = []
+  headline: TableRow
+  scheduleList: TableRow[] = []
 
-  constructor (
-    private route : ActivatedRoute,
+  constructor(
+    private route: ActivatedRoute,
     private readonly database: LocalDatabase
   ) {
-
+    let headCells: CellEntry[] = [
+      { value: "Hall" } as CellEntry,
+      { value: "Date" } as CellEntry
+    ]
+    this.headline = { cells: headCells, classRow: TableRowState.HEADLINE } as TableRow
   }
+
   ngOnInit(): void {
-    this.routeSubscription = this.route.params.subscribe((params: Params) : void => {
-      let movieId : number = parseInt(params['id'])
+    this.routeSubscription = this.route.params.subscribe((params: Params): void => {
+      let movieId: number = parseInt(params['id'])
       let movie = this.database.getMovieById(movieId)
-      if (movie != null) this.movie = movie
+      if (movie != null) {
+        this.movie = movie
+        this.schedules = this.database.getSchedulesOfMovie(movieId)
+        for (let schedule of this.schedules) {
+          let row: TableRow = {
+            classRow: TableRowState.NORMAL,
+            cells: [
+              { value: this.database.getHallById(schedule.hallId)!.hallName } as CellEntry,
+              { value: niceDateToString(schedule.dateTime)}
+            ]
+          } as TableRow
+          this.scheduleList.push(row)
+        }
+      }
     })
   }
 }

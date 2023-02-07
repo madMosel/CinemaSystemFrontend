@@ -1,1 +1,4 @@
-<app-movie-display [movie]="movie"></app-movie-display>
+<div class="mother">
+    <app-movie-display [movie]="movie" class="movie-display"></app-movie-display>
+    <app-table [header]="headline" [rows]="scheduleList" class="schedule-list"></app-table>
+</div>

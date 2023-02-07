@@ -1,0 +1,13 @@
+.mother {
+    display: flex;
+    flex-direction: row;
+}
+
+.movie-display {
+    width: 70%;
+}
+
+.schedule-list {
+    width: 30%;
+    margin-right: 0;
+}
