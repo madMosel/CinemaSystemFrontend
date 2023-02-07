@@ -19,7 +19,6 @@ export class AppComponent {
     next: (loginData: Login| null) => {
       if (loginData === null) this.localUser = undefined
       else this.localUser = loginData as Login
-      console.log(this.localUser)
     }
   }
 

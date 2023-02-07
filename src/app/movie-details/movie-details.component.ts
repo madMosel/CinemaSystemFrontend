@@ -6,6 +6,7 @@ import { dummyMovie, Movie } from '../model/movieInterface';
 import { Schedule } from '../model/scheduleInterface';
 import { CellEntry, TableRow, TableRowState } from '../table/tabelDataInterface';
 import { niceDateToString } from '../model/niceDateInterface'
+import { Login } from '../model/loginInteface';
 
 @Component({
   selector: 'app-movie-details',
@@ -20,6 +21,16 @@ export class MovieDetailsComponent implements OnInit {
   headline: TableRow
   scheduleList: TableRow[] = []
 
+  selectedSchedule?: TableRow
+
+  localUser?: Login
+  localUserObserver = {
+    next: (loginData: Login| null) => {
+      if (loginData === null) this.localUser = undefined
+      else this.localUser = loginData as Login
+    }
+  }
+
   constructor(
     private route: ActivatedRoute,
     private readonly database: LocalDatabase
@@ -29,6 +40,7 @@ export class MovieDetailsComponent implements OnInit {
       { value: "Date" } as CellEntry
     ]
     this.headline = { cells: headCells, classRow: TableRowState.HEADLINE } as TableRow
+    database.localUserChange.subscribe(this.localUserObserver)
   }
 
   ngOnInit(): void {
@@ -43,12 +55,26 @@ export class MovieDetailsComponent implements OnInit {
             classRow: TableRowState.NORMAL,
             cells: [
               { value: this.database.getHallById(schedule.hallId)!.hallName } as CellEntry,
-              { value: niceDateToString(schedule.dateTime)}
-            ]
+              { value: niceDateToString(schedule.dateTime) }
+            ],
+            identifier: schedule,
+            clickRow: this.selectMovieSchedule
           } as TableRow
           this.scheduleList.push(row)
         }
       }
     })
+  }
+
+  selectMovieSchedule = (row: TableRow) => {
+    if (this.selectedSchedule) {
+      this.selectedSchedule.classRow = TableRowState.NORMAL
+      if (this.selectedSchedule === row) {
+        this.selectedSchedule = undefined
+        return
+      }
+    }
+    this.selectedSchedule = row
+    row.classRow = TableRowState.HIGHLIGHTED
   }
 }

@@ -1,4 +1,6 @@
 <div class="mother">
     <app-movie-display [movie]="movie" class="movie-display"></app-movie-display>
     <app-table [header]="headline" [rows]="scheduleList" class="schedule-list"></app-table>
+    <button *ngIf="localUser && selectedSchedule">Buy Tickets</button>
+    <button *ngIf="localUser">Rate & Comment</button>
 </div>
