@@ -19,6 +19,7 @@ import { LocalDatabase } from './model/localDatabase';
 import { TableComponent } from './table/table.component';
 import { UserDropdownComponent } from './user-dropdown/user-dropdown.component';
 import { MovieSchemeComponent } from './movie-scheme/movie-scheme.component';
+import { MovieDetailsComponent } from './movie-details/movie-details.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { MovieSchemeComponent } from './movie-scheme/movie-scheme.component';
     TableComponent,
     UserDropdownComponent,
     MovieSchemeComponent,
+    MovieDetailsComponent,
   ],
   imports: [
     BrowserModule,

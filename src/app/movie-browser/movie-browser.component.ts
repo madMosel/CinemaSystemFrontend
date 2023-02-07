@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { LocalDatabase } from '../model/localDatabase';
 import { Movie } from '../model/movieInterface';
 
@@ -11,12 +12,13 @@ export class MovieBrowserComponent {
   movies: Movie[] = []
 
   constructor(
-    private readonly database : LocalDatabase
+    private readonly database : LocalDatabase,
+    private readonly router: Router
   ) {
     this.movies = database.getMovies()
   }
 
   goToMovie(movie : Movie) {
-    
+    this.router.navigate(["movie-details", movie.movieId])
   }
 }
