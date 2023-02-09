@@ -78,6 +78,7 @@ export class EditCinemaHallComponent implements OnChanges {
       let row: Seat[] = []
       for (let numCol = 0; numCol < this.numCols; numCol++, counter++) {
         if (numRow < this.cinemaHall.seats.length && numCol < this.cinemaHall.seats[0].length) {
+          this.cinemaHall.seats[numRow][numCol].id = counter
           row.push(this.cinemaHall.seats[numRow][numCol])
         }
         else {
