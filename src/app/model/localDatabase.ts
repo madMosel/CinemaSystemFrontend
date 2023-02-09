@@ -116,6 +116,11 @@ export class LocalDatabase {
         else this._localUserChange$.next({ ...this.localUser } as Login)
     }
 
+    public getLocalUser() : Login | null {
+        if (this.localUser) return {...this.localUser}
+        else return null
+    }
+
     // private async logoutFromServer() {
     //     if (!this.localUser || !this.localUser.token || this.localUser.token === "") return
     //     await fetch(

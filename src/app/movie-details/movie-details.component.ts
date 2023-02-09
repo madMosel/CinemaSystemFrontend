@@ -41,6 +41,9 @@ export class MovieDetailsComponent implements OnInit {
     ]
     this.headline = { cells: headCells, classRow: TableRowState.HEADLINE } as TableRow
     database.localUserChange.subscribe(this.localUserObserver)
+    let user = database.getLocalUser()
+    if (user != null) this.localUser = user
+    console.log(this.localUser)
   }
 
   ngOnInit(): void {
