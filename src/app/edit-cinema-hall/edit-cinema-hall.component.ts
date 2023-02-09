@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { CinemaHallDisplayComponent } from '../cinema-hall-display/cinema-hall-display.component';
 import { CinemaHall, dummyCinemaHall } from '../model/cinemaHallInterface';
 import { LocalDatabase, OperationFeedback } from '../model/localDatabase';
-import { Seat, SeatCategory } from '../model/seatInterface';
+import { Seat, SeatCategory, SeatState } from '../model/seatInterface';
 
 @Component({
   selector: 'app-edit-cinema-hall',
@@ -81,7 +81,7 @@ export class EditCinemaHallComponent implements OnChanges {
           row.push(this.cinemaHall.seats[numRow][numCol])
         }
         else {
-          row.push(new Seat(counter, SeatCategory.Normal, false));
+          row.push(new Seat(counter, SeatCategory.Normal, SeatState.FREE));
         }
       }
       seats.push(row)

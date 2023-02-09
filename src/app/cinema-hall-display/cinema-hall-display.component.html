@@ -5,7 +5,7 @@
             <div class="cinemaHall">
                 <div class="row" *ngFor="let row of cinemaHall.seats">
                     <button class="seat" *ngFor="let seat of row" (click)="buttonClicked(seat)">
-                        <div [ngStyle]="{'filter': seat.booked ? 'brightness(10%) contrast(200%)':''}">
+                        <div [ngStyle]="{'filter': seat.state === allSeatStates.BOOKED ? 'brightness(10%) contrast(200%)':''}">
                             <img *ngIf="seat.category===allSeatTypes.Normal" src="/assets/normal_seat_50.png"
                                 alt="image">
                             <img *ngIf="seat.category===allSeatTypes.Handicap" src="/assets/handicap_seat_50.png"

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CinemaHall, dummyCinemaHall } from '../model/cinemaHallInterface';
-import { Seat, SeatCategory } from '../model/seatInterface';
+import { Seat, SeatCategory, SeatState } from '../model/seatInterface';
 import { LocalDatabase, OperationFeedback } from '../model/localDatabase';
 
 
@@ -34,7 +34,7 @@ export class HallListComponent {
   }
 
   createNewHall() {
-    let seat: Seat = new Seat(1, SeatCategory.Normal, false)
+    let seat: Seat = new Seat(1, SeatCategory.Normal, SeatState.FREE)
     let seats: Seat[][] = [[seat]]
     this.activeHall = new CinemaHall(0, "hall name", seats, false, false, false)
     this.editingHall = true

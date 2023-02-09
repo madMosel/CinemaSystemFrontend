@@ -12,6 +12,7 @@ import { EditMovieComponent } from './edit-movie/edit-movie.component';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { MovieScheduleComponent } from './movie-schedule/movie-schedule.component';
 import { MovieDetailsComponent } from './movie-details/movie-details.component';
+import { TicketsBuyComponent } from './tickets-buy/tickets-buy.component';
 
 
 const routes: Routes = [
@@ -29,8 +30,8 @@ const routes: Routes = [
   },
   { path: "movie-display", component: MovieDisplayComponent },
   { path: "sign-in", component: SignInComponent },
-  { path: 'movie-details/:id', component: MovieDetailsComponent }
-
+  { path: 'movie-details/:id', component: MovieDetailsComponent },
+  { path: 'tickets-buy', component: TicketsBuyComponent}
 ]
 
 @NgModule({

@@ -1,4 +1,4 @@
-import { Seat, SeatCategory} from "./seatInterface";
+import { Seat, SeatCategory, SeatState} from "./seatInterface";
 
 export class CinemaHall {
     
@@ -16,7 +16,7 @@ export class CinemaHall {
 }
 
 
-const dummySeat : Seat = new Seat(0,SeatCategory.Normal, false)
+const dummySeat : Seat = new Seat(0,SeatCategory.Normal, SeatState.FREE)
 const dummyRow: Seat[] = [ dummySeat ]
 const dummySeats: Seat[][] = [ dummyRow ]
 export const dummyCinemaHall : CinemaHall = new CinemaHall(-1, "dummy Hall", dummySeats, false, false, false)

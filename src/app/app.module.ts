@@ -20,6 +20,7 @@ import { TableComponent } from './table/table.component';
 import { UserDropdownComponent } from './user-dropdown/user-dropdown.component';
 import { MovieSchemeComponent } from './movie-scheme/movie-scheme.component';
 import { MovieDetailsComponent } from './movie-details/movie-details.component';
+import { TicketsBuyComponent } from './tickets-buy/tickets-buy.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { MovieDetailsComponent } from './movie-details/movie-details.component';
     UserDropdownComponent,
     MovieSchemeComponent,
     MovieDetailsComponent,
+    TicketsBuyComponent,
   ],
   imports: [
     BrowserModule,

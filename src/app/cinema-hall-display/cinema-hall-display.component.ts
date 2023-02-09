@@ -1,7 +1,6 @@
-import { Component, EventEmitter, Input, Output,} from '@angular/core';
-import { EditCinemaHallComponent } from '../edit-cinema-hall/edit-cinema-hall.component';
+import { Component, Input } from '@angular/core';
 import { CinemaHall, dummyCinemaHall } from '../model/cinemaHallInterface';
-import { Seat, SeatCategory } from '../model/seatInterface';
+import { Seat, SeatCategory, SeatState } from '../model/seatInterface';
 
 
 
@@ -14,6 +13,7 @@ export class CinemaHallDisplayComponent {
   @Input() cinemaHall: CinemaHall
   
   allSeatTypes = SeatCategory
+  allSeatStates = SeatState
 
   @Input() parrentCallback : (seat : Seat) => void = (seat : Seat) => {}
   test: string = "CinemaHallDisplayComponent"

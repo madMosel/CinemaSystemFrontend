@@ -8,31 +8,31 @@
                     "hallId":1,
                     "id": 0,
                     "category": "Normal",
-                    "booked": false
+                    "state":"FREE"
                 },
                 {
                     "hallId":1,
                     "id": 1,
                     "category": "Normal",
-                    "booked": false
+                    "state":"FREE"
                 },
                 {
                     "hallId":1,
                     "id": 2,
                     "category": "Normal",
-                    "booked": false
+                    "state":"FREE"
                 },
                 {
                     "hallId":1,
                     "id": 3,
                     "category": "Normal",
-                    "booked": false
+                    "state":"FREE"
                 },
                 {
                     "hallId": 1,
                     "id": 4,
                     "category": "Normal",
-                    "booked": false
+                    "state":"FREE"
                 }
             ],
             [
@@ -40,31 +40,31 @@
                     "hallId": 1,
                     "id": 10,
                     "category": "Normal",
-                    "booked": false
+                    "state":"FREE"
                 },
                 {
                     "hallId": 1,
                     "id": 11,
                     "category": "Normal",
-                    "booked": false
+                    "state":"FREE"
                 },
                 {
                     "hallId": 1,
                     "id": 12,
                     "category": "Normal",
-                    "booked": false
+                    "state":"FREE"
                 },
                 {
                     "hallId": 1,
                     "id": 13,
                     "category": "Normal",
-                    "booked": false
+                    "state":"FREE"
                 },
                 {
                     "hallId": 1,
                     "id": 14,
                     "category": "Normal",
-                    "booked": false
+                    "state":"FREE"
                 }
             ],
             [
@@ -72,31 +72,31 @@
                     "hallId": 1,
                     "id": 20,
                     "category": "Normal",
-                    "booked": false
+                    "state":"FREE"
                 },
                 {
                     "hallId": 1,
                     "id": 21,
                     "category": "Normal",
-                    "booked": false
+                    "state":"FREE"
                 },
                 {
                     "hallId": 1,
                     "id": 22,
                     "category": "Normal",
-                    "booked": false
+                    "state":"FREE"
                 },
                 {
                     "hallId": 1,
                     "id": 23,
                     "category": "Normal",
-                    "booked": false
+                    "state":"FREE"
                 },
                 {
                     "hallId": 1,
                     "id": 24,
                     "category": "Normal",
-                    "booked": false
+                    "state":"FREE"
                 }
             ],
             [
@@ -104,31 +104,31 @@
                     "hallId": 1,
                     "id": 30,
                     "category": "Normal",
-                    "booked": false
+                    "state":"FREE"
                 },
                 {
                     "hallId": 1,
                     "id": 31,
                     "category": "Normal",
-                    "booked": false
+                    "state":"FREE"
                 },
                 {
                     "hallId": 1,
                     "id": 32,
                     "category": "Normal",
-                    "booked": false
+                    "state":"FREE"
                 },
                 {
                     "hallId": 1,
                     "id": 33,
                     "category": "Normal",
-                    "booked": false
+                    "state":"FREE"
                 },
                 {
                     "hallId": 1,
                     "id": 34,
                     "category": "Normal",
-                    "booked": false
+                    "state":"FREE"
                 }
             ],
             [
@@ -136,31 +136,31 @@
                     "hallId": 1,
                     "id": 40,
                     "category": "Normal",
-                    "booked": false
+                    "state":"FREE"
                 },
                 {
                     "hallId": 1,
                     "id": 41,
                     "category": "Normal",
-                    "booked": false
+                    "state":"FREE"
                 },
                 {
                     "hallId": 1,
                     "id": 42,
                     "category": "Normal",
-                    "booked": false
+                    "state":"FREE"
                 },
                 {
                     "hallId": 1,
                     "id": 43,
                     "category": "Normal",
-                    "booked": false
+                    "state":"FREE"
                 },
                 {
                     "hallId": 1,
                     "id": 44,
                     "category": "Normal",
-                    "booked": false
+                    "state":"FREE"
                 }
             ]
         ],
@@ -177,37 +177,37 @@
                     "hallId": 2,
                     "id": 0,
                     "category": "Premium",
-                    "booked": false
+                    "state":"FREE"
                 },
                 {
                     "hallId": 2,
                     "id": 1,
                     "category": "Premium",
-                    "booked": false
+                    "state":"FREE"
                 },
                 {
                     "hallId": 2,
                     "id": 2,
                     "category": "Premium",
-                    "booked": false
+                    "state":"FREE"
                 },
                 {
                     "hallId": 2,
                     "id": 3,
                     "category": "Normal",
-                    "booked": false
+                    "state":"FREE"
                 },
                 {
                     "hallId": 2,
                     "id": 4,
                     "category": "Normal",
-                    "booked": false
+                    "state":"FREE"
                 },
                 {
                     "hallId": 2,
                     "id": 5,
                     "category": "Normal",
-                    "booked": false
+                    "state":"FREE"
                 }
             ],
             [
@@ -215,37 +215,37 @@
                     "hallId": 2,
                     "id": 10,
                     "category": "Normal",
-                    "booked": false
+                    "state":"FREE"
                 },
                 {
                     "hallId": 2,
                     "id": 11,
                     "category": "Normal",
-                    "booked": false
+                    "state":"FREE"
                 },
                 {
                     "hallId": 2,
                     "id": 12,
                     "category": "Normal",
-                    "booked": false
+                    "state":"FREE"
                 },
                 {
                     "hallId": 2,
                     "id": 13,
                     "category": "Normal",
-                    "booked": false
+                    "state":"FREE"
                 },
                 {
                     "hallId": 2,
                     "id": 14,
                     "category": "Normal",
-                    "booked": false
+                    "state":"FREE"
                 },
                 {
                     "hallId": 2,
                     "id": 11,
                     "category": "Normal",
-                    "booked": false
+                    "state":"FREE"
                 }
             ],
             [
@@ -253,37 +253,37 @@
                     "hallId": 2,
                     "id": 20,
                     "category": "Normal",
-                    "booked": false
+                    "state":"FREE"
                 },
                 {
                     "hallId": 2,
                     "id": 21,
                     "category": "Normal",
-                    "booked": false
+                    "state":"FREE"
                 },
                 {
                     "hallId": 2,
                     "id": 22,
                     "category": "Normal",
-                    "booked": false
+                    "state":"FREE"
                 },
                 {
                     "hallId": 2,
                     "id": 23,
                     "category": "Normal",
-                    "booked": false
+                    "state":"FREE"
                 },
                 {
                     "hallId": 2,
                     "id": 24,
                     "category": "Normal",
-                    "booked": false
+                    "state":"FREE"
                 },
                 {
                     "hallId": 2,
                     "id": 17,
                     "category": "Normal",
-                    "booked": false
+                    "state":"FREE"
                 }
             ],
             [
@@ -291,37 +291,37 @@
                     "hallId": 2,
                     "id": 30,
                     "category": "Normal",
-                    "booked": false
+                    "state":"FREE"
                 },
                 {
                     "hallId": 2,
                     "id": 31,
                     "category": "Normal",
-                    "booked": false
+                    "state":"FREE"
                 },
                 {
                     "hallId": 2,
                     "id": 32,
                     "category": "Normal",
-                    "booked": false
+                    "state":"FREE"
                 },
                 {
                     "hallId": 2,
                     "id": 33,
                     "category": "Handicap",
-                    "booked": false
+                    "state":"FREE"
                 },
                 {
                     "hallId": 2,
                     "id": 34,
                     "category": "Handicap",
-                    "booked": false
+                    "state":"FREE"
                 },
                 {
                     "hallId": 2,
                     "id": 23,
                     "category": "Handicap",
-                    "booked": false
+                    "state":"FREE"
                 }
             ]
         ],

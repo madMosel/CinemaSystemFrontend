@@ -2,6 +2,6 @@ import { Schedule } from "./scheduleInterface";
 
 export interface Ticket {
     schedule : Schedule
-    userId : number
+    username : string
     seatId : number
 }
