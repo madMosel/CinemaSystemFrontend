@@ -1,9 +1,10 @@
-import { Seat, SeatCategory, SeatState} from "./seatInterface";
+import { Seat, SeatCategory, SeatState } from "./seatInterface";
+
 
 export class CinemaHall {
-    
 
-    constructor (
+
+    constructor(
         public hallId: number,
         public hallName: string,
         public seats: Seat[][],
@@ -15,8 +16,28 @@ export class CinemaHall {
     }
 }
 
+export function copyCinemaHall(h: CinemaHall): CinemaHall {
+    let seatsCopy: Seat[][] = []
+    for (let row of h.seats) {
+        let cpRow : Seat[] = []
+        for (let seat of row) {
+            cpRow.push({
+                id: seat.id,
+                category: seat.category,
+                state: seat.state
+            } as Seat )
+        }
+        seatsCopy.push(cpRow)
+    }
 
-const dummySeat : Seat = new Seat(0,SeatCategory.Normal, SeatState.FREE)
-const dummyRow: Seat[] = [ dummySeat ]
-const dummySeats: Seat[][] = [ dummyRow ]
-export const dummyCinemaHall : CinemaHall = new CinemaHall(-1, "dummy Hall", dummySeats, false, false, false)
+    return new CinemaHall(h.hallId, h.hallName, seatsCopy, h.dolby, h.d3, h.d4)
+}
+
+const dummySeat: Seat = {
+    id: 0,
+    category: SeatCategory.Normal,
+    state: SeatState.FREE
+} as Seat
+const dummyRow: Seat[] = [dummySeat]
+const dummySeats: Seat[][] = [dummyRow]
+export const dummyCinemaHall: CinemaHall = new CinemaHall(-1, "dummy Hall", dummySeats, false, false, false)

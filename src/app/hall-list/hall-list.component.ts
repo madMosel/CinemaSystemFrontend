@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CinemaHall, dummyCinemaHall } from '../model/cinemaHallInterface';
+import { CinemaHall, copyCinemaHall, dummyCinemaHall } from '../model/cinemaHallInterface';
 import { Seat, SeatCategory, SeatState } from '../model/seatInterface';
 import { LocalDatabase, OperationFeedback } from '../model/localDatabase';
 
@@ -29,12 +29,15 @@ export class HallListComponent {
 
   editCinemaHall(cinemaHall: CinemaHall) {
     this.scheduling = false
-    this.activeHall = cinemaHall
+    this.activeHall = copyCinemaHall(cinemaHall)
     this.editingHall = true
   }
 
   createNewHall() {
-    let seat: Seat = new Seat(1, SeatCategory.Normal, SeatState.FREE)
+    let seat: Seat = {
+      id: 1,
+      category: SeatCategory.Normal,
+      state: SeatState.FREE} as Seat
     let seats: Seat[][] = [[seat]]
     this.activeHall = new CinemaHall(0, "hall name", seats, false, false, false)
     this.editingHall = true

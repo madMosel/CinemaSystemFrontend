@@ -13,10 +13,11 @@ import { Login } from './model/loginInteface';
 
 
 export class AppComponent {
+
   title = 'CinemaSystemFrontend';
   localUser?: Login
   localUserObserver = {
-    next: (loginData: Login| null) => {
+    next: (loginData: Login | null) => {
       if (loginData === null) this.localUser = undefined
       else this.localUser = loginData as Login
     }
@@ -25,10 +26,14 @@ export class AppComponent {
   constructor(
     private readonly router: Router,
     private readonly database: LocalDatabase
-    ) {
-    this.router.navigate(["movie-browser"]);
+  ) {
     database.localUserChange.subscribe(this.localUserObserver)
+    database.login("root", "root")
+    let user = database.getLocalUser()
+    if (user != null) this.localUser = user
+    this.navigateToManagmentView()
   }
+
 
   navigateToCinemaHallModule() {
     this.router.navigate(["cinema-hall-display"])
@@ -60,5 +65,9 @@ export class AppComponent {
 
   navigateToSignIn() {
     this.router.navigate(["sign-in"])
+  }
+
+  navigateToBuyTickets() {
+    this.router.navigate(["tickets-buy"])
   }
 }

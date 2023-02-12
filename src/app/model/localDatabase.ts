@@ -34,6 +34,8 @@ export enum OperationFeedback {
 
 
 export class LocalDatabase {
+    private static readonly serverUrl: string = "http://127.0.0.1:3000/"
+
     public static counter: number = 0;
 
     public logCounter() { console.log(LocalDatabase.counter++) }
@@ -44,15 +46,17 @@ export class LocalDatabase {
 
     private localUser?: Login
     private _localUserChange$ = new Subject<Login | null>()
-    public localUserChange = this._localUserChange$.asObservable()
+    public readonly localUserChange = this._localUserChange$.asObservable()
 
+    private notifyUserChange() {
+        if (!this.localUser) this._localUserChange$.next(null)
+        else this._localUserChange$.next({ ...this.localUser } as Login)
+    }
 
-    private test = new Observable((observer) => {
-        if (this.localUser) observer.next(this.localUser)
-        else observer.next()
-    })
-
-
+    public getLocalUser(): Login | null {
+        if (this.localUser) return { ...this.localUser }
+        else return null
+    }
 
     private tickets: Ticket[] = []
     private changes: LocalChanges = {
@@ -60,7 +64,15 @@ export class LocalDatabase {
         deleteHalls: [], deleteMovies: [], deleteSchedules: [],
         newHallCounter: -1, newMovieCounter: -1
     } as LocalChanges
+    private changed: boolean = false
+    private _change$ = new Subject<boolean>()
+    public readonly change = this._change$.asObservable()
 
+    public getChanged() { return this.changed }
+    private notifyDbChanged(b: boolean) {
+        this.changed = b
+        this._change$.next(this.changed)
+    }
 
     private hallMap?: Map<number, CinemaHall>
     private movieMap?: Map<number, Movie>
@@ -88,7 +100,7 @@ export class LocalDatabase {
         console.log("executing login querry...")
 
         await fetch(
-            "http://127.0.0.1:3000/login", {
+            LocalDatabase.serverUrl + "login", {
             method: "post",
             headers: {
                 'Accept': 'application/json',
@@ -99,11 +111,10 @@ export class LocalDatabase {
                 password: password
             })
         }).then((response) => {
-            console.log("success")
-            
+            console.log("response")
             response.json().then(data => {
-                console.log(data.usertype)
-                let type : UserType = data.usertype=="ADMIN"?UserType.ADMIN:UserType.USER
+                console.log(data)
+                let type: UserType = data.usertype == "ADMIN" ? UserType.ADMIN : UserType.USER
                 this.localUser = { username: username, type: type, token: data.token } as Login
                 this.notifyUserChange()
             })
@@ -111,14 +122,37 @@ export class LocalDatabase {
         }).catch(() => console.log("error"))
     }
 
-    private notifyUserChange() {
-        if (!this.localUser) this._localUserChange$.next(null)
-        else this._localUserChange$.next({ ...this.localUser } as Login)
-    }
+    public async updateServer() {
+        console.log("start update method")
+        if (!this.localUser) return
+        if (this.changes.halls.length == 0 &&
+            this.changes.movies.length == 0 &&
+            this.changes.schedules.length == 0 &&
+            this.changes.deleteHalls.length == 0 &&
+            this.changes.deleteMovies.length == 0 &&
+            this.changes.deleteSchedules.length == 0
+        ) {
+            console.log("nothing to update")
+            return
+        }
+        console.log("updating Server...")
+        await fetch(
+            LocalDatabase.serverUrl + "update-database", {
+            method: "post",
+            headers: {
+                "Authorization": this.localUser!.token,
+                "changes": JSON.stringify(this.changes)
+            }
+        }).then((response) => {
+            console.log("query returned status 200")
+            this.changes = {
+                halls: [], movies: [], schedules: [],
+                deleteHalls: [], deleteMovies: [], deleteSchedules: [],
+                newHallCounter: -1, newMovieCounter: -1
+            } as LocalChanges
+            this.notifyDbChanged(false)
 
-    public getLocalUser() : Login | null {
-        if (this.localUser) return {...this.localUser}
-        else return null
+        }).catch(() => console.log("update error"))
     }
 
     // private async logoutFromServer() {
@@ -235,7 +269,11 @@ export class LocalDatabase {
         for (let ticket of this.tickets) if (ticket.schedule.hallId == hall.hallId) return OperationFeedback.HAS_REFERING_OBJECTS
 
         this.findAndRemoveHall(hall)
-        if (hall.hallId > 0) this.changes.deleteHalls.push(hall)
+        if (hall.hallId > 0) {
+            this.changes.deleteHalls.push(hall)
+            this.notifyDbChanged(true)
+        }
+
 
 
         return OperationFeedback.OK
@@ -279,7 +317,10 @@ export class LocalDatabase {
         for (let ticket of this.tickets) if (ticket.schedule.movieId == movie.movieId) return OperationFeedback.HAS_REFERING_OBJECTS
 
         this.findAndRemoveMovie(movie)
-        if (movie.movieId > 0) this.changes.deleteMovies.push(movie)
+        if (movie.movieId > 0) {
+            this.changes.deleteMovies.push(movie)
+            this.notifyDbChanged(true)
+        }
 
 
         return OperationFeedback.OK
@@ -316,6 +357,7 @@ export class LocalDatabase {
         }
         this.schedules.push(schedule)
         this.changes.schedules.push(schedule)
+        this.notifyDbChanged(true)
 
         return null
     }
@@ -331,7 +373,10 @@ export class LocalDatabase {
                 this.changes.schedules.splice(this.changes.schedules.indexOf(ns), 1)
                 break
             }
-            if (!foundInChanges) this.changes.deleteSchedules.push(schedule)
+            if (!foundInChanges) {
+                this.changes.deleteSchedules.push(schedule)
+                this.notifyDbChanged(true)
+            }
             return
         }
     }
@@ -355,6 +400,7 @@ export class LocalDatabase {
     private findAndReplaceElseAddHall(hall: CinemaHall) {
         this.findAndRemoveHall(hall)
         this.changes.halls.push(hall)
+        this.notifyDbChanged(true)
         this.halls.push(hall)
     }
 
@@ -370,6 +416,7 @@ export class LocalDatabase {
     private findAndReplaceElseAddMovie(movie: Movie) {
         this.findAndRemoveMovie(movie)
         this.changes.movies.push(movie)
+        this.notifyDbChanged(true)
         this.movies.push(movie)
     }
 
@@ -381,4 +428,6 @@ export class LocalDatabase {
             this.movies.splice(this.movies.indexOf(m), 1)
         }
     }
+
+
 }

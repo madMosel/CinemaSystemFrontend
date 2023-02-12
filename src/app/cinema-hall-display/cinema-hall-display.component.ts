@@ -11,22 +11,34 @@ import { Seat, SeatCategory, SeatState } from '../model/seatInterface';
 })
 export class CinemaHallDisplayComponent {
   @Input() cinemaHall: CinemaHall
-  
+
   allSeatTypes = SeatCategory
   allSeatStates = SeatState
 
-  @Input() parrentCallback : (seat : Seat) => void = (seat : Seat) => {}
+  @Input() parrentCallback: (seat: Seat) => void = (seat: Seat) => { }
   test: string = "CinemaHallDisplayComponent"
 
   constructor(
-   ) {
+  ) {
     this.cinemaHall = dummyCinemaHall
   }
 
 
-  buttonClicked(seat : Seat) {
-      this.parrentCallback(seat)
+  buttonClicked(seat: Seat) {
+    this.parrentCallback(seat)
   }
 
+  getSrcString(seat: Seat) {
+    if (seat.state == SeatState.FREE && seat.category == SeatCategory.Normal) return "/assets/normal_seat_50.png"
+    if (seat.state == SeatState.FREE && seat.category == SeatCategory.Handicap) return "/assets/handicap_seat_50.png"
+    if (seat.state == SeatState.FREE && seat.category == SeatCategory.Premium) return "/assets/premium_seat_50.png"
+    if (seat.state == SeatState.BOOKED && !seat.belongsToLocalUser) return "/assets/seat_booked_50.png"
+    if (seat.state == SeatState.BOOKED && seat.belongsToLocalUser) return "/assets/seat_booked_by_me_50.png"
+    if (seat.state == SeatState.RESERVED && !seat.belongsToLocalUser) return "/assets/seat_booked_50.png"
+    if (seat.state == SeatState.RESERVED && seat.belongsToLocalUser && seat.category == SeatCategory.Normal) return "/assets/normal_seat_reserved_50.png"
+    if (seat.state == SeatState.RESERVED && seat.belongsToLocalUser && seat.category == SeatCategory.Handicap) return "/assets/handicap_seat_reserved_50.png"
+    if (seat.state == SeatState.RESERVED && seat.belongsToLocalUser && seat.category == SeatCategory.Premium) return "/assets/premium_seat_reserved_50.png"
+    return ""
+  }
 }
 

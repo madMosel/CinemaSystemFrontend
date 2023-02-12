@@ -1,8 +1,8 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { CinemaHallDisplayComponent } from '../cinema-hall-display/cinema-hall-display.component';
 import { CinemaHall, dummyCinemaHall } from '../model/cinemaHallInterface';
-import { LocalDatabase, OperationFeedback } from '../model/localDatabase';
+import { LocalDatabase } from '../model/localDatabase';
 import { Seat, SeatCategory, SeatState } from '../model/seatInterface';
 
 @Component({
@@ -21,7 +21,7 @@ export class EditCinemaHallComponent implements OnChanges {
 
   toolActive: boolean = false
   toolType: SeatCategory = SeatCategory.Normal
-  @Input() onCreate : () => void = () => {}
+  @Input() onCreate: () => void = () => { }
 
 
   // add flags or enum of states
@@ -82,7 +82,11 @@ export class EditCinemaHallComponent implements OnChanges {
           row.push(this.cinemaHall.seats[numRow][numCol])
         }
         else {
-          row.push(new Seat(counter, SeatCategory.Normal, SeatState.FREE));
+          row.push({
+            id: counter,
+            category: SeatCategory.Normal,
+            state: SeatState.FREE
+          } as Seat )
         }
       }
       seats.push(row)
