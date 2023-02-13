@@ -176,15 +176,15 @@ export class LocalDatabase {
 
 
     private async loadHallsFromServer() {
-        this.halls = mockCinemas as CinemaHall[]
+        // this.halls = mockCinemas as CinemaHall[]
     }
 
     private async loadMoviesFromServer() {
-        this.movies = mockMovies as Movie[]
+        // this.movies = mockMovies as Movie[]
     }
 
     private async loadSchedulesFromServer() {
-        this.schedules = mockSchedules as Schedule[]
+        // this.schedules = mockSchedules as Schedule[]
     }
 
     private async loadTicketsFromServer() {
@@ -256,7 +256,7 @@ export class LocalDatabase {
         this.load()
         if (hall.hallId == 0) hall.hallId = this.changes.newHallCounter--
         this.findAndReplaceElseAddHall(hall)
-
+        this.createHallMap()
     }
 
 
@@ -296,6 +296,7 @@ export class LocalDatabase {
 
         this.load()
         if (movie.movieId == 0) movie.movieId = this.changes.newMovieCounter--
+        this.createMaps()
         this.findAndReplaceElseAddMovie(movie)
 
     }
@@ -334,7 +335,7 @@ export class LocalDatabase {
      * @returns null on Succes, a copy of the conflicting Schedule on error
      */
     public putSchedule(schedule: Schedule): Schedule | null {
-
+        this.createMaps()
         let schedulesOfHall = this.filterSchedulesByHallId(this.schedules, schedule.hallId)
         let newStart: NiceDate = schedule.dateTime
         let newEnd: NiceDate = niceDateAddMinutes(newStart, this.movieMap!.get(schedule.movieId)!.duration)

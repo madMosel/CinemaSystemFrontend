@@ -3,9 +3,9 @@ import { Movie } from "./movieInterface"
 import { Schedule } from "./scheduleInterface"
 
 export enum SeatCategory {
-    Normal = "Normal",
-    Premium = "Premium",
-    Handicap = "Handicap"
+    NORMAL = "NORMAL",
+    PREMIUM = "PREMIUM",
+    HANDICAP = "HANDICAP"
 }
 
 export enum SeatState {
@@ -22,6 +22,7 @@ export interface Seat {
 }
 
 export const dummySeat: Seat = {
-    category: SeatCategory.Normal,
+    id: 0,
+    category: SeatCategory.NORMAL,
     state: SeatState.FREE
 } as Seat

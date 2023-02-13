@@ -36,7 +36,7 @@ export class HallListComponent {
   createNewHall() {
     let seat: Seat = {
       id: 1,
-      category: SeatCategory.Normal,
+      category: SeatCategory.NORMAL,
       state: SeatState.FREE} as Seat
     let seats: Seat[][] = [[seat]]
     this.activeHall = new CinemaHall(0, "hall name", seats, false, false, false)

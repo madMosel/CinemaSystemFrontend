@@ -20,7 +20,7 @@ export class EditCinemaHallComponent implements OnChanges {
   numCols: number
 
   toolActive: boolean = false
-  toolType: SeatCategory = SeatCategory.Normal
+  toolType: SeatCategory = SeatCategory.NORMAL
   @Input() onCreate: () => void = () => { }
 
 
@@ -84,7 +84,7 @@ export class EditCinemaHallComponent implements OnChanges {
         else {
           row.push({
             id: counter,
-            category: SeatCategory.Normal,
+            category: SeatCategory.NORMAL,
             state: SeatState.FREE
           } as Seat )
         }
@@ -111,15 +111,15 @@ export class EditCinemaHallComponent implements OnChanges {
 
 
   normalClicked() {
-    this.toolButtonClicked(SeatCategory.Normal)
+    this.toolButtonClicked(SeatCategory.NORMAL)
   }
 
   handicapClicked() {
-    this.toolButtonClicked(SeatCategory.Handicap)
+    this.toolButtonClicked(SeatCategory.HANDICAP)
   }
 
   premiumClicked() {
-    this.toolButtonClicked(SeatCategory.Premium)
+    this.toolButtonClicked(SeatCategory.PREMIUM)
   }
 
   toolButtonClicked(category: SeatCategory) {

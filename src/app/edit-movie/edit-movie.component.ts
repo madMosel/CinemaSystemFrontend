@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { LocalDatabase } from '../model/localDatabase';
 import { dummyMovie, Movie } from '../model/movieInterface';
-import { Rating, Stars } from '../model/ratingInterface';
+import { Rating } from '../model/ratingInterface';
 
 @Component({
   selector: 'app-edit-movie',

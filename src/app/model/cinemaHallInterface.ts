@@ -35,7 +35,7 @@ export function copyCinemaHall(h: CinemaHall): CinemaHall {
 
 const dummySeat: Seat = {
     id: 0,
-    category: SeatCategory.Normal,
+    category: SeatCategory.NORMAL,
     state: SeatState.FREE
 } as Seat
 const dummyRow: Seat[] = [dummySeat]
