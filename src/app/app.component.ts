@@ -31,7 +31,6 @@ export class AppComponent {
     database.login("root", "root")
     let user = database.getLocalUser()
     if (user != null) this.localUser = user
-    this.navigateToManagmentView()
   }
 
 

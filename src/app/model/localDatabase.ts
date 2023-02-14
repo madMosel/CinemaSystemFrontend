@@ -12,6 +12,7 @@ import { compareNiceDatesOnTime, NiceDate, niceDateAddMinutes } from "./niceDate
 import { CommonModule } from "@angular/common";
 import { Login, UserType } from "./loginInteface";
 import { Observable, Subject } from "rxjs";
+import { toJSDate } from "@ng-bootstrap/ng-bootstrap/datepicker/ngb-calendar";
 
 export enum OperationFeedback {
     OK = "OK",
@@ -111,7 +112,6 @@ export class LocalDatabase {
                 password: password
             })
         }).then((response) => {
-            console.log("response")
             response.json().then(data => {
                 console.log(data)
                 let type: UserType = data.usertype == "ADMIN" ? UserType.ADMIN : UserType.USER
@@ -175,26 +175,25 @@ export class LocalDatabase {
     // }
 
 
-    private async loadHallsFromServer() {
-        // this.halls = mockCinemas as CinemaHall[]
-    }
 
-    private async loadMoviesFromServer() {
-        // this.movies = mockMovies as Movie[]
-    }
-
-    private async loadSchedulesFromServer() {
-        // this.schedules = mockSchedules as Schedule[]
-    }
 
     private async loadTicketsFromServer() {
 
     }
 
     private async load() {
-        this.loadHallsFromServer()
-        this.loadMoviesFromServer()
-        this.loadSchedulesFromServer()
+        console.log("loading...")
+        await fetch(LocalDatabase.serverUrl + "load-public-data", {
+            method: "GET"
+        }).then(response => {
+            response.json().then(data => {
+                console.log(data)
+                this.halls = data.halls
+                this.movies = data.movies
+                this.schedules = data.schedules
+            })
+        })
+
         this.loadTicketsFromServer()
         this.createMaps()
     }
