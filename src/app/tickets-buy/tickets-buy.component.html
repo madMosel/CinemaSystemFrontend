@@ -1,1 +1,22 @@
-<app-cinema-hall-display [cinemaHall]="hall"></app-cinema-hall-display>
+<div class="mother">
+    <div class="hall-display">
+        <app-cinema-hall-display [cinemaHall]="hall" [parrentCallback]="clickSeatCallback"></app-cinema-hall-display>
+    </div>
+    <div class="info-container">
+        <h3>{{movieTitle}}</h3>
+        <div class="ticket-infos">
+            <p>{{dateString}}</p>
+            <h4 *ngIf="cart.length > 0">New Tickets:</h4>
+            <div *ngFor="let t of cart">SeatNr: {{printTicketInfo(t.ticket)}}</div>
+        </div>
+        <div class="space">
+            
+        </div>
+        <div class="button-container">
+            <button *ngIf="readyToBuy">Buy</button>
+        </div>
+    </div>
+    <div class="space">
+
+    </div>
+</div>

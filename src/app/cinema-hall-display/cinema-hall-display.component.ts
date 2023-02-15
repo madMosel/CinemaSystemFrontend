@@ -34,10 +34,14 @@ export class CinemaHallDisplayComponent {
     if (seat.state == SeatState.FREE && seat.category == SeatCategory.PREMIUM) return "/assets/premium_seat_50.png"
     if (seat.state == SeatState.BOOKED && !seat.belongsToLocalUser) return "/assets/seat_booked_50.png"
     if (seat.state == SeatState.BOOKED && seat.belongsToLocalUser) return "/assets/seat_booked_by_me_50.png"
-    if (seat.state == SeatState.RESERVED && !seat.belongsToLocalUser) return "/assets/seat_booked_50.png"
-    if (seat.state == SeatState.RESERVED && seat.belongsToLocalUser && seat.category == SeatCategory.NORMAL) return "/assets/normal_seat_reserved_50.png"
-    if (seat.state == SeatState.RESERVED && seat.belongsToLocalUser && seat.category == SeatCategory.HANDICAP) return "/assets/handicap_seat_reserved_50.png"
-    if (seat.state == SeatState.RESERVED && seat.belongsToLocalUser && seat.category == SeatCategory.PREMIUM) return "/assets/premium_seat_reserved_50.png"
+    // if (seat.state == SeatState.RESERVED && !seat.belongsToLocalUser) return "/assets/seat_booked_50.png"
+    // if (seat.state == SeatState.RESERVED && seat.belongsToLocalUser && seat.category == SeatCategory.NORMAL) return "/assets/normal_seat_reserved_50.png"
+    // if (seat.state == SeatState.RESERVED && seat.belongsToLocalUser && seat.category == SeatCategory.HANDICAP) return "/assets/handicap_seat_reserved_50.png"
+    // if (seat.state == SeatState.RESERVED && seat.belongsToLocalUser && seat.category == SeatCategory.PREMIUM) return "/assets/premium_seat_reserved_50.png"
+
+    if (seat.state == SeatState.RESERVED && seat.category == SeatCategory.NORMAL) return "/assets/normal_seat_reserved_50.png"
+    if (seat.state == SeatState.RESERVED && seat.category == SeatCategory.HANDICAP) return "/assets/handicap_seat_reserved_50.png"
+    if (seat.state == SeatState.RESERVED && seat.category == SeatCategory.PREMIUM) return "/assets/premium_seat_reserved_50.png"
     return ""
   }
 }

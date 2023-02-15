@@ -1,13 +1,20 @@
-import { JsonPipe } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { CinemaHall, dummyCinemaHall } from '../model/cinemaHallInterface';
 import { LocalDatabase } from '../model/localDatabase';
 import { Login } from '../model/loginInteface';
-import { Schedule } from '../model/scheduleInterface';
+import { niceDateToString } from '../model/niceDateInterface';
+import { copySchedule, Schedule } from '../model/scheduleInterface';
 import { Seat, SeatState } from '../model/seatInterface';
 import { Ticket } from '../model/ticketInterface';
+
+
+
+interface CartEntry {
+  seat: Seat,
+  ticket: Ticket
+}
 
 @Component({
   selector: 'app-tickets-buy',
@@ -16,7 +23,7 @@ import { Ticket } from '../model/ticketInterface';
 })
 export class TicketsBuyComponent implements OnInit {
 
-  @Input() schedule: Schedule = {} as Schedule
+  schedule: Schedule = {} as Schedule
   hall: CinemaHall = dummyCinemaHall
   localUser?: Login
   localUserObserver = {
@@ -25,9 +32,12 @@ export class TicketsBuyComponent implements OnInit {
       else this.localUser = loginData as Login
     }
   }
+  readyToBuy = false
 
   // @ts-ignore
   private routeSubscription: Subscription
+  movieTitle?: string = "";
+  dateString?: string;
 
   constructor(
     private readonly database: LocalDatabase,
@@ -40,17 +50,19 @@ export class TicketsBuyComponent implements OnInit {
 
   ngOnInit(): void {
     this.routeSubscription = this.route.params.subscribe((params: Params) => {
-      let schedule = JSON.parse(params["schedule"]) as Schedule
-      let hall = this.database.loadHallState(schedule, (hall) => {
-        if (hall != null) this.hall = hall
-        console.log(hall)
-        console.log(this.hall)
+      this.schedule = JSON.parse(params["schedule"]) as Schedule
+      this.dateString = niceDateToString(this.schedule.dateTime)
+      let hall = this.database.loadHallState(this.schedule, (hall) => {
+        if (hall != null) {
+          this.hall = hall
+          this.movieTitle = this.database.getMovieById(this.schedule.movieId)?.movieTitle
+        }
       })
     })
   }
 
 
-  ticketCart: Ticket[] = []
+  cart: CartEntry[] = []
 
   clickSeatCallback = (seat: Seat) => {
     if (!this.localUser) return
@@ -58,23 +70,33 @@ export class TicketsBuyComponent implements OnInit {
     switch (seat.state) {
       case SeatState.FREE:
         let ticket = {
-          schedule: this.schedule,
+          schedule: copySchedule(this.schedule),
           seatId: seat.id,
           username: this.localUser.username
         } as Ticket
-
-
-        this.ticketCart.push(ticket)
+        this.cart.push({ seat: seat, ticket: ticket } as CartEntry)
         seat.state = SeatState.RESERVED
         break
       case SeatState.RESERVED:
-        //reserved by me? set state to free : display reserved msg
+        let i: number = 0
+        for (let e of this.cart) {
+          if (e.seat.id == seat.id) {
+            this.cart.splice(i, 1)
+            seat.state = SeatState.FREE
+            break
+          }
+          i++
+        }
         break
       case SeatState.BOOKED:
         //booked by me? storno popup
         break
     }
+    if (this.cart.length > 0) this.readyToBuy = true
+    else this.readyToBuy = false
+  }
 
-
+  printTicketInfo(ticket: Ticket): string {
+    return ticket.seatId + " todo calculate ticket price"
   }
 }

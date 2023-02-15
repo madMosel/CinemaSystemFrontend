@@ -1,0 +1,35 @@
+.mother {
+    display: flex;
+    flex-direction: row;
+    padding: 2em;
+}
+
+.hall-display {
+    width: fit-content;
+    overflow: scroll
+}
+
+.info-container {
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+    padding: 2em;
+    background-color: var(--dark_gray);
+    text-align: center;
+    margin-left: 2em;
+}
+
+.ticket-infos {
+    height: fit-content;
+}
+
+.space {
+    display: flex;
+    flex: 1;
+}
+
+.button-container{
+    text-align: center;
+    height: fit-content;
+    margin-bottom: 0;
+}
