@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { checkInputString } from '../model/helpers';
 import { LocalDatabase } from '../model/localDatabase';
 import { dummyMovie, Movie } from '../model/movieInterface';
 import { Rating } from '../model/ratingInterface';
@@ -22,6 +23,10 @@ export class EditMovieComponent {
   rateCount: number = 0
   ratings: Rating[] = dummyMovie.ratings
   description: string = dummyMovie.description
+  titleError: boolean = false;
+  ageError: boolean = false;
+  durationError: boolean = false;
+  descriptionError: boolean = false;
 
   constructor(
     public localDatabase: LocalDatabase
@@ -76,9 +81,31 @@ export class EditMovieComponent {
   }
 
   updateDatabase() {
+    // if (!checkInputString(this.movie.movieTitle, 1, 70)) {
+    //   this.titleError = true
+    //   return
+    // }
+    // if (this.movie.age < 0) {
+    //   this.ageError = true
+    //   return
+    // }
+    // if (this.movie.duration < 1) {
+    //   this.durationError = true
+    //   return
+    // }
+    // if (!checkInputString(this.movie.description, 1, 400)) {
+    //   this.descriptionError = true
+    //   return
+    // }
+
+
     this.localDatabase.putMovie(this.movie)
     this.onCreate()
     this.onUpdateDatabase()
+    this.titleError = false
+    this.ageError = false
+    this.durationError = false
+    this.descriptionError = false
   }
 
   getUpdateButtonText(): string {

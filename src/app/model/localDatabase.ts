@@ -443,6 +443,4 @@ export class LocalDatabase {
             this.movies.splice(this.movies.indexOf(m), 1)
         }
     }
-
-
 }

@@ -11,18 +11,22 @@
         <div class="title-tool">
             <label for="title">Name:</label>
             <input name="title" type="text" (input)="updateTitle($event)" [value]="movie.movieTitle">
+            <div class="error" *ngIf="titleError">Title length between 1 and 70 character!</div>
         </div>
         <div class="number-input">
             <label for="age">Age:</label>
             <input name="age" type="number" min="0" (input)="updateAge($event)" [value]="movie.age">
+            <div class="error" *ngIf="ageError">Age > 0!</div>
         </div>
         <div class="number-input">
             <label for="duration">Duration:</label>
             <input name="duration" type="number" min="1" (input)="updateDuration($event)" [value]="movie.duration">
+            <div class="error" *ngIf="durationError">Duration > 0!</div>
         </div>
         <div class="description-tool">
             <label for="description">Description:</label><br>
             <textarea name="description" maxlength="400" id="" cols="45" rows="20" (input)="updateDescription($event)" [value]="movie.description"></textarea>
+            <div class="error" *ngIf="descriptionError">Description length between 1 and 400 character!</div>
         </div>
 
         <div class="database-tool">
