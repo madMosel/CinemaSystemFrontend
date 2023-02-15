@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { LocalDatabase } from '../model/localDatabase';
 import { Movie } from '../model/movieInterface';
 

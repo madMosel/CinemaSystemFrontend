@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { LocalDatabase } from '../model/localDatabase';
 import { dummyMovie, Movie } from '../model/movieInterface';
-import { Schedule } from '../model/scheduleInterface';
+import { copySchedule, Schedule } from '../model/scheduleInterface';
 import { CellEntry, TableRow, TableRowState } from '../table/tabelDataInterface';
 import { niceDateToString } from '../model/niceDateInterface'
 import { Login } from '../model/loginInteface';
@@ -25,7 +25,7 @@ export class MovieDetailsComponent implements OnInit {
 
   localUser?: Login
   localUserObserver = {
-    next: (loginData: Login| null) => {
+    next: (loginData: Login | null) => {
       if (loginData === null) this.localUser = undefined
       else this.localUser = loginData as Login
     }
@@ -33,6 +33,7 @@ export class MovieDetailsComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private readonly router: Router,
     private readonly database: LocalDatabase
   ) {
     let headCells: CellEntry[] = [
@@ -43,7 +44,6 @@ export class MovieDetailsComponent implements OnInit {
     database.localUserChange.subscribe(this.localUserObserver)
     let user = database.getLocalUser()
     if (user != null) this.localUser = user
-    console.log(this.localUser)
   }
 
   ngOnInit(): void {
@@ -79,5 +79,9 @@ export class MovieDetailsComponent implements OnInit {
     }
     this.selectedSchedule = row
     row.classRow = TableRowState.HIGHLIGHTED
+  }
+
+  buyTicket() {
+    this.router.navigate(["tickets-buy", JSON.stringify(this.selectedSchedule?.identifier)])
   }
 }

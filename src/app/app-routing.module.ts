@@ -31,7 +31,7 @@ const routes: Routes = [
   { path: "movie-display", component: MovieDisplayComponent },
   { path: "sign-in", component: SignInComponent },
   { path: 'movie-details/:id', component: MovieDetailsComponent },
-  { path: 'tickets-buy', component: TicketsBuyComponent}
+  { path: 'tickets-buy/:schedule', component: TicketsBuyComponent}
 ]
 
 @NgModule({

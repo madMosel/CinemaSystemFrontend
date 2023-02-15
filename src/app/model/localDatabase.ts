@@ -40,7 +40,7 @@ export class LocalDatabase {
     private halls: CinemaHall[] = []
     private _hallsChange$ = new Subject<CinemaHall[]>()
     public readonly hallsChange = this._hallsChange$.asObservable()
-    private copyHalls(halls : CinemaHall[]): CinemaHall[] {
+    private copyHalls(halls: CinemaHall[]): CinemaHall[] {
         let hallsCp: CinemaHall[] = []
         for (let h of halls) hallsCp.push(copyCinemaHall(h))
         return hallsCp
@@ -50,7 +50,7 @@ export class LocalDatabase {
     private movies: Movie[] = []
     private _moviesChange$ = new Subject<Movie[]>()
     public moviesChange = this._moviesChange$.asObservable()
-    private copyMovies(movies : Movie[]): Movie[] {
+    private copyMovies(movies: Movie[]): Movie[] {
         let moviesCp: Movie[] = []
         for (let m of movies) moviesCp.push(copyMovie(m))
         return moviesCp
@@ -61,7 +61,7 @@ export class LocalDatabase {
     private schedules: Schedule[] = []
     private _schedulesChange$ = new Subject<Schedule[]>()
     public schedulesChange = this._schedulesChange$.asObservable()
-    private copySchedules(schedules : Schedule[]): Schedule[] {
+    private copySchedules(schedules: Schedule[]): Schedule[] {
         let schedulesCp: Schedule[] = []
         for (let s of schedules) schedulesCp.push(copySchedule(s))
         return schedulesCp
@@ -195,6 +195,28 @@ export class LocalDatabase {
     //     }).catch(() => console.log("error"))
     // }
 
+    public async loadHallState(schedule: Schedule, deliver : (hall : CinemaHall|null) => void) {
+        let serverResult: CinemaHall | null = null
+        console.log("fetching hall state ...")
+        await fetch(
+            LocalDatabase.serverUrl + "hall-state", {
+            method: "post",
+            headers: {
+                "Authorization": this.localUser!.token,
+                "schedule": JSON.stringify(schedule)
+            }
+        }).then((response) => {
+            response.json().then(data => {
+                console.log(data)
+                deliver(data)
+            })
+        }).catch(e => {
+            console.log("can't get hall state")
+            console.log(serverResult)
+            deliver(null)
+        })
+        return serverResult
+    }
 
 
 
@@ -227,7 +249,7 @@ export class LocalDatabase {
     }
 
     public getHalls(): CinemaHall[] {
-        return  this.copyHalls(this.halls)
+        return this.copyHalls(this.halls)
     }
 
     public getMovieById(movieId: number): Movie | null {

@@ -1,4 +1,7 @@
-import { Component, Input } from '@angular/core';
+import { JsonPipe } from '@angular/common';
+import { Component, Input, OnInit } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { CinemaHall, dummyCinemaHall } from '../model/cinemaHallInterface';
 import { LocalDatabase } from '../model/localDatabase';
 import { Login } from '../model/loginInteface';
@@ -11,7 +14,8 @@ import { Ticket } from '../model/ticketInterface';
   templateUrl: './tickets-buy.component.html',
   styleUrls: ['./tickets-buy.component.css']
 })
-export class TicketsBuyComponent {
+export class TicketsBuyComponent implements OnInit {
+
   @Input() schedule: Schedule = {} as Schedule
   hall: CinemaHall = dummyCinemaHall
   localUser?: Login
@@ -22,10 +26,27 @@ export class TicketsBuyComponent {
     }
   }
 
-  constructor(private readonly database: LocalDatabase) {
+  // @ts-ignore
+  private routeSubscription: Subscription
+
+  constructor(
+    private readonly database: LocalDatabase,
+    private route: ActivatedRoute
+  ) {
     database.localUserChange.subscribe(this.localUserObserver)
     let user = database.getLocalUser()
     if (user != null) this.localUser = user
+  }
+
+  ngOnInit(): void {
+    this.routeSubscription = this.route.params.subscribe((params: Params) => {
+      let schedule = JSON.parse(params["schedule"]) as Schedule
+      let hall = this.database.loadHallState(schedule, (hall) => {
+        if (hall != null) this.hall = hall
+        console.log(hall)
+        console.log(this.hall)
+      })
+    })
   }
 
 
