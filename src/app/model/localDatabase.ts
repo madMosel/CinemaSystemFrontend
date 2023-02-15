@@ -208,7 +208,6 @@ export class LocalDatabase {
             method: "GET"
         }).then(response => {
             response.json().then(data => {
-                console.log(data)
                 this.halls = data.halls
                 this.movies = data.movies
                 this.schedules = data.schedules

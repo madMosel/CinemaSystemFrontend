@@ -10,7 +10,9 @@ import { Movie } from '../model/movieInterface';
 })
 export class MovieBrowserComponent {
   movies: Movie[] = []
-  movieObserver = { next: (movies: Movie[]) => { this.movies = movies } }
+  movieObserver = { next: (movies: Movie[]) => { 
+    console.log(movies)
+    this.movies = movies } }
 
   constructor(
     private readonly database: LocalDatabase,
