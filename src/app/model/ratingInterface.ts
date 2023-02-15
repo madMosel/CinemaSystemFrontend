@@ -6,13 +6,17 @@ export enum Stars {
     FIVE = 5
 }
 
-export class Rating {
-    constructor (
-        public stars : Stars, 
-        public description? : string
-        ) {
+export interface Rating {
+    stars: Stars,
+    description?: string
+}
 
-    }
-} 
+export function copyRating(old : Rating) : Rating{
+    return {stars: old.stars, description: old.description } as Rating
+}
 
-export const dummyRating = new Rating (Stars.THREE, "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.")
+export const dummyRating = {
+    stars: Stars.THREE,
+    description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+     ut labore et dolore magna aliqua.`
+} as Rating

@@ -1,36 +1,37 @@
 import { Seat, SeatCategory, SeatState } from "./seatInterface";
 
 
-export class CinemaHall {
-
-
-    constructor(
-        public hallId: number,
-        public hallName: string,
-        public seats: Seat[][],
-        public dolby: boolean,
-        public d3: boolean,
-        public d4: boolean
-    ) {
-
-    }
+export interface CinemaHall {
+    hallId: number,
+    hallName: string,
+    seats: Seat[][],
+    dolby: boolean,
+    d3: boolean,
+    d4: boolean
 }
 
 export function copyCinemaHall(h: CinemaHall): CinemaHall {
     let seatsCopy: Seat[][] = []
     for (let row of h.seats) {
-        let cpRow : Seat[] = []
+        let cpRow: Seat[] = []
         for (let seat of row) {
             cpRow.push({
                 id: seat.id,
                 category: seat.category,
                 state: seat.state
-            } as Seat )
+            } as Seat)
         }
         seatsCopy.push(cpRow)
     }
 
-    return new CinemaHall(h.hallId, h.hallName, seatsCopy, h.dolby, h.d3, h.d4)
+    return {
+        hallId: h.hallId,
+        hallName: h.hallName,
+        seats: seatsCopy,
+        dolby: h.dolby,
+        d3: h.d3,
+        d4: h.d4
+    } as CinemaHall
 }
 
 const dummySeat: Seat = {
@@ -40,4 +41,11 @@ const dummySeat: Seat = {
 } as Seat
 const dummyRow: Seat[] = [dummySeat]
 const dummySeats: Seat[][] = [dummyRow]
-export const dummyCinemaHall: CinemaHall = new CinemaHall(-1, "dummy Hall", dummySeats, false, false, false)
+export const dummyCinemaHall: CinemaHall = {
+    hallId: -1,
+    hallName: "dummy Hall",
+    seats: dummySeats,
+    dolby: false,
+    d3: false,
+    d4: false
+} as CinemaHall

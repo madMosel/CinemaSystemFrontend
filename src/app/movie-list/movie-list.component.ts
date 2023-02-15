@@ -31,7 +31,15 @@ export class MovieListComponent {
   }
 
   createNewMovie() {
-    this.activeMovie = new Movie(0, "new Movie", 0, 0, "/assets/ft the fishing turnament .jpeg", "enter description", [], 10)
+    this.activeMovie = { 
+      movieId: 0,
+      movieTitle: "new Movie",
+      age: 0,
+      duration: 0,
+      poster: "/assets/ft the fishing turnament .jpeg",
+      description: "enter description",
+      ratings: [],
+      price: 10 } as Movie
     this.schedulingMovie = false
     this.deletationConflicts = false
     this.editingMovie = true

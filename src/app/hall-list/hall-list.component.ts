@@ -39,7 +39,13 @@ export class HallListComponent {
       category: SeatCategory.NORMAL,
       state: SeatState.FREE} as Seat
     let seats: Seat[][] = [[seat]]
-    this.activeHall = new CinemaHall(0, "hall name", seats, false, false, false)
+    this.activeHall = {
+      hallId: 0,
+      hallName: "hall name",
+      seats: seats,
+      dolby: false,
+      d3: false,
+      d4: false} as CinemaHall
     this.editingHall = true
   }
 

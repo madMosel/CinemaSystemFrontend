@@ -1,9 +1,17 @@
-import { compeareNiceDatesOnEquality, NiceDate} from "./niceDateInterface"
+import { compeareNiceDatesOnEquality, copyNiceDate, NiceDate} from "./niceDateInterface"
 
 export interface Schedule {
     movieId: number,
     hallId: number,
     dateTime: NiceDate
+}
+
+export function copySchedule (old : Schedule) : Schedule {
+    return {
+        hallId: old.hallId,
+        movieId: old.hallId,
+        dateTime: copyNiceDate(old.dateTime)
+    } as Schedule
 }
 
 /**

@@ -61,7 +61,15 @@ export class EditMovieComponent {
   }
 
   updateMovieModel() {
-    this.movie = new Movie(this.movie.movieId, this.title, this.age, this.duration, this.movie.poster, this.description, this.movie.ratings, this.movie.price)
+    this.movie = { 
+      movieId: this.movie.movieId,
+      movieTitle: this.title,
+      age: this.age,
+      duration: this.duration,
+      poster: this.movie.poster,
+      description: this.description,
+      ratings: this.movie.ratings,
+      price: this.movie.price } as Movie
   }
 
   updateDatabase() {

@@ -86,13 +86,20 @@ export class EditCinemaHallComponent implements OnChanges {
             id: counter,
             category: SeatCategory.NORMAL,
             state: SeatState.FREE
-          } as Seat )
+          } as Seat)
         }
       }
       seats.push(row)
     }
 
-    this.cinemaHall = new CinemaHall(this.cinemaHall.hallId, this.cinemaHall.hallName, seats, this.cinemaHall.dolby, this.cinemaHall.d3, this.cinemaHall.d4)
+    this.cinemaHall = {
+      hallId: this.cinemaHall.hallId,
+      hallName: this.cinemaHall.hallName,
+      seats: seats,
+      dolby: this.cinemaHall.dolby,
+      d3: this.cinemaHall.d3,
+      d4: this.cinemaHall.d4
+    } as CinemaHall
   }
 
   seatClickedCallback = (seat: Seat) => {

@@ -27,7 +27,7 @@ export function parseToDate(date: NiceDate): Date {
 }
 
 
-function copy(nd: NiceDate): NiceDate {
+export function copyNiceDate(nd: NiceDate): NiceDate {
     return {
         year: nd.year,
         month: nd.month,

@@ -1,7 +1,7 @@
 import { Injectable, ModuleWithProviders, NgModule, OnDestroy, OnInit, Optional, SkipSelf } from "@angular/core";
-import { CinemaHall } from "./cinemaHallInterface";
-import { Movie } from "./movieInterface";
-import { compareSchedules, Schedule } from "./scheduleInterface";
+import { CinemaHall, copyCinemaHall } from "./cinemaHallInterface";
+import { copyMovie, Movie } from "./movieInterface";
+import { compareSchedules, copySchedule, Schedule } from "./scheduleInterface";
 import { Ticket } from "./ticketInterface";
 
 import mockCinemas from '../../assets/mockCinemas.json';
@@ -37,18 +37,40 @@ export enum OperationFeedback {
 export class LocalDatabase {
     private static readonly serverUrl: string = "http://127.0.0.1:3000/"
 
-    public static counter: number = 0;
-
-    public logCounter() { console.log(LocalDatabase.counter++) }
-
     private halls: CinemaHall[] = []
+    private _hallsChange$ = new Subject<CinemaHall[]>()
+    public readonly hallsChange = this._hallsChange$.asObservable()
+    private copyHalls(): CinemaHall[] {
+        let hallsCp: CinemaHall[] = []
+        for (let h of this.halls) hallsCp.push(copyCinemaHall(h))
+        return hallsCp
+    }
+    private notifyHallsChange() { this._hallsChange$.next(this.copyHalls()) }
+
     private movies: Movie[] = []
+    private _moviesChange$ = new Subject<Movie[]>()
+    public moviesChange = this._moviesChange$.asObservable()
+    private copyMovies(): Movie[] {
+        let moviesCp: Movie[] = []
+        for (let m of this.movies) moviesCp.push(copyMovie(m))
+        return moviesCp
+    }
+    private notifyMoviesChanged() { this._moviesChange$.next(this.copyMovies()) }
+
+
     private schedules: Schedule[] = []
+    private _schedulesChange$ = new Subject<Schedule[]>()
+    public schedulesChange = this._schedulesChange$.asObservable()
+    private copySchedules(): Schedule[] {
+        let schedulesCp: Schedule[] = []
+        for (let s of this.schedules) schedulesCp.push(copySchedule(s))
+        return schedulesCp
+    }
+    private notifySchedulesChange() { this._schedulesChange$.next(this.copySchedules()) }
 
     private localUser?: Login
     private _localUserChange$ = new Subject<Login | null>()
     public readonly localUserChange = this._localUserChange$.asObservable()
-
     private notifyUserChange() {
         if (!this.localUser) this._localUserChange$.next(null)
         else this._localUserChange$.next({ ...this.localUser } as Login)
@@ -81,10 +103,9 @@ export class LocalDatabase {
     private minutesOffset: number = 15
 
     constructor() {
-        this.logCounter()
-        this.load()
+        console.log("database constructor")
+        this.loadPublicData()
     }
-
 
     login(username: string, password: string) {
         this.loginIntoServer(username, password)
@@ -113,7 +134,6 @@ export class LocalDatabase {
             })
         }).then((response) => {
             response.json().then(data => {
-                console.log(data)
                 let type: UserType = data.usertype == "ADMIN" ? UserType.ADMIN : UserType.USER
                 this.localUser = { username: username, type: type, token: data.token } as Login
                 this.notifyUserChange()
@@ -181,7 +201,7 @@ export class LocalDatabase {
 
     }
 
-    private async load() {
+    private async loadPublicData() {
         console.log("loading...")
         await fetch(LocalDatabase.serverUrl + "load-public-data", {
             method: "GET"
@@ -193,8 +213,6 @@ export class LocalDatabase {
                 this.schedules = data.schedules
             })
         })
-
-        this.loadTicketsFromServer()
         this.createMaps()
     }
 
@@ -252,7 +270,7 @@ export class LocalDatabase {
     }
 
     public putHall(hall: CinemaHall) {
-        this.load()
+        // this.loadPublicData()
         if (hall.hallId == 0) hall.hallId = this.changes.newHallCounter--
         this.findAndReplaceElseAddHall(hall)
         this.createHallMap()
@@ -260,7 +278,7 @@ export class LocalDatabase {
 
 
     public deleteHall(hall: CinemaHall): OperationFeedback {
-        this.load()
+        // this.loadPublicData()
         for (let schedule of this.schedules) if (schedule.hallId == hall.hallId) {
             console.log(schedule)
             return OperationFeedback.HAS_REFERING_OBJECTS
@@ -293,7 +311,7 @@ export class LocalDatabase {
          * is edited further and exists     => exchange it in movies and exchagne in change.movie
          */
 
-        this.load()
+        this.loadPublicData()
         if (movie.movieId == 0) movie.movieId = this.changes.newMovieCounter--
         this.createMaps()
         this.findAndReplaceElseAddMovie(movie)
@@ -309,7 +327,7 @@ export class LocalDatabase {
          *    exists and changed      => remove from movies and change.movies and add to change.deleteMovies
          */
 
-        this.load()
+        // this.loadPublicData()
         for (let schedule of this.schedules) if (schedule.movieId == movie.movieId) {
             console.log(schedule)
             return OperationFeedback.HAS_REFERING_OBJECTS
