@@ -22,11 +22,7 @@ export class EditCinemaHallComponent implements OnChanges {
   toolActive: boolean = false
   toolType: SeatCategory = SeatCategory.NORMAL
   @Input() onCreate: () => void = () => { }
-
-
-  // add flags or enum of states
-  // is loaded, stored in db
-  // is a new cinemaHall
+  @Input() onUpdateDatabase: () => void = () => { }
 
 
 
@@ -148,6 +144,11 @@ export class EditCinemaHallComponent implements OnChanges {
   updateDatabase() {
     this.localDatabase.putHall(this.cinemaHall)
     this.onCreate()
+    this.onUpdateDatabase()
+  }
+
+  getButtonText(): string {
+    return this.cinemaHall.hallId > 0? "update local" : "create local"
   }
 
   // public setCinemaHall = (cinemaHall: CinemaHall) => {

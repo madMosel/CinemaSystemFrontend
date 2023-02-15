@@ -19,6 +19,7 @@ export class HallListComponent {
   editingHall: boolean = false
   scheduling : boolean = false
   deletationConflicts: boolean = false
+  hideEditor = () => (this.editingHall = false);
 
 
   constructor(

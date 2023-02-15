@@ -15,8 +15,10 @@ export class MovieListComponent {
   activeMovie: Movie = dummyMovie
 
   editingMovie: boolean = false
+  hideEditor = () => (this.editingMovie = false)
   schedulingMovie: boolean = false
   deletationConflicts: boolean = false;
+  
 
   constructor(
     private localDatabase: LocalDatabase

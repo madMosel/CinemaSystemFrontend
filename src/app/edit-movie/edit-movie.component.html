@@ -10,23 +10,23 @@
     <div class="tools">
         <div class="title-tool">
             <label for="title">Name:</label>
-            <input name="title" type="text" (input)="updateTitle($event)">
+            <input name="title" type="text" (input)="updateTitle($event)" [value]="movie.movieTitle">
         </div>
         <div class="number-input">
             <label for="age">Age:</label>
-            <input name="age" type="number" (input)="updateAge($event)">
+            <input name="age" type="number" min="0" (input)="updateAge($event)" [value]="movie.age">
         </div>
         <div class="number-input">
             <label for="duration">Duration:</label>
-            <input name="duration" type="number" (input)="updateDuration($event)">
+            <input name="duration" type="number" min="1" (input)="updateDuration($event)" [value]="movie.duration">
         </div>
         <div class="description-tool">
             <label for="description">Description:</label><br>
-            <textarea name="description" id="" cols="45" rows="20" (input)="updateDescription($event)"></textarea>
+            <textarea name="description" maxlength="400" id="" cols="45" rows="20" (input)="updateDescription($event)" [value]="movie.description"></textarea>
         </div>
 
         <div class="database-tool">
-            <button (click)="updateDatabase()">Create local</button>
+            <button (click)="updateDatabase()">{{getUpdateButtonText()}}</button>
         </div>
     </div>
 </div>

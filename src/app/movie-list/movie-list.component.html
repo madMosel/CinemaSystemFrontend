@@ -22,5 +22,5 @@
         </p>
     </div>
     <button (click)="createNewMovie()">+</button>
-    <app-edit-movie *ngIf="editingMovie" [movie]="activeMovie"></app-edit-movie>
+    <app-edit-movie *ngIf="editingMovie" [movie]="activeMovie" [onUpdateDatabase]=hideEditor></app-edit-movie>
 </div>

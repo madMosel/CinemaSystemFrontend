@@ -10,7 +10,7 @@
     <div class="tools">
         <div class="title-tool">
             <label for="title">Name: </label>
-            <input name="title" type="text" (change)="updateName($event)">
+            <input name="title" type="text" (change)="updateName($event)" [value]="cinemaHall.hallName">
         </div>
         <div class="grid-tool">
             <h3>Configure Grid</h3>
@@ -48,7 +48,7 @@
         </div>
 
         <div class="database-tool">
-            <button (click)="updateDatabase()">Create local</button>
+            <button (click)="updateDatabase()">{{getButtonText()}}</button>
         </div>
     </div>
 </div>

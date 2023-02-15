@@ -17,5 +17,5 @@
         </tr>
     </table>
     <button (click)="createNewHall()">+</button>
-    <app-edit-cinema-hall *ngIf="editingHall" [cinemaHall]="activeHall" [onCreate]="loadHalls"></app-edit-cinema-hall>
+    <app-edit-cinema-hall *ngIf="editingHall" [cinemaHall]="activeHall" [onCreate]="loadHalls" [onUpdateDatabase]="hideEditor"></app-edit-cinema-hall>
 </div>

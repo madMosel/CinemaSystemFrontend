@@ -9,9 +9,11 @@ import { Rating } from '../model/ratingInterface';
   styleUrls: ['./edit-movie.component.css']
 })
 export class EditMovieComponent {
+
   // localDatabase: LocalDatabase
   @Input() movie: Movie = dummyMovie
-  @Input() onCreate : () => void = () => {}
+  @Input() onCreate: () => void = () => { }
+  @Input() onUpdateDatabase: () => void = () => { }
 
   title: string = dummyMovie.movieTitle
   age: number = dummyMovie.age
@@ -22,7 +24,7 @@ export class EditMovieComponent {
   description: string = dummyMovie.description
 
   constructor(
-    public localDatabase : LocalDatabase
+    public localDatabase: LocalDatabase
   ) {
     // this.localDatabase = localDatabase
     this.updateMovieModel()
@@ -61,7 +63,7 @@ export class EditMovieComponent {
   }
 
   updateMovieModel() {
-    this.movie = { 
+    this.movie = {
       movieId: this.movie.movieId,
       movieTitle: this.title,
       age: this.age,
@@ -69,11 +71,17 @@ export class EditMovieComponent {
       poster: this.movie.poster,
       description: this.description,
       ratings: this.movie.ratings,
-      price: this.movie.price } as Movie
+      price: this.movie.price
+    } as Movie
   }
 
   updateDatabase() {
     this.localDatabase.putMovie(this.movie)
     this.onCreate()
+    this.onUpdateDatabase()
+  }
+
+  getUpdateButtonText(): string {
+    return this.movie.movieId > 0 ? "update local" : "create local"
   }
 }
