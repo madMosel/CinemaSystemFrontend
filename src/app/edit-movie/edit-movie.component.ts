@@ -81,22 +81,22 @@ export class EditMovieComponent {
   }
 
   updateDatabase() {
-    // if (!checkInputString(this.movie.movieTitle, 1, 70)) {
-    //   this.titleError = true
-    //   return
-    // }
-    // if (this.movie.age < 0) {
-    //   this.ageError = true
-    //   return
-    // }
-    // if (this.movie.duration < 1) {
-    //   this.durationError = true
-    //   return
-    // }
-    // if (!checkInputString(this.movie.description, 1, 400)) {
-    //   this.descriptionError = true
-    //   return
-    // }
+    if (!checkInputString(this.movie.movieTitle, 1, 70)) {
+      this.titleError = true
+      return
+    }
+    if (this.movie.age < 0) {
+      this.ageError = true
+      return
+    }
+    if (this.movie.duration < 1) {
+      this.durationError = true
+      return
+    }
+    if (!checkInputString(this.movie.description, 1, 400)) {
+      this.descriptionError = true
+      return
+    }
 
 
     this.localDatabase.putMovie(this.movie)
