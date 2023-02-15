@@ -1,10 +1,10 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component } from '@angular/core';
 import { CinemaHall } from '../model/cinemaHallInterface';
 import { LocalDatabase } from '../model/localDatabase';
 import { Movie } from '../model/movieInterface';
-import { compareNiceDatesOnTime, NiceDate, niceDateToString } from '../model/niceDateInterface';
+import { compareNiceDatesOnTime, niceDateToString } from '../model/niceDateInterface';
 import { compareSchedules, Schedule } from '../model/scheduleInterface';
-import { TableRow, CellEntry, TableRowState,  } from '../table/tabelDataInterface'
+import { CellEntry, TableRow, TableRowState } from '../table/tabelDataInterface';
 
 @Component({
   selector: 'app-movie-schedule',
@@ -17,8 +17,17 @@ export class MovieScheduleComponent {
   movie?: Movie = undefined
 
   halls: CinemaHall[] = []
+  hallsObserver = { next: (halls: CinemaHall[]) => { this.halls = halls } }
   movies: Movie[] = []
+  movieObserver = { next: (movies: Movie[]) => { this.movies = movies } }
   schedules: Schedule[] = []
+  schedulesObserver = {
+    next: (schedules: Schedule[]) => {
+      this.schedules = schedules
+      this.sortSchedulesByHallTime()
+      this.updateScheduleList()
+    }
+  }
 
   scheduleTable: TableRow[] = []
   markedSchedule?: TableRow
@@ -37,18 +46,14 @@ export class MovieScheduleComponent {
 
 
   constructor(
-    private localDatabase: LocalDatabase
+    private readonly localDatabase: LocalDatabase
   ) {
-    this.load()
-  }
-
-
-  load() {
     this.halls = this.localDatabase.getHalls()
+    localDatabase.hallsChange.subscribe(this.hallsObserver)
     this.movies = this.localDatabase.getMovies()
+    localDatabase.moviesChange.subscribe(this.movieObserver)
     this.schedules = this.localDatabase.getSchedules()
-    this.sortSchedulesByHallTime()
-    this.updateScheduleList()
+    localDatabase.schedulesChange.subscribe(this.schedulesObserver)
   }
 
 
@@ -72,7 +77,7 @@ export class MovieScheduleComponent {
   pickMovie(movie: Movie) {
     this.schedulingBlocked = false
     this.conflictMsg = false
-    
+
     if (this.movie && this.movie.movieId == movie.movieId) {
       this.movie = undefined
       this.scheduling = false
@@ -136,7 +141,7 @@ export class MovieScheduleComponent {
   }
 
   updateMaps() {
-    this.hallMap = new Map
+    this.hallMap = new Map()
     for (let hall of this.halls) this.hallMap.set(hall.hallId, hall.hallName)
     this.movieMap = new Map
     for (let movie of this.movies) this.movieMap.set(movie.movieId, movie)
@@ -167,15 +172,14 @@ export class MovieScheduleComponent {
       hour: parseInt(this.timeString.substring(0, 2)),
       minute: parseInt(this.timeString.substring(3, 5))
     }
-
+    
     let schedule: Schedule = {} as Schedule
     schedule.hallId = this.hall!.hallId
     schedule.movieId = this.movie!.movieId
     schedule.dateTime = dateTime
     let conflict = this.localDatabase.putSchedule(schedule)
 
-    if (conflict === null) this.load()
-    else {
+    if (conflict !== null) {
       this.conflictMark = conflict
       this.updateScheduleList()
       this.conflictMsg = true
@@ -185,7 +189,6 @@ export class MovieScheduleComponent {
 
   deleteSchedule() {
     this.localDatabase.deleteSchedule(this.markedSchedule?.identifier)
-    this.load()
     this.markedSchedule = undefined
     this.schedulingBlocked = false
   }

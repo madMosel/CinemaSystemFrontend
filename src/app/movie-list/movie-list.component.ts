@@ -11,6 +11,7 @@ import { LocalDatabase, OperationFeedback } from '../model/localDatabase';
 export class MovieListComponent {
 
   movies: Movie[] = []
+  movieObserver = { next: (movies: Movie[]) => { this.movies = movies } }
   activeMovie: Movie = dummyMovie
 
   editingMovie: boolean = false
@@ -20,7 +21,8 @@ export class MovieListComponent {
   constructor(
     private localDatabase: LocalDatabase
   ) {
-    this.loadMovies()
+    this.movies = this.localDatabase.getMovies()
+    localDatabase.moviesChange.subscribe(this.movieObserver)
   }
 
   editMovie(movie: Movie) {
@@ -57,9 +59,5 @@ export class MovieListComponent {
         break
     }
     console.log(feedback)
-  }
-
-  loadMovies = () => {
-    this.movies = this.localDatabase.getMovies()
   }
 }

@@ -10,15 +10,17 @@ import { Movie } from '../model/movieInterface';
 })
 export class MovieBrowserComponent {
   movies: Movie[] = []
+  movieObserver = { next: (movies: Movie[]) => { this.movies = movies } }
 
   constructor(
-    private readonly database : LocalDatabase,
+    private readonly database: LocalDatabase,
     private readonly router: Router
   ) {
+    database.moviesChange.subscribe(this.movieObserver)
     this.movies = database.getMovies()
   }
 
-  goToMovie(movie : Movie) {
+  goToMovie(movie: Movie) {
     this.router.navigate(["movie-details", movie.movieId])
   }
 }

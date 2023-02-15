@@ -9,7 +9,7 @@ export interface Schedule {
 export function copySchedule (old : Schedule) : Schedule {
     return {
         hallId: old.hallId,
-        movieId: old.hallId,
+        movieId: old.movieId,
         dateTime: copyNiceDate(old.dateTime)
     } as Schedule
 }

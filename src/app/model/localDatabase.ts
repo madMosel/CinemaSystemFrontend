@@ -40,33 +40,33 @@ export class LocalDatabase {
     private halls: CinemaHall[] = []
     private _hallsChange$ = new Subject<CinemaHall[]>()
     public readonly hallsChange = this._hallsChange$.asObservable()
-    private copyHalls(): CinemaHall[] {
+    private copyHalls(halls : CinemaHall[]): CinemaHall[] {
         let hallsCp: CinemaHall[] = []
-        for (let h of this.halls) hallsCp.push(copyCinemaHall(h))
+        for (let h of halls) hallsCp.push(copyCinemaHall(h))
         return hallsCp
     }
-    private notifyHallsChange() { this._hallsChange$.next(this.copyHalls()) }
+    private notifyHallsChange() { this._hallsChange$.next(this.copyHalls(this.halls)) }
 
     private movies: Movie[] = []
     private _moviesChange$ = new Subject<Movie[]>()
     public moviesChange = this._moviesChange$.asObservable()
-    private copyMovies(): Movie[] {
+    private copyMovies(movies : Movie[]): Movie[] {
         let moviesCp: Movie[] = []
-        for (let m of this.movies) moviesCp.push(copyMovie(m))
+        for (let m of movies) moviesCp.push(copyMovie(m))
         return moviesCp
     }
-    private notifyMoviesChanged() { this._moviesChange$.next(this.copyMovies()) }
+    private notifyMoviesChanged() { this._moviesChange$.next(this.copyMovies(this.movies)) }
 
 
     private schedules: Schedule[] = []
     private _schedulesChange$ = new Subject<Schedule[]>()
     public schedulesChange = this._schedulesChange$.asObservable()
-    private copySchedules(): Schedule[] {
+    private copySchedules(schedules : Schedule[]): Schedule[] {
         let schedulesCp: Schedule[] = []
-        for (let s of this.schedules) schedulesCp.push(copySchedule(s))
+        for (let s of schedules) schedulesCp.push(copySchedule(s))
         return schedulesCp
     }
-    private notifySchedulesChange() { this._schedulesChange$.next(this.copySchedules()) }
+    private notifySchedulesChange() { this._schedulesChange$.next(this.copySchedules(this.schedules)) }
 
     private localUser?: Login
     private _localUserChange$ = new Subject<Login | null>()
@@ -173,6 +173,7 @@ export class LocalDatabase {
             this.notifyDbChanged(false)
 
         }).catch(() => console.log("update error"))
+        this.loadPublicData()
     }
 
     // private async logoutFromServer() {
@@ -211,6 +212,9 @@ export class LocalDatabase {
                 this.halls = data.halls
                 this.movies = data.movies
                 this.schedules = data.schedules
+                this.notifyHallsChange()
+                this.notifyMoviesChanged()
+                this.notifySchedulesChange()
             })
         })
         this.createMaps()
@@ -219,42 +223,34 @@ export class LocalDatabase {
 
     public getHallById(hallId: number): CinemaHall | null {
 
-        for (let hall of this.halls) if (hall.hallId === hallId) return { ...hall }
+        for (let hall of this.halls) if (hall.hallId === hallId) return copyCinemaHall(hall)
         return null;
     }
 
     public getHalls(): CinemaHall[] {
-
-        let cinemHallsCopy: CinemaHall[] = [...this.halls]
-        return cinemHallsCopy
+        return  this.copyHalls(this.halls)
     }
 
     public getMovieById(movieId: number): Movie | null {
 
-        for (let movie of this.movies) if (movie.movieId === movieId) return { ...movie }
+        for (let movie of this.movies) if (movie.movieId === movieId) return copyMovie(movie)
         return null
     }
 
     public getMovies(): Movie[] {
-
-        let moviesCopy: Movie[] = [...this.movies]
-        return moviesCopy
+        return this.copyMovies(this.movies)
     }
 
     public getSchedulesOfHall(hallId: number): Schedule[] {
-
-
         let hallSchedules: Schedule[] = []
-        for (let schedule of this.schedules) if (schedule.hallId === hallId) hallSchedules.push({ ...schedule })
+        for (let schedule of this.schedules) if (schedule.hallId === hallId) hallSchedules.push(schedule)
         return hallSchedules
     }
 
     public getSchedulesOfMovie(movieId: number): Schedule[] {
-
-
         let movieSchedules: Schedule[] = []
-        for (let schedule of this.schedules) if (schedule.movieId === movieId) movieSchedules.push({ ...schedule })
-        return movieSchedules
+        for (let schedule of this.schedules) if (schedule.movieId === movieId) movieSchedules.push(schedule)
+        return this.copySchedules(movieSchedules)
     }
 
     public getSchedules(): Schedule[] {
@@ -274,6 +270,7 @@ export class LocalDatabase {
         if (hall.hallId == 0) hall.hallId = this.changes.newHallCounter--
         this.findAndReplaceElseAddHall(hall)
         this.createHallMap()
+        this.notifyHallsChange()
     }
 
 
@@ -291,10 +288,8 @@ export class LocalDatabase {
             this.notifyDbChanged(true)
         }
 
-
-
+        this.notifyHallsChange()
         return OperationFeedback.OK
-
     }
 
 
@@ -315,7 +310,7 @@ export class LocalDatabase {
         if (movie.movieId == 0) movie.movieId = this.changes.newMovieCounter--
         this.createMaps()
         this.findAndReplaceElseAddMovie(movie)
-
+        this.notifyMoviesChanged()
     }
 
     public deleteMovie(movie: Movie) {
@@ -340,7 +335,7 @@ export class LocalDatabase {
             this.notifyDbChanged(true)
         }
 
-
+        this.notifyMoviesChanged()
         return OperationFeedback.OK
 
     }
@@ -370,13 +365,13 @@ export class LocalDatabase {
                 console.log(existingStart)
                 console.log(existingEnd)
                 console.log("Conflict!")
-                return { ...exisitingSchedule }
+                return copySchedule(exisitingSchedule)
             }
         }
         this.schedules.push(schedule)
         this.changes.schedules.push(schedule)
         this.notifyDbChanged(true)
-
+        this.notifySchedulesChange()
         return null
     }
 
@@ -389,11 +384,13 @@ export class LocalDatabase {
             for (let ns of this.changes.schedules) if (compareSchedules(ns, schedule)) {
                 foundInChanges = true
                 this.changes.schedules.splice(this.changes.schedules.indexOf(ns), 1)
+                this.notifySchedulesChange()
                 break
             }
             if (!foundInChanges) {
                 this.changes.deleteSchedules.push(schedule)
                 this.notifyDbChanged(true)
+                this.notifySchedulesChange()
             }
             return
         }

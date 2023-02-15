@@ -22,5 +22,5 @@
         </p>
     </div>
     <button (click)="createNewMovie()">+</button>
-    <app-edit-movie *ngIf="editingMovie" [movie]="activeMovie" [onCreate]="loadMovies"></app-edit-movie>
+    <app-edit-movie *ngIf="editingMovie" [movie]="activeMovie"></app-edit-movie>
 </div>
