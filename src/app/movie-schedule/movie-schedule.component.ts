@@ -54,6 +54,7 @@ export class MovieScheduleComponent {
     localDatabase.moviesChange.subscribe(this.movieObserver)
     this.schedules = this.localDatabase.getSchedules()
     localDatabase.schedulesChange.subscribe(this.schedulesObserver)
+    this.updateScheduleList()
   }
 
 
