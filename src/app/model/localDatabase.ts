@@ -305,8 +305,6 @@ export class LocalDatabase {
          * is edited first and exists       => exchange it in movies and add add to changes.movies
          * is edited further and exists     => exchange it in movies and exchagne in change.movie
          */
-
-        this.loadPublicData()
         if (movie.movieId == 0) movie.movieId = this.changes.newMovieCounter--
         this.createMaps()
         this.findAndReplaceElseAddMovie(movie)
