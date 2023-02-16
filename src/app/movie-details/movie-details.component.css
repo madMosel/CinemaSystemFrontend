@@ -16,3 +16,11 @@
     display: flex;
     flex-direction: column;
 } */
+
+.shop {
+    padding: 1em;
+    margin: 1em;
+    background-color: var(--dark_gray);
+    border-radius: 8px;
+    text-align: center;
+}

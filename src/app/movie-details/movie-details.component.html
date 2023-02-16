@@ -1,9 +1,12 @@
 <div class="mother">
     <app-movie-display [movie]="movie" class="movie-display"></app-movie-display>
-    <div>
-        <app-table [header]="headline" [rows]="scheduleList" class="schedule-list"></app-table>
-        <button *ngIf="localUser && selectedSchedule" (click)="buyTicket()">Buy Tickets</button>
-        <button *ngIf="localUser && rating == false" (click)="showRatingTool()">Rate & Comment</button>
+    <div class="shop">
+        <div>
+            <app-table [header]="headline" [rows]="scheduleList" class="schedule-list"></app-table>
+            <p *ngIf="scheduleList.length>0">Click row to select schedule</p>
+            <button *ngIf="localUser && selectedSchedule" (click)="buyTicket()">Buy Tickets</button><br>
+            <button *ngIf="localUser && rating == false" (click)="showRatingTool()">Rate & Comment</button>
+        </div>
 
         <div class="my-rating" *ngIf="rating == true">
             <ngb-rating class="star"  [max]="5" [(rate)]="starsValue"></ngb-rating> <br>

@@ -4,6 +4,10 @@
     padding: 1em
 }
 
+h2 {
+    color: var(--main_content);
+}
+
 .movie-main {
     display: flex;
     flex-direction: row;

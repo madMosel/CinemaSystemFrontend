@@ -35,3 +35,8 @@ tr.table-row-marked {
     color: darkred;
     background-color: rgb(221, 191, 125);
 }
+
+#default-layout {
+    background-color: rgb(48, 93, 99);
+    color: rgb(233, 212, 92)
+}
