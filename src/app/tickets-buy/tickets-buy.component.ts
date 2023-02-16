@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { CinemaHall, dummyCinemaHall } from '../model/cinemaHallInterface';
 import { LocalDatabase } from '../model/localDatabase';
@@ -41,7 +41,8 @@ export class TicketsBuyComponent implements OnInit {
 
   constructor(
     private readonly database: LocalDatabase,
-    private route: ActivatedRoute
+    private route: ActivatedRoute, 
+    private readonly router : Router
   ) {
     database.localUserChange.subscribe(this.localUserObserver)
     let user = database.getLocalUser()
@@ -52,12 +53,16 @@ export class TicketsBuyComponent implements OnInit {
     this.routeSubscription = this.route.params.subscribe((params: Params) => {
       this.schedule = JSON.parse(params["schedule"]) as Schedule
       this.dateString = niceDateToString(this.schedule.dateTime)
-      let hall = this.database.loadHallState(this.schedule, (hall) => {
-        if (hall != null) {
-          this.hall = hall
-          this.movieTitle = this.database.getMovieById(this.schedule.movieId)?.movieTitle
-        }
-      })
+      this.loadHallState()
+    })
+  }
+
+  loadHallState() {
+    this.database.loadHallState(this.schedule, (hall) => {
+      if (hall != null) {
+        this.hall = hall
+        this.movieTitle = this.database.getMovieById(this.schedule.movieId)?.movieTitle
+      }
     })
   }
 
@@ -105,10 +110,10 @@ export class TicketsBuyComponent implements OnInit {
     for (let entry of this.cart) tickets.push(entry.ticket) 
       this.database.putTickets(tickets, (answerFlag) => {
         if (answerFlag) {
-          //go to my tickets
+          this.router.navigate(["my-tickets"])
         }
         else {
-          //load again because of conflicts
+          this.loadHallState()
         }
       })
     }

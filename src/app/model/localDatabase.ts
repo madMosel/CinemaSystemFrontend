@@ -226,9 +226,10 @@ export class LocalDatabase {
                 "tickets": JSON.stringify(tickets)
             }
         }).then((response) => {
-            response.json().then(data => {
-                console.log(data)
-            })
+            console.log(response.status)
+            if (response.status == 200) respond(true)
+            else respond(false)
+            
         }).catch(e => {
             console.log("error buying tickets")
             respond(false)

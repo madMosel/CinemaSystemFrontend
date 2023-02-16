@@ -13,6 +13,7 @@ import { SignInComponent } from './sign-in/sign-in.component';
 import { MovieScheduleComponent } from './movie-schedule/movie-schedule.component';
 import { MovieDetailsComponent } from './movie-details/movie-details.component';
 import { TicketsBuyComponent } from './tickets-buy/tickets-buy.component';
+import { MyTicketsComponent } from './my-tickets/my-tickets.component';
 
 
 const routes: Routes = [
@@ -31,7 +32,8 @@ const routes: Routes = [
   { path: "movie-display", component: MovieDisplayComponent },
   { path: "sign-in", component: SignInComponent },
   { path: 'movie-details/:id', component: MovieDetailsComponent },
-  { path: 'tickets-buy/:schedule', component: TicketsBuyComponent}
+  { path: 'tickets-buy/:schedule', component: TicketsBuyComponent},
+  { path: 'my-tickets', component: MyTicketsComponent}
 ]
 
 @NgModule({
