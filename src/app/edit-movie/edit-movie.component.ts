@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { checkInputString } from '../model/helpers';
 import { LocalDatabase } from '../model/localDatabase';
 import { dummyMovie, Movie } from '../model/movieInterface';
@@ -9,7 +9,7 @@ import { Rating } from '../model/ratingInterface';
   templateUrl: './edit-movie.component.html',
   styleUrls: ['./edit-movie.component.css']
 })
-export class EditMovieComponent {
+export class EditMovieComponent implements OnChanges{
 
   // localDatabase: LocalDatabase
   @Input() movie: Movie = dummyMovie
@@ -23,6 +23,7 @@ export class EditMovieComponent {
   rateCount: number = 0
   ratings: Rating[] = dummyMovie.ratings
   description: string = dummyMovie.description
+
   titleError: boolean = false;
   ageError: boolean = false;
   durationError: boolean = false;
@@ -32,6 +33,14 @@ export class EditMovieComponent {
     public localDatabase: LocalDatabase
   ) {
     // this.localDatabase = localDatabase
+    this.updateMovieModel()
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+    this.title = this.movie.movieTitle
+    this.age = this.movie.age
+    this.duration = this.movie.duration
+    this.description = this.movie.description
+    this.ratings = this.movie.ratings
     this.updateMovieModel()
   }
 
