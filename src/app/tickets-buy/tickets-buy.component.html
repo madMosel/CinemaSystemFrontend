@@ -8,6 +8,7 @@
             <p>{{dateString}}</p>
             <h4 *ngIf="cart.length > 0">New Tickets:</h4>
             <div *ngFor="let t of cart">SeatNr: {{printTicketInfo(t.ticket)}}</div>
+            <div *ngIf="readyToBuy" style="border-top: solid 1px beige;">total: {{total}}€</div>
         </div>
         <div class="space">
             
