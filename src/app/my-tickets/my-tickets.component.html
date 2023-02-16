@@ -1,1 +1,9 @@
-<p>my-tickets works!</p>
+<div class="mother">
+    <div class="ticket" *ngFor="let ticket of tickets">
+        <qrcode [qrdata]="hashTicket(ticket)"></qrcode>
+        <div class="text">
+            <h5>{{getMovieTitle(ticket)}}</h5>
+            <p>{{getHallName(ticket)}}    {{getDateString(ticket)}}</p>
+        </div>
+    </div>
+</div>

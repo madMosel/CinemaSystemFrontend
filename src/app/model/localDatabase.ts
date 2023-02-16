@@ -195,7 +195,7 @@ export class LocalDatabase {
     //     }).catch(() => console.log("error"))
     // }
 
-    public async loadHallState(schedule: Schedule, deliver : (hall : CinemaHall|null) => void) {
+    public async loadHallState(schedule: Schedule, deliver: (hall: CinemaHall | null) => void) {
         console.log("fetching hall state ...")
         await fetch(
             LocalDatabase.serverUrl + "hall-state", {
@@ -217,7 +217,7 @@ export class LocalDatabase {
 
 
 
-    public async putTickets(tickets: Ticket[], respond : (successfull : boolean) => void ) {
+    public async putTickets(tickets: Ticket[], respond: (successfull: boolean) => void) {
         await fetch(
             LocalDatabase.serverUrl + "buy-tickets", {
             method: "post",
@@ -229,7 +229,7 @@ export class LocalDatabase {
             console.log(response.status)
             if (response.status == 200) respond(true)
             else respond(false)
-            
+
         }).catch(e => {
             console.log("error buying tickets")
             respond(false)
@@ -238,8 +238,21 @@ export class LocalDatabase {
 
 
 
-    private async loadTicketsFromServer() {
-
+    public async loadTickets(deliver: (tickets: Ticket[] | null) => void) {
+        if (!this.localUser) deliver(null)
+        await fetch(LocalDatabase.serverUrl + "tickets", {
+            method: "GET",
+            headers: {
+                "Authorization": this.localUser!.token,
+            }
+        }).then((response) => {
+            response.json().then(data => {
+                deliver(data)
+            })
+        }).catch(e => {
+            console.log(e)
+            deliver(null)
+        })
     }
 
     private async loadPublicData() {

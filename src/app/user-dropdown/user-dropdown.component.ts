@@ -14,6 +14,11 @@ export class UserDropdownComponent {
     private readonly router : Router,
     private readonly database : LocalDatabase
   ) {}
+
+  myTickets() {
+    this.router.navigate(["my-tickets"])
+    this.dropdownItem.close();
+  }
   
   logout() {
     this.database.logout()

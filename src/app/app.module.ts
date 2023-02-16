@@ -22,6 +22,7 @@ import { MovieSchemeComponent } from './movie-scheme/movie-scheme.component';
 import { MovieDetailsComponent } from './movie-details/movie-details.component';
 import { TicketsBuyComponent } from './tickets-buy/tickets-buy.component';
 import { MyTicketsComponent } from './my-tickets/my-tickets.component';
+import { QRCodeModule } from 'angularx-qrcode';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { MyTicketsComponent } from './my-tickets/my-tickets.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    NgbModule
+    NgbModule,
+    QRCodeModule
   ],
   providers: [
     LocalDatabase],
