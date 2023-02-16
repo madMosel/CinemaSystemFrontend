@@ -23,7 +23,7 @@
     </div>
     <div class="space"></div>
     <button class="add" (click)="createNewMovie()">+</button>
-    <div class="editor">
-        <app-edit-movie *ngIf="editingMovie" [movie]="activeMovie" [onUpdateDatabase]=hideEditor></app-edit-movie>
-    </div>
+</div>
+<div class="editor">
+    <app-edit-movie *ngIf="editingMovie" [movie]="activeMovie" [onUpdateDatabase]=hideEditor></app-edit-movie>
 </div>
