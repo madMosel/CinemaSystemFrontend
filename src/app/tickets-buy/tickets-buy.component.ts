@@ -41,8 +41,8 @@ export class TicketsBuyComponent implements OnInit {
 
   constructor(
     private readonly database: LocalDatabase,
-    private route: ActivatedRoute, 
-    private readonly router : Router
+    private route: ActivatedRoute,
+    private readonly router: Router
   ) {
     database.localUserChange.subscribe(this.localUserObserver)
     let user = database.getLocalUser()
@@ -103,12 +103,16 @@ export class TicketsBuyComponent implements OnInit {
     else this.readyToBuy = false
   }
 
-  calculateTicketPrice(seat : Seat) : number {
+  calculateTicketPrice(seat: Seat): number {
     let price = this.database.getMovieById(this.schedule.movieId)!.price
-    if (this.schedule.dateTime.hour >= 20 && this.schedule.dateTime.hour <= 22) price*=1.2
-    if (seat.category == SeatCategory.PREMIUM) price*=1.3
-    if (seat.id / this.hall.seats[0].length < 1) price *=1.1
-    else if (seat.id / this.hall.seats[0].length >= this.hall.seats.length) price*=0.8
+    if (this.schedule.dateTime.hour >= 20 && this.schedule.dateTime.hour <= 22) price *= 1.2
+    if (seat.category == SeatCategory.PREMIUM) price *= 1.3
+    if (seat.id / this.hall.seats[0].length < 1) price *= 1.1
+    else if (seat.id / this.hall.seats[0].length >= this.hall.seats.length) price *= 0.8
+    if (this.hall.dolby) price += 1
+    if (this.hall.d3) price += 1
+    if (this.hall.d4) price +=1
+
     price = Number(price.toFixed(0))
     this.total += price
     return price
@@ -120,15 +124,15 @@ export class TicketsBuyComponent implements OnInit {
 
 
   buyTickets() {
-    let tickets : Ticket[] = []
-    for (let entry of this.cart) tickets.push(entry.ticket) 
-      this.database.putTickets(tickets, (answerFlag) => {
-        if (answerFlag) {
-          this.router.navigate(["my-tickets"])
-        }
-        else {
-          this.loadHallState()
-        }
-      })
-    }
+    let tickets: Ticket[] = []
+    for (let entry of this.cart) tickets.push(entry.ticket)
+    this.database.putTickets(tickets, (answerFlag) => {
+      if (answerFlag) {
+        this.router.navigate(["my-tickets"])
+      }
+      else {
+        this.loadHallState()
+      }
+    })
+  }
 }
