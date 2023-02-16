@@ -89,7 +89,7 @@ export class TicketsBuyComponent implements OnInit {
         }
         break
       case SeatState.BOOKED:
-        //booked by me? storno popup
+        //booked by me? storno popup? ignore click = current state?
         break
     }
     if (this.cart.length > 0) this.readyToBuy = true
@@ -99,4 +99,17 @@ export class TicketsBuyComponent implements OnInit {
   printTicketInfo(ticket: Ticket): string {
     return ticket.seatId + " todo calculate ticket price"
   }
+
+  buyTickets() {
+    let tickets : Ticket[] = []
+    for (let entry of this.cart) tickets.push(entry.ticket) 
+      this.database.putTickets(tickets, (answerFlag) => {
+        if (answerFlag) {
+          //go to my tickets
+        }
+        else {
+          //load again because of conflicts
+        }
+      })
+    }
 }

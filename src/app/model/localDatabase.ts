@@ -196,7 +196,6 @@ export class LocalDatabase {
     // }
 
     public async loadHallState(schedule: Schedule, deliver : (hall : CinemaHall|null) => void) {
-        let serverResult: CinemaHall | null = null
         console.log("fetching hall state ...")
         await fetch(
             LocalDatabase.serverUrl + "hall-state", {
@@ -212,10 +211,28 @@ export class LocalDatabase {
             })
         }).catch(e => {
             console.log("can't get hall state")
-            console.log(serverResult)
             deliver(null)
         })
-        return serverResult
+    }
+
+
+
+    public async putTickets(tickets: Ticket[], respond : (successfull : boolean) => void ) {
+        await fetch(
+            LocalDatabase.serverUrl + "buy-tickets", {
+            method: "post",
+            headers: {
+                "Authorization": this.localUser!.token,
+                "tickets": JSON.stringify(tickets)
+            }
+        }).then((response) => {
+            response.json().then(data => {
+                console.log(data)
+            })
+        }).catch(e => {
+            console.log("error buying tickets")
+            respond(false)
+        })
     }
 
 
@@ -311,11 +328,6 @@ export class LocalDatabase {
 
         this.notifyHallsChange()
         return OperationFeedback.OK
-    }
-
-
-    public putTicket(ticket: Ticket): OperationFeedback {
-        return OperationFeedback.NOT_IMPLEMENTED
     }
 
 
