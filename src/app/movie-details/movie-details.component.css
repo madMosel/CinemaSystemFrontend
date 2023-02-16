@@ -23,4 +23,18 @@
     background-color: var(--dark_gray);
     border-radius: 8px;
     text-align: center;
+    align-items: center;
+}
+
+.shop div {
+    text-align: center;
+    align-items: center;
+}
+
+app-table {
+    align-self: center;
+}
+
+input {
+    background-color: var(--main_content);
 }

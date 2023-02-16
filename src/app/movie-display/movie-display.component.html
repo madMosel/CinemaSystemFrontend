@@ -1,9 +1,8 @@
 <div class="mother">
+    <div class="image">
+        <img [src]="movie.poster">
+    </div>
     <div class="movie-main">
-        <div>
-            <img [src]="movie.poster">
-        </div>
-
         <div class="info">
             <h2>{{movie.movieTitle}}</h2>
             <ngb-rating class="star" [max]=5 [(rate)]="rating" [readonly]="true"></ngb-rating>
@@ -12,14 +11,15 @@
             <p>Duration: {{movie.duration}}min</p>
             <p>{{movie.description}}</p>
         </div>
-    </div>
-    <div class="movie-sub">
-        <h4 class="section_headline">Ratings</h4>
-        <div class="sub_content">
-            <div *ngFor="let rating of movie.ratings">
-                <div *ngIf="rating.description">
-                    <ngb-rating [max]="5" [rate]="movie.ratings[0].stars" [readonly]="true"></ngb-rating>
-                    <p>{{rating.description}}</p>
+
+        <div class="movie-sub" *ngIf="movie.ratings.length > 0">
+            <h4 class="section_headline">Ratings</h4>
+            <div class="sub_content">
+                <div *ngFor="let rating of movie.ratings">
+                    <div *ngIf="rating.description">
+                        <ngb-rating [max]="5" [rate]="movie.ratings[0].stars" [readonly]="true"></ngb-rating>
+                        <p>{{rating.description}}</p>
+                    </div>
                 </div>
             </div>
         </div>
