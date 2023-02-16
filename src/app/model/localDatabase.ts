@@ -287,7 +287,7 @@ export class LocalDatabase {
             headers: {
                 "Authorization": this.localUser!.token,
                 "rating": JSON.stringify(myRating),
-                "movieId": "" + movieId
+                "movieId": JSON.stringify(movieId)
             }
         }).then((response) => {
             if (response.status == 200) respond(true)

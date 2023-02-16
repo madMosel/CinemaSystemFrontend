@@ -118,6 +118,7 @@ export class MovieDetailsComponent implements OnInit {
     if (stars != null) this.myRating!.stars = stars
     this.myRating!.description = this.ratingComment ? this.ratingComment : undefined
 
+    console.log(this.movie.movieId)
     this.database.postRating(this.myRating!, this.movie.movieId,(flag)=>{
       if (flag) {
 

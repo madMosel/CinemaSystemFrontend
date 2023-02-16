@@ -61,6 +61,10 @@ export class EditMovieComponent implements OnChanges{
   }
 
   updateDuration(event: any) {
+    if (this.localDatabase.getSchedulesOfMovie(this.movie.movieId).length > 0) {
+      (event.target as HTMLInputElement).disabled = true
+      return
+    }
     let eventVal = Number(event.target.value)
     if (eventVal > 0) {
       this.duration = eventVal
