@@ -3,7 +3,7 @@ button:active {
 }
 
 .tools h3 {
-    color: var(--main_headline);
+    color: rgb(139, 170, 230);
     margin-bottom: 0.75em;
 }
 

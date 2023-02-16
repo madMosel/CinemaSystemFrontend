@@ -36,13 +36,13 @@
         <div class="features-tool">
             <h3>Configure Features</h3>
             <div class="checkbox-container">
-                <input type="checkbox" id="dolby" name="dolby">
-                <label for="dolby">Dolby Atmos</label>
+                <input type="checkbox" [value]="cinemaHall.dolby" (change)="dolbyClicked()" id="dolby" name="dolby">
+                <label for="dolby" >Dolby Atmos</label>
                 <br>
-                <input type="checkbox" id="d3" name="d3">
+                <input type="checkbox" [value]="cinemaHall.d3" (change)="d3Clicked()" id="d3" name="d3">
                 <label for="d3">3D</label>
                 <br>
-                <input type="checkbox" id="d4" name="d4">
+                <input type="checkbox"  [value]="cinemaHall.d4" (change)="d4Clicked()" id="d4" name="d4">
                 <label for="d4">4D</label>
             </div>
         </div>

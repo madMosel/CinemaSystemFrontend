@@ -14,6 +14,17 @@ import { Seat, SeatCategory, SeatState } from '../model/seatInterface';
 })
 export class EditCinemaHallComponent implements OnChanges {
 
+  // public setCinemaHall = (cinemaHall: CinemaHall) => {
+  //   console.log("setting hall... hall=")
+  //   console.log(cinemaHall)
+  //   this.cinemaHall = cinemaHall
+  //   this.numRows = this.cinemaHall.seats.length
+  //   this.numCols = this.cinemaHall.seats[0].length
+  //   this.updateHallModel()
+  //   console.log(this.cinemaHall)
+  // }
+
+
 
   @Input() cinemaHall: CinemaHall = dummyCinemaHall
   numRows: number
@@ -148,7 +159,17 @@ export class EditCinemaHallComponent implements OnChanges {
   }
 
   getButtonText(): string {
-    return this.cinemaHall.hallId > 0? "update local" : "create local"
+    return this.cinemaHall.hallId > 0 ? "update local" : "create local"
+  }
+
+  dolbyClicked() {
+    this.cinemaHall.dolby=true
+  }
+  d3Clicked() {
+    this.cinemaHall.d3=true
+  }
+  d4Clicked() {
+    this.cinemaHall.d4=true
   }
 
   // public setCinemaHall = (cinemaHall: CinemaHall) => {
