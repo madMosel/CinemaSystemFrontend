@@ -59,6 +59,7 @@ export class MovieScheduleComponent {
 
 
   pickHall(hall: CinemaHall) {
+    this.unmarkSchedule()
     this.schedulingBlocked = false
     this.conflictMsg = false
 
@@ -76,6 +77,7 @@ export class MovieScheduleComponent {
   }
 
   pickMovie(movie: Movie) {
+    this.unmarkSchedule()
     this.schedulingBlocked = false
     this.conflictMsg = false
 
@@ -94,13 +96,18 @@ export class MovieScheduleComponent {
     return movie.movieId == this.movie?.movieId
   }
 
+  unmarkSchedule() {
+    if (this.markedSchedule) {
+      this.markedSchedule.classRow = TableRowState.NORMAL
+      this.markedSchedule = undefined
+      this.highlightRows()
+    }
+  }
 
   markSchedule = (row: TableRow) => {
     this.conflictMsg = false
     if (this.markedSchedule && this.markedSchedule == row) {
-      this.markedSchedule.classRow = TableRowState.NORMAL
-      this.markedSchedule = undefined
-      this.highlightRows()
+      this.unmarkSchedule()
       this.schedulingBlocked = false
     }
     else {
@@ -173,7 +180,7 @@ export class MovieScheduleComponent {
       hour: parseInt(this.timeString.substring(0, 2)),
       minute: parseInt(this.timeString.substring(3, 5))
     }
-    
+
     let schedule: Schedule = {} as Schedule
     schedule.hallId = this.hall!.hallId
     schedule.movieId = this.movie!.movieId

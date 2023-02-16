@@ -3,6 +3,19 @@ img {
 }
 
 .mother {
-    display: flex;
-    flex-direction: row;
+    text-align: center;
+    padding: 1em;
+    margin: 1em;
+    background-color: var(--dark_gray);
+    padding-bottom: 8px; 
+    border-radius: 8px;
+}
+
+.mother:hover {
+    background-color: var(--border_color);
+    border: solid 2px --var(--highlight);
+}
+
+h4 {
+    margin-top: 8px;
 }

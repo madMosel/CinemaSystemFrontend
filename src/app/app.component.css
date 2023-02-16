@@ -3,30 +3,35 @@
     height: fit-content;
     padding: 1em;
     display: flex;
-    background-color: var(--dark_red);
+    background-color: var(--black);
     align-items: center;
 }
 
 h2 {
-    color: gold;
+    color: var(--green);
     font-size: 2em;
-    font-weight: bold;
+    font-weight: bolder;
 }
 
 button {
-    background-color: gold;
-    color: var(--btn_text_color);
-    border-radius: 0;
+    background-color: var(--green);
+    color: rgb(42, 19, 107);
+    border-radius: 4px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: bolder;
+    padding: 4px;
+    
 }
 
 button:hover {
     background-color: rgb(80, 68, 0);
-    color: gold;
+    color: rgb(202, 172, 1);
 }
 
 img {
     height: 80px;
     margin-right: 2em;
+    border-radius: 8px;
 }
 
 .login {

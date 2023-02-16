@@ -1,6 +1,9 @@
 <h1 class="component-headline">Cinema Manager</h1>
-<button (click)="schedule()">Schedule</button>
-<button (click)="showMovieList()">Manage movies</button>
-<button (click)="showHallList()">Manage halls</button>
-<button *ngIf="databaseChanged==true" (click)="updateDatabase()">Save Changes</button>
+<div class="button-panel">
+    <button (click)="schedule()">Schedule</button>
+    <button (click)="showMovieList()">Manage movies</button>
+    <button (click)="showHallList()">Manage halls</button>
+    <span class="space"></span>
+    <button class="danger-zone" *ngIf="databaseChanged==true" (click)="updateDatabase()">Save Changes</button>
+</div>
 <router-outlet ></router-outlet>

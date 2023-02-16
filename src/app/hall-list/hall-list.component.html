@@ -1,5 +1,5 @@
-<div class="mother">
-    <h3>CINEMA HALLS</h3>
+<h3 class="headline">CINEMA HALLS</h3>
+<div class="mother" >
     <table>
         <tr *ngFor="let cinemaHall of cinemaHalls">
             <th>
@@ -16,6 +16,9 @@
             </th>
         </tr>
     </table>
-    <button (click)="createNewHall()">+</button>
+    <div class="space"></div>
+    <button class="add" (click)="createNewHall()">+</button>
+</div>
+<div class="editor">
     <app-edit-cinema-hall *ngIf="editingHall" [cinemaHall]="activeHall" [onCreate]="loadHalls" [onUpdateDatabase]="hideEditor"></app-edit-cinema-hall>
 </div>

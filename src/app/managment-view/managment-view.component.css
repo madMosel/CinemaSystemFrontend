@@ -1,0 +1,20 @@
+.button-panel {
+    padding-left: 1em;
+    padding-right: 1em;
+    display: flex;
+    margin-bottom: 8px;
+}
+
+.space {
+    flex-grow: 1;
+}
+
+.danger-zone {
+    background-color: var(--danger);
+    color: var(--main-content);
+    font-weight: bold;
+}
+
+button {
+    background-color: var(--main_content);
+}

@@ -1,5 +1,5 @@
+<h3 class="headline">MOVIES</h3>
 <div class="mother">
-    <h3>MOVIES</h3>
     <div>
         <table>
             <tr *ngFor="let movie of movies">
@@ -21,6 +21,9 @@
             deletation is possible only when there are no schedules or tickets for the movie going to be deleted
         </p>
     </div>
-    <button (click)="createNewMovie()">+</button>
-    <app-edit-movie *ngIf="editingMovie" [movie]="activeMovie" [onUpdateDatabase]=hideEditor></app-edit-movie>
+    <div class="space"></div>
+    <button class="add" (click)="createNewMovie()">+</button>
+    <div class="editor">
+        <app-edit-movie *ngIf="editingMovie" [movie]="activeMovie" [onUpdateDatabase]=hideEditor></app-edit-movie>
+    </div>
 </div>
