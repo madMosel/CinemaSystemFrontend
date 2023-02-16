@@ -28,7 +28,7 @@ export class AppComponent {
     private readonly database: LocalDatabase
   ) {
     database.localUserChange.subscribe(this.localUserObserver)
-    database.login("root", "root")
+    // database.login("root", "root")
     let user = database.getLocalUser()
     if (user != null) this.localUser = user
     this.router.navigate(["movie-browser"])

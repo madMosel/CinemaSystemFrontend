@@ -143,6 +143,29 @@ export class LocalDatabase {
         }).catch(() => console.log("error"))
     }
 
+    public async signIn(username: string, password: string, respond: (flag: boolean) => void) {
+        console.log("signing up ..." + username + " " + password)
+        fetch(
+            LocalDatabase.serverUrl + "sign-up", {
+            method: "post",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                username: username,
+                password: password
+            })
+        }).then(response => {
+            if (response.status == 200) respond(true)
+            else respond(false)
+        }).catch(e => {
+            console.log("connection error on signIn")
+            console.log(e)
+            respond(false)
+        })
+    }
+
     public async updateServer() {
         console.log("start update method")
         if (!this.localUser) return
@@ -257,7 +280,7 @@ export class LocalDatabase {
     }
 
 
-    public async postRating(myRating: Rating, movieId : number, respond: (flag: boolean) => void) {
+    public async postRating(myRating: Rating, movieId: number, respond: (flag: boolean) => void) {
         if (!this.localUser) respond(false)
         await fetch(LocalDatabase.serverUrl + "rate", {
             method: "post",

@@ -1,7 +1,9 @@
 <div class="mother">
     <h1 class="component-headline">Create new Account</h1>
-    <input type="text" placeholder="username"> <br>
-    <input type="password" placeholder="password"> <br>
-    <input type="password" placeholder="repeat pw"> <br>
-    <button>Submit</button>
+    <input type="text" placeholder="username" (change)="username($event)"> <br>
+    <div class="warning" *ngIf="nameWarning">"Username empty or occupied!"</div>
+    <input type="password" (change)="password1($event)" placeholder="password"> <br>
+    <input type="password" (change)="password2($event)" placeholder="repeat pw"> <br>
+    <div class="warning" *ngIf="pwWarning">"Password shorter then 2 or no match"</div>
+    <button (click)="signIn()">Submit</button>
 </div>
