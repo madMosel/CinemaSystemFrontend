@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { LocalDatabase } from '../model/localDatabase';
-import { dummyMovie, Movie } from '../model/movieInterface';
-import { copySchedule, Schedule } from '../model/scheduleInterface';
-import { CellEntry, TableRow, TableRowState } from '../table/tabelDataInterface';
-import { niceDateToString } from '../model/niceDateInterface'
 import { Login } from '../model/loginInteface';
+import { dummyMovie, Movie } from '../model/movieInterface';
+import { niceDateToString } from '../model/niceDateInterface';
+import { mapNumberOnStars, Rating, Stars } from '../model/ratingInterface';
+import { Schedule } from '../model/scheduleInterface';
+import { CellEntry, TableRow, TableRowState } from '../table/tabelDataInterface';
 
 @Component({
   selector: 'app-movie-details',
@@ -20,6 +21,11 @@ export class MovieDetailsComponent implements OnInit {
   schedules: Schedule[] = []
   headline: TableRow
   scheduleList: TableRow[] = []
+  rating: boolean = false
+  ratingComment: string = "";
+  starsValue: number = 0
+  myRating?: Rating
+
 
   selectedSchedule?: TableRow
 
@@ -44,6 +50,7 @@ export class MovieDetailsComponent implements OnInit {
     database.localUserChange.subscribe(this.localUserObserver)
     let user = database.getLocalUser()
     if (user != null) this.localUser = user
+
   }
 
   ngOnInit(): void {
@@ -69,6 +76,10 @@ export class MovieDetailsComponent implements OnInit {
     })
   }
 
+  saveComment(event: Event) {
+    this.ratingComment = ((event.target) as HTMLInputElement).value
+  }
+
   selectMovieSchedule = (row: TableRow) => {
     if (this.selectedSchedule) {
       this.selectedSchedule.classRow = TableRowState.NORMAL
@@ -83,5 +94,33 @@ export class MovieDetailsComponent implements OnInit {
 
   buyTicket() {
     this.router.navigate(["tickets-buy", JSON.stringify(this.selectedSchedule?.identifier)])
+  }
+
+  showRatingTool() {
+    this.rating = true
+  }
+
+  postRating() {
+    console.log(this.starsValue)
+    console.log(this.ratingComment)
+    if (!this.myRating && this.starsValue > 0) {
+      this.myRating = {
+        
+      } as Rating
+    }
+    this.myRating!.username = this.localUser!.username
+    let stars = mapNumberOnStars(this.starsValue)
+    if (stars != null) this.myRating!.stars = stars
+    this.myRating!.description = this.ratingComment ? this.ratingComment : undefined
+
+    console.log(this.myRating)
+    this.database.postRating(this.myRating, (flag)=>{
+      if (flag) {
+
+      }
+      else {
+        
+      }
+    })
   }
 }

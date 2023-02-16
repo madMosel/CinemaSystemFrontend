@@ -13,6 +13,7 @@ import { CommonModule } from "@angular/common";
 import { Login, UserType } from "./loginInteface";
 import { Observable, Subject } from "rxjs";
 import { toJSDate } from "@ng-bootstrap/ng-bootstrap/datepicker/ngb-calendar";
+import { Rating } from "./ratingInterface";
 
 export enum OperationFeedback {
     OK = "OK",
@@ -252,6 +253,24 @@ export class LocalDatabase {
         }).catch(e => {
             console.log(e)
             deliver(null)
+        })
+    }
+
+
+    public async postRating(myRating: Rating | undefined, respond: (flag: boolean) => void) {
+        if (!this.localUser) respond(false)
+        await fetch(LocalDatabase.serverUrl + "tickets", {
+            method: "post",
+            headers: {
+                "Authorization": this.localUser!.token,
+                "rating" : JSON.stringify(myRating)
+            }
+        }).then((response) => {
+            if (response.status == 200) respond(true)
+            else respond(false)
+        }).catch(e => {
+            console.log(e)
+            respond(false)
         })
     }
 
