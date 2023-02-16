@@ -97,9 +97,7 @@ export class MovieDetailsComponent implements OnInit {
   }
 
   showRatingTool() {
-    console.log(this.movie.ratings)
     for (let r of this.movie.ratings) {
-      console.log(r)
       if (r.username == this.localUser!.username) {
         this.starsValue = r.stars
         if (r.description) this.ratingComment = r.description
@@ -120,7 +118,6 @@ export class MovieDetailsComponent implements OnInit {
     if (stars != null) this.myRating!.stars = stars
     this.myRating!.description = this.ratingComment ? this.ratingComment : undefined
 
-    console.log(this.myRating)
     this.database.postRating(this.myRating!, this.movie.movieId,(flag)=>{
       if (flag) {
 

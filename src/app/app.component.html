@@ -1,19 +1,23 @@
 <!-- qick and dirty structure template -->
-<div class="headbar">
-  <h2 style="display:inline; margin-right: 30px;">placeholder headbar</h2>
-  <button style="margin-right: 30px;" (click)="goToStart()">go to start</button>
-  <button *ngIf="localUser && localUser.type == 'ADMIN'" (click)="navigateToManagmentView()" style="margin-right: 30px;">Manage Cinema</button>
-
-  <div *ngIf="!localUser" ngbDropdown id="loginDropdown" #dropdownItem="ngbDropdown">
-    <button class="btn btn-primary" id="gfg" ngbDropdownToggle>Login</button>
-    <div ngbDropdownMenu="gfg" class="login">
-      <app-login-dropdown [dropdownItem]="dropdownItem"></app-login-dropdown>
+<div class="headbar">+
+  <img src="../assets/banner.png">
+  <h2>Awesome Cinema</h2>
+  <div class="space"></div>
+  <div class="button-panel">
+    <button (click)="goToStart()">Home</button>
+    <button *ngIf="localUser && localUser.type == 'ADMIN'" (click)="navigateToManagmentView()">Manage Cinema</button>
+  
+    <div *ngIf="!localUser" ngbDropdown id="loginDropdown" #dropdownItem="ngbDropdown">
+      <button class="btn btn-primary" id="gfg" ngbDropdownToggle>Login</button>
+      <div ngbDropdownMenu="gfg" class="login">
+        <app-login-dropdown [dropdownItem]="dropdownItem"></app-login-dropdown>
+      </div>
     </div>
-  </div>
-  <div *ngIf="localUser" ngbDropdown id="loginDropdown" #dropdownItem="ngbDropdown">
-    <button class="btn btn-primary" id="gfg" ngbDropdownToggle>{{localUser.username}}</button>
-    <div ngbDropdownMenu="gfg" class="login">
-      <app-user-dropdown [dropdownItem]="dropdownItem"></app-user-dropdown>
+    <div *ngIf="localUser" ngbDropdown id="loginDropdown" #dropdownItem="ngbDropdown">
+      <button class="btn btn-primary" id="gfg" ngbDropdownToggle>{{localUser.username}}</button>
+      <div ngbDropdownMenu="gfg" class="login">
+        <app-user-dropdown [dropdownItem]="dropdownItem"></app-user-dropdown>
+      </div>
     </div>
   </div>
 </div>

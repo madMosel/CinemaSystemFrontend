@@ -1,0 +1,4 @@
+.mother {
+    display: flex;
+    flex-direction: row;
+}

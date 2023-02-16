@@ -1,9 +1,43 @@
 .headbar {
-    background-image: url("/assets/headbar_background.png");
-    height: 97px;
-    margin: 0;
+    /* background-image: url("/assets/headbar_background.png"); */
+    height: fit-content;
+    padding: 1em;
+    display: flex;
+    background-color: var(--dark_red);
+    align-items: center;
+}
+
+h2 {
+    color: gold;
+    font-size: 2em;
+    font-weight: bold;
+}
+
+button {
+    background-color: gold;
+    color: var(--btn_text_color);
+    border-radius: 0;
+}
+
+button:hover {
+    background-color: rgb(80, 68, 0);
+    color: gold;
+}
+
+img {
+    height: 80px;
+    margin-right: 2em;
 }
 
 .login {
     background-color: var(--dark_gray);
+}
+
+.space {
+    flex-grow: 1;
+}
+
+.button-panel {
+    display: flex;
+    flex-direction: row;
 }
