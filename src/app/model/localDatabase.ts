@@ -257,17 +257,19 @@ export class LocalDatabase {
     }
 
 
-    public async postRating(myRating: Rating | undefined, respond: (flag: boolean) => void) {
+    public async postRating(myRating: Rating, movieId : number, respond: (flag: boolean) => void) {
         if (!this.localUser) respond(false)
         await fetch(LocalDatabase.serverUrl + "rate", {
             method: "post",
             headers: {
                 "Authorization": this.localUser!.token,
-                "rating" : JSON.stringify(myRating)
+                "rating": JSON.stringify(myRating),
+                "movieId": "" + movieId
             }
         }).then((response) => {
             if (response.status == 200) respond(true)
             else respond(false)
+            this.loadPublicData()
         }).catch(e => {
             console.log(e)
             respond(false)

@@ -97,12 +97,19 @@ export class MovieDetailsComponent implements OnInit {
   }
 
   showRatingTool() {
+    console.log(this.movie.ratings)
+    for (let r of this.movie.ratings) {
+      console.log(r)
+      if (r.username == this.localUser!.username) {
+        this.starsValue = r.stars
+        if (r.description) this.ratingComment = r.description
+      }
+      break;
+    }
     this.rating = true
   }
 
   postRating() {
-    console.log(this.starsValue)
-    console.log(this.ratingComment)
     if (!this.myRating && this.starsValue > 0) {
       this.myRating = {
         
@@ -112,10 +119,9 @@ export class MovieDetailsComponent implements OnInit {
     let stars = mapNumberOnStars(this.starsValue)
     if (stars != null) this.myRating!.stars = stars
     this.myRating!.description = this.ratingComment ? this.ratingComment : undefined
-    this.myRating!.movieId = this.movie.movieId
 
     console.log(this.myRating)
-    this.database.postRating(this.myRating, (flag)=>{
+    this.database.postRating(this.myRating!, this.movie.movieId,(flag)=>{
       if (flag) {
 
       }

@@ -33,11 +33,10 @@ export interface Rating {
     username: string,
     stars: Stars,
     description?: string,
-    movieId: number
 }
 
 export function copyRating(old: Rating): Rating {
-    return { stars: old.stars, description: old.description } as Rating
+    return { stars: old.stars, description: old.description, username : old.username } as Rating
 }
 
 export const dummyRating = {
