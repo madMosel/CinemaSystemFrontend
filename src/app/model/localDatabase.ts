@@ -259,7 +259,7 @@ export class LocalDatabase {
 
     public async postRating(myRating: Rating | undefined, respond: (flag: boolean) => void) {
         if (!this.localUser) respond(false)
-        await fetch(LocalDatabase.serverUrl + "tickets", {
+        await fetch(LocalDatabase.serverUrl + "rate", {
             method: "post",
             headers: {
                 "Authorization": this.localUser!.token,

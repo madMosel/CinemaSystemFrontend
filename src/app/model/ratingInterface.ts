@@ -32,7 +32,8 @@ export function mapNumberOnStars(n: number): Stars | null {
 export interface Rating {
     username: string,
     stars: Stars,
-    description?: string
+    description?: string,
+    movieId: number
 }
 
 export function copyRating(old: Rating): Rating {
