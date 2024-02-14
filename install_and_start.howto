@@ -1,0 +1,8 @@
+# install node packages
+npm install
+
+# run angular develop server
+ng server
+
+# build project to deploy
+ng build   # build will be in $(project_dir)/dist ready to be deployed on a web server
